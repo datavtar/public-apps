@@ -1,0 +1,40 @@
+.editingRow td {
+  padding-top: 0.75rem; /* Match Tailwind's table-cell padding */
+  padding-bottom: 0.75rem;
+}
+
+.editingRow input,
+.editingRow select,
+.editingRow textarea{
+    margin-bottom: 0;
+}
+
+/* theme-transition class */
+.theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+/* theme-transition-all class for applying transitions to all children */
+.theme-transition-all * {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme toggle styles */
+.theme-toggle {
+  @apply relative inline-flex items-center h-6 w-11 rounded-full transition-colors duration-200;
+  background-color: #ccc; /* Light mode background */
+}
+
+.dark .theme-toggle {
+  background-color: #4a5568; /* Dark mode background */
+}
+
+.theme-toggle-thumb {
+  @apply inline-block w-4 h-4 rounded-full bg-white shadow transform transition-transform duration-200;
+  will-change: transform;
+  /*margin-left: 2px;  Light mode margin */
+}
+
+.dark .theme-toggle-thumb {
+  @apply translate-x-5;
+   /*margin-left: 0px; Dark mode margin */
+}
