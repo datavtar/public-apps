@@ -1,0 +1,34 @@
+.themeToggle {
+    @apply relative inline-flex items-center h-6 w-11 transition-colors duration-200 ease-in-out rounded-full;
+    background-color: #ccc;
+}
+
+.themeToggleThumb {
+    @apply inline-block h-5 w-5 transition-transform duration-200 ease-in-out transform bg-white rounded-full shadow;
+    transform: translateX(1px);
+}
+
+.dark .themeToggle {
+    background-color: #4a5568;
+}
+
+.dark .themeToggleThumb {
+  transform: translateX(calc(100% - 1px));
+}
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  @apply bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md;
+  min-width: 300px;
+}
