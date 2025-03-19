@@ -1,0 +1,201 @@
+.btn {
+    @apply px-4 py-2 rounded font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+    @apply bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500;
+}
+
+.btn-secondary {
+    @apply bg-secondary-500 text-white hover:bg-secondary-600 focus:ring-secondary-500;
+}
+
+.btn-error {
+    @apply bg-red-500 text-white hover:bg-red-600 focus:ring-red-500;
+}
+
+.btn-sm {
+    @apply px-3 py-1 text-sm rounded-md;
+}
+
+.btn-responsive {
+    @apply py-2 px-4 text-base font-semibold rounded shadow-md;
+    @apply sm:px-6 sm:py-3 sm:text-lg;
+}
+
+.card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+}
+
+.card-responsive {
+    @apply p-4 rounded-lg bg-white dark:bg-gray-800 shadow-md;
+    @apply sm:p-6 md:p-8;
+}
+
+.form-group {
+    @apply space-y-1;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.form-error {
+    @apply text-red-500 text-sm mt-1;
+}
+
+.input {
+    @apply block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:text-white;
+}
+
+.input-responsive {
+    @apply px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500;
+    @apply sm:px-6 sm:py-3 md:text-lg;
+}
+
+.table-container {
+    @apply overflow-x-auto;
+}
+
+.table {
+    @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.table-header {
+    @apply px-3 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-700 dark:text-gray-300;
+}
+
+.table-cell {
+    @apply px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300;
+}
+
+.badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-success {
+    @apply bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100;
+}
+
+.badge-error {
+    @apply bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100;
+}
+
+.badge-warning {
+    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100;
+}
+
+.badge-info {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100;
+}
+
+.badge-gray {
+    @apply bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
+}
+
+.alert {
+    @apply p-4 rounded-md flex items-start space-x-3;
+}
+
+.alert-success {
+    @apply bg-green-50 text-green-700 dark:bg-green-800 dark:text-green-50;
+}
+
+.alert-error {
+    @apply bg-red-50 text-red-700 dark:bg-red-800 dark:text-red-50;
+}
+
+.alert-warning {
+    @apply bg-yellow-50 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-50;
+}
+
+.alert-info {
+    @apply bg-blue-50 text-blue-700 dark:bg-blue-800 dark:text-blue-50;
+}
+
+.container {
+    @apply mx-auto;
+    max-width: 1200px; /* Adjust as needed */
+}
+
+.container-fluid {
+    @apply px-4;
+}
+
+.container-narrow {
+    @apply mx-auto px-4;
+    max-width: 768px;
+}
+
+.container-wide {
+    @apply mx-auto px-4;
+    max-width: 1600px;
+}
+
+.skeleton-text {
+    @apply bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse;
+    height: 1rem;
+}
+
+.skeleton-circle {
+    @apply bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse;
+}
+
+.stat-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-4;
+}
+
+.stat-title {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.stat-value {
+    @apply text-2xl font-bold text-gray-900 dark:text-white;
+}
+
+.stat-desc {
+    @apply text-sm text-green-500 mt-1;
+}
+
+.fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.slide-in {
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slide-in 0.5s ease-out forwards;
+}
+
+@keyframes slide-in {
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.theme-toggle {
+    @apply relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+    background-color: #CBD5E0; /* Default light mode background */
+}
+
+.dark .theme-toggle {
+    background-color: #4A5568; /* Dark mode background */
+}
+
+.theme-toggle-thumb {
+    @apply absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform;
+}
+
+.dark .theme-toggle-thumb {
+    transform: translateX(5px);
+}
+
+.theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
