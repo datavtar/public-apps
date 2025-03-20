@@ -1,0 +1,258 @@
+/* Student Progress Tracker Custom Styles */
+
+/* Theme Transitions */
+.theme-transition {
+ transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-transition-all, 
+.theme-transition-all * {
+ transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Button Styles */
+:global(.btn) {
+ @apply px-4 py-2 rounded-md font-medium transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+:global(.btn-sm) {
+ @apply px-2 py-1 text-sm;
+}
+
+:global(.btn-primary) {
+ @apply bg-primary-500 text-white hover:bg-primary-600 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50;
+}
+
+:global(.btn-secondary) {
+ @apply bg-secondary-500 text-white hover:bg-secondary-600 focus:ring-2 focus:ring-secondary-500 focus:ring-opacity-50;
+}
+
+:global(.btn-responsive) {
+ @apply px-3 py-1.5 text-sm sm:px-4 sm:py-2 sm:text-base md:px-5 md:py-2.5 rounded-md font-medium transition-all duration-200;
+}
+
+/* Card Styles */
+:global(.card) {
+ @apply bg-white dark:bg-gray-800 rounded-lg shadow p-6 theme-transition;
+}
+
+:global(.card-responsive) {
+ @apply bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 md:p-8 theme-transition;
+}
+
+:global(.stat-card) {
+ @apply rounded-lg shadow p-5 theme-transition;
+}
+
+:global(.stat-title) {
+ @apply text-xs font-medium uppercase text-gray-500 dark:text-gray-400;
+}
+
+:global(.stat-value) {
+ @apply text-3xl font-bold text-gray-900 dark:text-white mt-1;
+}
+
+:global(.stat-desc) {
+ @apply text-xs text-gray-500 dark:text-gray-400 mt-1;
+}
+
+/* Form Styles */
+:global(.form-group) {
+ @apply space-y-1;
+}
+
+:global(.form-label) {
+ @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+:global(.input) {
+ @apply w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white bg-white dark:bg-gray-700 shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 theme-transition;
+}
+
+:global(.form-error) {
+ @apply text-xs text-red-500 mt-1;
+}
+
+/* Table Styles */
+:global(.table-container) {
+ @apply w-full overflow-x-auto;
+}
+
+:global(.table) {
+ @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+:global(.table-header) {
+ @apply px-4 py-3.5 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-750;
+}
+
+:global(.table-cell) {
+ @apply px-4 py-3 text-sm text-gray-900 dark:text-gray-300;
+}
+
+/* Badge Styles */
+:global(.badge) {
+ @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+:global(.badge-success) {
+ @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+:global(.badge-error) {
+ @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+:global(.badge-warning) {
+ @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+}
+
+:global(.badge-info) {
+ @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+/* Alert Styles */
+:global(.alert) {
+ @apply flex p-4 mb-4 rounded-lg;
+}
+
+:global(.alert-success) {
+ @apply bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200;
+}
+
+:global(.alert-error) {
+ @apply bg-red-50 text-red-700 dark:bg-red-900 dark:text-red-200;
+}
+
+/* Container Styles */
+:global(.container-fluid) {
+ @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+:global(.container-narrow) {
+ @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+:global(.container-wide) {
+ @apply max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Loading Skeletons */
+:global(.skeleton-text) {
+ @apply h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse;
+}
+
+:global(.skeleton-circle) {
+ @apply rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse;
+}
+
+/* Animations */
+:global(.fade-in) {
+ animation: fadeIn 0.5s ease-in-out;
+}
+
+:global(.slide-in) {
+ animation: slideIn 0.5s ease-in-out;
+}
+
+/* Modal Styles */
+:global(.modal-backdrop) {
+ @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
+}
+
+:global(.modal-content) {
+ @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden w-full max-w-md theme-transition;
+}
+
+:global(.modal-header) {
+ @apply flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700;
+}
+
+:global(.modal-footer) {
+ @apply flex justify-end space-x-3 border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6;
+}
+
+/* Theme Toggle */
+:global(.theme-toggle) {
+ @apply relative inline-flex h-6 w-12 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ease-in-out focus:outline-none;
+}
+
+:global(.theme-toggle-thumb) {
+ @apply pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out dark:translate-x-6 translate-x-0;
+}
+
+/* Define animations */
+@keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+}
+
+@keyframes slideIn {
+ from { transform: translateY(20px); opacity: 0; }
+ to { transform: translateY(0); opacity: 1; }
+}
+
+/* Tailwind color variables - these would normally be in tailwind.config.js */
+:root {
+ --color-primary-400: #60a5fa;
+ --color-primary-500: #3b82f6;
+ --color-primary-600: #2563eb;
+ --color-secondary-400: #c084fc;
+ --color-secondary-500: #a855f7;
+ --color-secondary-600: #9333ea;
+}
+
+/* Dark mode variables */
+.dark {
+ --color-primary-400: #93c5fd;
+ --color-primary-500: #60a5fa;
+ --color-primary-600: #3b82f6;
+ --color-secondary-400: #d8b4fe;
+ --color-secondary-500: #c084fc;
+ --color-secondary-600: #a855f7;
+}
+
+/* Color utilities to match Tailwind classes */
+:global(.bg-primary-500) {
+ background-color: var(--color-primary-500);
+}
+
+:global(.bg-primary-600) {
+ background-color: var(--color-primary-600);
+}
+
+:global(.bg-secondary-500) {
+ background-color: var(--color-secondary-500);
+}
+
+:global(.bg-secondary-600) {
+ background-color: var(--color-secondary-600);
+}
+
+:global(.text-primary-500) {
+ color: var(--color-primary-500);
+}
+
+:global(.text-primary-400) {
+ color: var(--color-primary-400);
+}
+
+:global(.border-primary-500) {
+ border-color: var(--color-primary-500);
+}
+
+:global(.focus\:ring-primary-500:focus) {
+ --tw-ring-color: var(--color-primary-500);
+}
+
+:global(.focus\:border-primary-500:focus) {
+ border-color: var(--color-primary-500);
+}
+
+:global(.dark .dark\:focus\:ring-primary-400:focus) {
+ --tw-ring-color: var(--color-primary-400);
+}
+
+:global(.dark .dark\:focus\:border-primary-400:focus) {
+ border-color: var(--color-primary-400);
+}
