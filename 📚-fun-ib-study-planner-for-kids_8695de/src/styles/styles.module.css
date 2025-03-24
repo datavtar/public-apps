@@ -1,0 +1,250 @@
+/* Custom styles that can't be achieved with Tailwind */
+
+/* Base styles for button components */
+:global(.btn) {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ padding: 0.5rem 1rem;
+ font-weight: 500;
+ border-radius: 0.375rem;
+ transition: all 0.2s;
+ cursor: pointer;
+}
+
+:global(.btn-primary) {
+ background-color: #6366f1;
+ color: white;
+}
+
+:global(.btn-primary:hover) {
+ background-color: #4f46e5;
+}
+
+:global(.btn-secondary) {
+ background-color: #4b5563;
+ color: white;
+}
+
+:global(.btn-secondary:hover) {
+ background-color: #374151;
+}
+
+/* Card styles */
+:global(.card) {
+ background-color: white;
+ border-radius: 0.5rem;
+ border: 1px solid #e5e7eb;
+ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+ overflow: hidden;
+}
+
+:global(.dark .card) {
+ background-color: #1e293b;
+ border-color: #334155;
+}
+
+/* Form element styles */
+:global(.form-group) {
+ margin-bottom: 1rem;
+}
+
+:global(.form-label) {
+ display: block;
+ margin-bottom: 0.5rem;
+ font-size: 0.875rem;
+ font-weight: 500;
+ color: #374151;
+}
+
+:global(.dark .form-label) {
+ color: #e5e7eb;
+}
+
+:global(.input) {
+ width: 100%;
+ padding: 0.5rem 0.75rem;
+ border: 1px solid #d1d5db;
+ border-radius: 0.375rem;
+ background-color: white;
+ color: #111827;
+ font-size: 0.875rem;
+}
+
+:global(.dark .input) {
+ background-color: #1e293b;
+ border-color: #475569;
+ color: #e5e7eb;
+}
+
+:global(.input:focus) {
+ outline: none;
+ ring: 2px;
+ ring-color: #6366f1;
+ border-color: #6366f1;
+}
+
+:global(.form-error) {
+ color: #ef4444;
+ font-size: 0.75rem;
+ margin-top: 0.25rem;
+}
+
+/* Badge styles */
+:global(.badge) {
+ display: inline-flex;
+ align-items: center;
+ padding: 0.125rem 0.5rem;
+ border-radius: 9999px;
+ font-size: 0.75rem;
+ font-weight: 500;
+ text-transform: capitalize;
+}
+
+:global(.badge-success) {
+ background-color: #dcfce7;
+ color: #166534;
+}
+
+:global(.badge-error) {
+ background-color: #fee2e2;
+ color: #b91c1c;
+}
+
+:global(.badge-warning) {
+ background-color: #fef3c7;
+ color: #92400e;
+}
+
+:global(.badge-info) {
+ background-color: #dbeafe;
+ color: #1e40af;
+}
+
+/* Alert styles */
+:global(.alert) {
+ display: flex;
+ padding: 1rem;
+ border-radius: 0.375rem;
+ margin-bottom: 1rem;
+}
+
+:global(.alert-success) {
+ background-color: #dcfce7;
+ color: #166534;
+}
+
+:global(.alert-error) {
+ background-color: #fee2e2;
+ color: #b91c1c;
+}
+
+/* Theme transition */
+:global(.theme-transition) {
+ transition-property: color, background-color, border-color;
+ transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+ transition-duration: 150ms;
+}
+
+:global(.theme-transition-all) {
+ transition-property: all;
+ transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+ transition-duration: 150ms;
+}
+
+/* Custom scrollbar */
+:global(.scrollbar-hide) {
+ -ms-overflow-style: none;
+ scrollbar-width: none;
+}
+
+:global(.scrollbar-hide::-webkit-scrollbar) {
+ display: none;
+}
+
+/* Animation utilities */
+:global(.fade-in) {
+ animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+}
+
+:global(.slide-in) {
+ animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+ from { transform: translateY(10px); opacity: 0; }
+ to { transform: translateY(0); opacity: 1; }
+}
+
+/* Theme toggle button */
+:global(.theme-toggle) {
+ position: relative;
+ width: 2.5rem;
+ height: 1.5rem;
+ border-radius: 9999px;
+ background-color: #e5e7eb;
+ cursor: pointer;
+ padding: 0.125rem;
+ transition: background-color 0.2s;
+}
+
+:global(.dark .theme-toggle) {
+ background-color: #4b5563;
+}
+
+:global(.theme-toggle-thumb) {
+ position: absolute;
+ left: 0.125rem;
+ top: 0.125rem;
+ width: 1.25rem;
+ height: 1.25rem;
+ border-radius: 9999px;
+ background-color: white;
+ box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+ transition: transform 0.2s;
+}
+
+:global(.dark .theme-toggle-thumb) {
+ transform: translateX(1rem);
+ background-color: #1e293b;
+}
+
+/* Container styles */
+:global(.container-fluid) {
+ width: 100%;
+ padding-left: 1rem;
+ padding-right: 1rem;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+@media (min-width: 640px) {
+ :global(.container-fluid) {
+ padding-left: 1.5rem;
+ padding-right: 1.5rem;
+ }
+}
+
+/* Task card specific styles */
+.taskCard {
+ transition: all 0.2s ease-in-out;
+ border-color: #e5e7eb;
+}
+
+.taskCard:hover {
+ box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+ transform: translateY(-1px);
+}
+
+:global(.dark) .taskCard {
+ border-color: #334155;
+}
+
+:global(.dark) .taskCard:hover {
+ box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+}
