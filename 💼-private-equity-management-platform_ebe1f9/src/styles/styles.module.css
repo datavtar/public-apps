@@ -1,0 +1,112 @@
+/* Custom toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: #e5e7eb;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+input:checked + .switch {
+  background-color: #4f46e5;
+}
+
+input:checked + .switch::after {
+  transform: translateX(24px);
+}
+
+:global(.dark) .switch {
+  background-color: #374151;
+}
+
+:global(.dark) input:checked + .switch {
+  background-color: #6366f1;
+}
+
+/* Theme toggle button */
+.themeToggle {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: #e5e7eb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2px;
+  transition: all 0.3s ease;
+}
+
+.themeToggle.active {
+  background-color: #4f46e5;
+  justify-content: flex-end;
+}
+
+:global(.dark) .themeToggle {
+  background-color: #374151;
+}
+
+:global(.dark) .themeToggle.active {
+  background-color: #6366f1;
+}
+
+/* Custom styles for forms that need specific styling beyond Tailwind */
+.form-group .form-error {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+:global(.dark) .form-group .form-error {
+  color: #f87171;
+}
+
+/* Additional hover effects for interactive components */
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+:global(.dark) .table tbody tr:hover {
+  background-color: #1f2937;
+}
+
+/* Animate chart bars */
+@keyframes growUp {
+  from { height: 0; }
+  to { height: 100%; }
+}
+
+.chart-bar {
+  animation: growUp 1s ease-out;
+  transform-origin: bottom;
+}
+
+/* Responsive font adjustments */
+@media (max-width: 640px) {
+  .responsive-heading {
+    font-size: 1.5rem;
+  }
+  .responsive-text {
+    font-size: 0.875rem;
+  }
+}
