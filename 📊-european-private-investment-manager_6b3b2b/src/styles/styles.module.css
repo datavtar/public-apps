@@ -1,0 +1,124 @@
+/* Custom styles that extend Tailwind classes */
+
+/* App container */
+.appContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 16rem;
+  height: 100vh;
+}
+
+/* Fix for mobile sidebar */
+@media (max-width: 768px) {
+  .sidebarMobile {
+    transform: translateX(-100%);
+  }
+}
+
+/* Main content area */
+.mainContent {
+  min-height: 100vh;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Custom chart container styles */
+.chartContainer {
+  position: relative;
+  height: 0;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+
+.chartContainer canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Theme toggle enhancements */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  background-color: transparent;
+  color: currentColor;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.fadeIn {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.slideUp {
+  animation: slideUp 0.4s ease-in-out;
+}
+
+/* Modal animations */
+.modal-backdrop {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-in-out;
+}
+
+/* Custom scrollbar for the app */
+.appContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.appContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.appContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.dark .appContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Investment card hover effect */
+.investment-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.investment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .investment-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
