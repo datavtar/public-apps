@@ -1,0 +1,229 @@
+/* Custom styles that can't be achieved with Tailwind */
+
+/* Modal backdrop with a blur effect */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm transition-opacity;
+}
+
+.modal-content {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg overflow-hidden transition-transform;
+}
+
+.modal-header {
+  @apply flex items-center justify-between p-4 border-b dark:border-gray-700;
+}
+
+.modal-footer {
+  @apply flex items-center justify-end space-x-3 p-4 border-t dark:border-gray-700;
+}
+
+/* Button styles */
+.btn {
+  @apply px-4 py-2 rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-responsive {
+  @apply px-3 py-1.5 sm:px-4 sm:py-2 rounded-md font-medium transition-all text-sm sm:text-base;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-700 dark:hover:bg-primary-600;
+}
+
+.btn-secondary {
+  @apply bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500 dark:bg-secondary-700 dark:hover:bg-secondary-600;
+}
+
+.btn-sm {
+  @apply px-2.5 py-1.5 text-xs rounded;
+}
+
+.btn-lg {
+  @apply px-6 py-3 text-base rounded-md;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md;
+}
+
+.card-responsive {
+  @apply bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-sm;
+}
+
+/* Form elements */
+.form-group {
+  @apply space-y-1;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.form-error {
+  @apply text-red-600 text-xs mt-1;
+}
+
+.input {
+  @apply block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:text-white sm:text-sm;
+}
+
+/* Table styles */
+.table-container {
+  @apply overflow-x-auto;
+}
+
+.table {
+  @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.table-header {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider;
+}
+
+.table-cell {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200;
+}
+
+/* Badges */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-success {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+.badge-error {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+/* Alert styles */
+.alert {
+  @apply flex items-center p-4 rounded-lg gap-3;
+}
+
+.alert-success {
+  @apply bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-400;
+}
+
+.alert-error {
+  @apply bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-400;
+}
+
+/* Container layouts */
+.container-fluid {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container-narrow {
+  @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container-wide {
+  @apply max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Skeleton loading */
+.skeleton-text {
+  @apply h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse;
+}
+
+.skeleton-circle {
+  @apply rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse;
+}
+
+/* Stat cards */
+.stat-card {
+  @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md;
+}
+
+.stat-title {
+  @apply text-sm font-medium text-gray-500 dark:text-gray-400 uppercase;
+}
+
+.stat-value {
+  @apply text-3xl font-bold text-gray-900 dark:text-white mt-2;
+}
+
+.stat-desc {
+  @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
+}
+
+/* Animation classes */
+.fade-in {
+  @apply animate-[fade-in_0.3s_ease-in-out];
+}
+
+.slide-in {
+  @apply animate-[slide-in_0.3s_ease-in-out];
+}
+
+/* Theme transition classes */
+.theme-transition {
+  @apply transition-colors duration-200;
+}
+
+.theme-transition-all {
+  @apply transition-all duration-200;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  @apply relative inline-flex h-6 w-11 items-center rounded-full;
+}
+
+.theme-toggle-thumb {
+  @apply inline-block h-4 w-4 transform rounded-full bg-white transition;
+}
+
+/* Custom investment type styles */
+.investmentType {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.stocks {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+.bonds {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+.realEstate {
+  @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+}
+
+.cryptocurrency {
+  @apply bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200;
+}
+
+.commodities {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+}
+
+.cash {
+  @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200;
+}
+
+.other {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
