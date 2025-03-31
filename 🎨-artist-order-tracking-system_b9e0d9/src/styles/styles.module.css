@@ -1,0 +1,270 @@
+/* Base Styles */
+:root {
+  --z-dropdown: 10;
+  --z-modal: 50;
+  --z-tooltip: 20;
+}
+
+/* Button Utilities */
+.btn {
+  @apply px-4 py-2 rounded-md font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-opacity-50;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-700 dark:hover:bg-primary-600;
+}
+
+.btn-secondary {
+  @apply bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500 dark:bg-secondary-700 dark:hover:bg-secondary-600;
+}
+
+.btn-sm {
+  @apply px-2 py-1 text-sm rounded;
+}
+
+.btn-lg {
+  @apply px-6 py-3 text-lg rounded-lg;
+}
+
+.btn-responsive {
+  @apply px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-md font-medium transition-colors;
+}
+
+/* Form Utilities */
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+}
+
+.form-error {
+  @apply mt-1 text-sm text-red-600 dark:text-red-400;
+}
+
+.input {
+  @apply block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500;
+}
+
+.input-responsive {
+  @apply block w-full text-sm sm:text-base rounded-md border-gray-300 dark:border-gray-700 px-3 py-2 sm:px-4 sm:py-3;
+}
+
+/* Card Utilities */
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow p-6 theme-transition;
+}
+
+.card-responsive {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 md:p-8 theme-transition;
+}
+
+/* Layout Utilities */
+.container-fluid {
+  @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+}
+
+.container-narrow {
+  @apply mx-auto px-4 sm:px-6 max-w-3xl;
+}
+
+.container-wide {
+  @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-2xl;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-start {
+  @apply flex items-center justify-start;
+}
+
+.flex-end {
+  @apply flex items-center justify-end;
+}
+
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+}
+
+/* Badges & Alerts */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-success {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300;
+}
+
+.badge-error {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300;
+}
+
+.alert {
+  @apply p-4 rounded-md flex items-start gap-3;
+}
+
+.alert-success {
+  @apply bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-300;
+}
+
+.alert-error {
+  @apply bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-300;
+}
+
+/* Table Utilities */
+.table-container {
+  @apply overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow;
+}
+
+.table {
+  @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.table-header {
+  @apply py-3.5 px-4 text-left text-sm font-semibold text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors;
+}
+
+.table-cell {
+  @apply whitespace-nowrap py-4 px-4 text-sm;
+}
+
+/* Modal Utilities */
+.modal-backdrop {
+  @apply fixed inset-0 bg-gray-500 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-80 flex items-center justify-center p-4 z-[var(--z-modal)];
+}
+
+.modal-content {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden w-full max-h-[90vh] overflow-y-auto theme-transition;
+}
+
+.modal-header {
+  @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between;
+}
+
+.modal-footer {
+  @apply px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex flex-row-reverse space-x-reverse space-x-3;
+}
+
+body.modal-open {
+  @apply overflow-hidden;
+}
+
+/* Stat Cards */
+.stat-card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow p-5 theme-transition;
+}
+
+.stat-title {
+  @apply text-gray-500 dark:text-gray-400 text-sm font-medium truncate;
+}
+
+.stat-value {
+  @apply text-2xl font-semibold text-gray-900 dark:text-white mt-1;
+}
+
+.stat-desc {
+  @apply text-xs text-gray-500 dark:text-gray-400 mt-2;
+}
+
+/* Skeleton Loaders */
+.skeleton-text {
+  @apply h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse;
+}
+
+.skeleton-circle {
+  @apply rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse;
+}
+
+/* Theme Transitions */
+.theme-transition {
+  @apply transition-colors duration-200;
+}
+
+.theme-transition-all {
+  @apply transition-all duration-200;
+}
+
+/* Responsive Utilities */
+.responsive-hide {
+  @apply hidden sm:block;
+}
+
+.mobile-only {
+  @apply block sm:hidden;
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+  @apply relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+.theme-toggle-thumb {
+  @apply pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-200 shadow ring-0 transition duration-200 ease-in-out translate-x-0 dark:translate-x-5;
+}
+
+/* Animation Utilities */
+.fade-in {
+  @apply animate-fadeIn;
+}
+
+.slide-in {
+  @apply animate-slideIn;
+}
+
+/* Stack Layout */
+.stack-y > * + * {
+  @apply mt-4;
+}
+
+.stack-x > * + * {
+  @apply ml-3;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Custom styles for our specific art order app */
+.dimensions-container {
+  @apply flex gap-2 items-end;
+}
+
+.dimensions-input {
+  @apply w-full;
+}
+
+.notes-container {
+  @apply mt-4;
+}
+
+.materials-tag {
+  @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 mr-2 mb-2;
+}
+
+/* Responsive table tweaks */
+@media (max-width: 640px) {
+  .table-responsive td:before {
+    @apply font-semibold pr-2 content-[attr(data-label)];
+  }
+}
