@@ -1,0 +1,245 @@
+/* Custom animations and effects */
+
+.demoAnimation {
+  position: relative;
+  height: 150px;
+  background-color: rgba(99, 102, 241, 0.05);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.demoContent {
+  position: absolute;
+  height: 8px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  left: 0;
+  top: 50%;
+  margin-top: -4px;
+  width: 40%;
+  border-radius: 4px;
+  animation: moveRight 2s ease-in-out infinite alternate;
+}
+
+@keyframes moveRight {
+  0% {
+    left: 5%;
+    width: 30%;
+  }
+  100% {
+    left: 65%;
+    width: 30%;
+  }
+}
+
+/* Theme transition utilities */
+:root {
+  --z-dropdown: 1000;
+  --z-modal: 2000;
+  --z-tooltip: 3000;
+}
+
+/* Add this to ensure proper theming with Tailwind */
+:global(.dark) {
+  color-scheme: dark;
+}
+
+:global(.theme-transition) {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+:global(.theme-transition-all) {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Global Button Styles */
+:global(.btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+:global(.btn-sm) {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+:global(.btn-primary) {
+  background-color: #6366f1;
+  color: white;
+}
+
+:global(.btn-primary:hover) {
+  background-color: #4f46e5;
+}
+
+:global(.dark .btn-primary) {
+  background-color: #6366f1;
+}
+
+:global(.dark .btn-primary:hover) {
+  background-color: #4f46e5;
+}
+
+/* Card Styles */
+:global(.card) {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+:global(.dark .card) {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+/* Form Styles */
+:global(.form-group) {
+  margin-bottom: 1rem;
+}
+
+:global(.form-label) {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+:global(.dark .form-label) {
+  color: #e5e7eb;
+}
+
+:global(.input) {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #1f2937;
+}
+
+:global(.dark .input) {
+  background-color: #1f2937;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+:global(.form-error) {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+/* Responsive Layout Helpers */
+:global(.container-fluid) {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+:global(.container-narrow) {
+  max-width: 768px;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+:global(.container-wide) {
+  max-width: 1280px;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Flex Layout Helpers */
+:global(.flex-center) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.flex-between) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:global(.flex-start) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+:global(.flex-end) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Stack Layout Utilities */
+:global(.stack-y > * + *) {
+  margin-top: 1rem;
+}
+
+:global(.stack-x > * + *) {
+  margin-left: 1rem;
+}
+
+/* Responsive Grid Layout */
+:global(.grid-responsive) {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  :global(.grid-responsive) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  :global(.grid-responsive) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  :global(.grid-responsive) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Responsive hide/show utilities */
+:global(.responsive-hide) {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  :global(.responsive-hide) {
+    display: block;
+  }
+  
+  :global(.mobile-only) {
+    display: none;
+  }
+}
+
+:global(.mobile-only) {
+  display: block;
+}
