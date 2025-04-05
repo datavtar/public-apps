@@ -1,0 +1,61 @@
+/* Use this file for styles that are difficult or impossible to achieve with Tailwind alone */
+/* Example: Complex background patterns, specific pseudo-elements, etc. */
+
+/* Apply background colors using Tailwind in the component for better theme handling */
+/* .appBackground { */
+/*   background-color: #f8fafc; /* Light mode background */
+/* } */
+
+/* .dark .appBackground { */
+/*    background-color: #0f172a; /* Dark mode background */
+/* } */
+
+/* Avoid nested :global rules */
+
+/* Custom animation if needed (Tailwind provides fade-in, slide-in, etc.) */
+/* @keyframes custom-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+} */
+
+/* .animate-custom-pulse {
+  animation: custom-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+} */
+
+/* Ensure Recharts tooltips are styled correctly in dark mode */
+.recharts-tooltip-wrapper {
+    z-index: var(--z-tooltip, 1000); /* Use z-index variable if defined globally */
+}
+
+.recharts-default-tooltip {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.dark .recharts-default-tooltip {
+    background-color: rgba(30, 41, 59, 0.9) !important; /* dark:bg-slate-800 with opacity */
+    border: 1px solid #4b5563 !important; /* dark:border-gray-600 */
+    color: #e5e7eb !important; /* dark:text-gray-200 */
+}
+
+.recharts-tooltip-label {
+    color: #1f2937 !important; /* dark:text-gray-800 */
+    font-weight: bold !important;
+    margin-bottom: 4px !important;
+}
+
+.dark .recharts-tooltip-label {
+     color: #f3f4f6 !important; /* dark:text-gray-100 */
+}
+
+.recharts-tooltip-item-list {
+    color: #374151 !important; /* dark:text-gray-700 */
+    font-size: 0.875rem !important;
+}
+
+.dark .recharts-tooltip-item-list {
+     color: #d1d5db !important; /* dark:text-gray-300 */
+}
