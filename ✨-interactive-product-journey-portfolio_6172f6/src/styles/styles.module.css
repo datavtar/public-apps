@@ -1,0 +1,278 @@
+/* Custom styles that can't be achieved with Tailwind */
+
+/* Base styles */
+:root {
+  --z-dropdown: 1000;
+  --z-modal: 2000;
+  --z-tooltip: 3000;
+  --primary-color: #4f46e5;
+  --primary-dark: #4338ca;
+  --primary-light: #a5b4fc;
+  --secondary-color: #10b981;
+  --secondary-dark: #047857;
+  --secondary-light: #6ee7b7;
+}
+
+.dark {
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #c7d2fe;
+  --secondary-color: #34d399;
+  --secondary-dark: #10b981;
+  --secondary-light: #a7f3d0;
+}
+
+/* Button Styles */
+.btn {
+  @apply px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-300;
+}
+
+.btn-primary {
+  @apply bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-400;
+}
+
+.btn-secondary {
+  @apply bg-secondary-600 hover:bg-secondary-700 text-white focus:ring-secondary-500 dark:bg-secondary-500 dark:hover:bg-secondary-600 dark:focus:ring-secondary-400;
+}
+
+.btn-sm {
+  @apply px-3 py-1.5 text-sm rounded;
+}
+
+.btn-responsive {
+  @apply px-3 py-1.5 text-sm sm:px-4 sm:py-2 sm:text-base rounded-md font-medium;
+}
+
+/* Card Styles */
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+}
+
+.card-responsive {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 md:p-8;
+}
+
+/* Form Elements */
+.form-group {
+  @apply space-y-1;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.form-error {
+  @apply mt-1 text-sm text-red-600 dark:text-red-400;
+}
+
+.input {
+  @apply block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:text-white text-gray-900;
+}
+
+/* Table Styles */
+.table-container {
+  @apply overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700;
+}
+
+.table {
+  @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.table-header {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider bg-gray-50 dark:bg-gray-800;
+}
+
+.table-cell {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400;
+}
+
+/* Badge Styles */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+  @apply bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200;
+}
+
+.badge-success {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+.badge-error {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+/* Alert Styles */
+.alert {
+  @apply rounded-md p-4 mb-4 flex;
+}
+
+.alert-success {
+  @apply bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300;
+}
+
+.alert-error {
+  @apply bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300;
+}
+
+/* Container Layouts */
+.container-fluid {
+  @apply px-4 sm:px-6 lg:px-8 mx-auto;
+}
+
+.container-narrow {
+  @apply max-w-3xl mx-auto px-4 sm:px-6;
+}
+
+.container-wide {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Skeleton Loading */
+.skeleton-text {
+  @apply h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse;
+}
+
+.skeleton-circle {
+  @apply rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse;
+}
+
+/* Stat Cards */
+.stat-card {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md;
+}
+
+.stat-title {
+  @apply text-sm text-gray-500 dark:text-gray-400 uppercase font-medium;
+}
+
+.stat-value {
+  @apply text-3xl font-bold text-gray-900 dark:text-white mt-1;
+}
+
+.stat-desc {
+  @apply text-sm text-gray-500 dark:text-gray-400 mt-2;
+}
+
+/* Animation Classes */
+.fade-in {
+  @apply animate-fadeIn;
+}
+
+.slide-in {
+  @apply animate-slideIn;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[var(--z-modal)] p-4;
+}
+
+.modal-content {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-auto;
+}
+
+.modal-header {
+  @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center;
+}
+
+.modal-footer {
+  @apply px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3 mt-4;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  @apply relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+.theme-toggle-thumb {
+  @apply pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:translate-x-5 shadow-lg ring-0 transition duration-200 ease-in-out;
+}
+
+/* Theme Transitions */
+.theme-transition {
+  @apply transition-colors duration-200;
+}
+
+.theme-transition-all {
+  @apply transition-all duration-200;
+}
+
+/* Flex Layouts */
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-start {
+  @apply flex items-center justify-start;
+}
+
+.flex-end {
+  @apply flex items-center justify-end;
+}
+
+/* Grid Layouts */
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+/* Stack Utilities */
+.stack-y > * + * {
+  @apply mt-4;
+}
+
+.stack-x > * + * {
+  @apply ml-4;
+}
+
+/* Responsive Utilities */
+.responsive-hide {
+  @apply hidden sm:block;
+}
+
+.mobile-only {
+  @apply block sm:hidden;
+}
+
+/* Define animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Navigation */
+.nav-link {
+  @apply px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200;
+}
+
+/* Override Tailwind's prose for dark mode */
+.dark .prose {
+  @apply prose-invert;
+}
+
+/* Custom navigation tabs */
+.nav-tab {
+  @apply px-4 py-3 border-b-2 font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer transition-colors duration-200;
+}
+
+.nav-tab-active {
+  @apply border-primary-500 dark:border-primary-400 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:border-primary-500 dark:hover:border-primary-400;
+}
