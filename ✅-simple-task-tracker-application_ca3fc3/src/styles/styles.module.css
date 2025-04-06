@@ -1,0 +1,22 @@
+/* Use CSS Modules for styles that are hard to achieve with Tailwind or need complex selectors */
+
+/* Ensures consistent background color transition for the whole app */
+.appBackground {
+    background-color: var(--color-bg-primary);
+}
+
+/* Style for completed todos - subtle visual difference */
+.completedTodo {
+    /* Tailwind classes handle most styling, this is for potential specific overrides */
+    /* Example: Maybe a slightly different border or opacity if needed beyond line-through/text color */
+    /* border-left: 4px solid var(--color-primary-300); /* Example override */ 
+    /* opacity: 0.8; /* Example override */
+}
+
+/* Ensure focus rings are visible in dark mode offset against dark backgrounds */
+:global(.dark) input:focus,
+:global(.dark) button:focus,
+:global(.dark) [role="button"]:focus,
+:global(.dark) [role="checkbox"]:focus {
+    --tw-ring-offset-color: var(--color-bg-secondary) !important; /* Use secondary background for contrast */
+}
