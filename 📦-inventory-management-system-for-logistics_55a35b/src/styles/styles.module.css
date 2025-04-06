@@ -1,0 +1,30 @@
+/* Custom CSS for styles not easily achievable with Tailwind */
+
+/* Add a subtle slide-in animation for the modal */
+@keyframes modalSlideInAnimation {
+  from {
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.modalSlideIn {
+  animation: modalSlideInAnimation 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure chart tooltips have appropriate z-index if needed, although usually handled by library */
+/* .recharts-tooltip-wrapper {
+  z-index: var(--z-tooltip); 
+} */
+
+/* Minor adjustments if needed for specific alignment issues not covered by flex utilities */
+/* Example: 
+.custom-alignment {
+  display: flex;
+  align-items: baseline; 
+}
+*/
