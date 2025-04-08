@@ -1,0 +1,154 @@
+/* Custom styles for the CV application */
+
+/* Animations for role transitions */
+.roleEnter {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.roleEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.roleExit {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.roleExitActive {
+  opacity: 0;
+}
+
+/* Custom chart tooltip styles */
+.customTooltip {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.customTooltip.dark {
+  background-color: rgba(30, 41, 59, 0.95);
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+/* Timeline connector styles */
+.timelineConnector {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  width: 2px;
+  background-color: #e5e7eb;
+  z-index: 0;
+}
+
+.dark .timelineConnector {
+  background-color: #334155;
+}
+
+/* Enhance chart responsiveness */
+@media (max-width: 640px) {
+  .chartContainer {
+    height: 200px !important;
+  }
+}
+
+/* Custom scrollbar for the experience timeline */
+.customScrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Gradient text for section headings */
+.gradientText {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+.dark .gradientText {
+  background-image: linear-gradient(90deg, #60a5fa, #a78bfa);
+}
+
+/* Pulse animation for highlighting important metrics */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.pulsing {
+  animation: pulse 2s infinite;
+}
+
+/* Special card hover effect */
+.hoverCard {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hoverCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .hoverCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile menu animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobileMenuEnter {
+  animation: slideIn 0.3s forwards;
+}
+
+/* Focus ring enhancement for accessibility */
+.customFocusRing:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
