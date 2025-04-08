@@ -1,0 +1,70 @@
+/* Custom styles for PE Fund Management app */
+
+/* Create animations for charts and dashboard elements */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stat card hover effect */
+.statCardHover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.statCardHover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Custom recharts tooltip */
+:global(.recharts-tooltip-wrapper) {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+:global(.recharts-default-tooltip) {
+  border-radius: 6px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  padding: 10px !important;
+  border: none !important;
+}
+
+/* Custom scrollbar for tables */
+.customScrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Dark mode scrollbar adjustments */
+:global(.dark) .customScrollbar::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+
+:global(.dark) .customScrollbar::-webkit-scrollbar-thumb {
+  background: #4a5568;
+}
+
+:global(.dark) .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
