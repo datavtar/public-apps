@@ -1,0 +1,120 @@
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.statusPending {
+  color: #6366f1;
+  background-color: #eef2ff;
+}
+
+.statusInTransit {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.statusDelivered {
+  color: #16a34a;
+  background-color: #f0fdf4;
+}
+
+.statusDelayed {
+  color: #d97706;
+  background-color: #fffbeb;
+}
+
+.statusCancelled {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.priorityBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.priorityLow {
+  color: #0891b2;
+  background-color: #ecfeff;
+}
+
+.priorityMedium {
+  color: #4338ca;
+  background-color: #eef2ff;
+}
+
+.priorityHigh {
+  color: #ea580c;
+  background-color: #fff7ed;
+}
+
+.priorityUrgent {
+  color: #dc2626;
+  background-color: #fef2f2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Dark mode adjustments */
+:global(.dark) .statusPending {
+  color: #a5b4fc;
+  background-color: rgba(99, 102, 241, 0.2);
+}
+
+:global(.dark) .statusInTransit {
+  color: #93c5fd;
+  background-color: rgba(37, 99, 235, 0.2);
+}
+
+:global(.dark) .statusDelivered {
+  color: #86efac;
+  background-color: rgba(22, 163, 74, 0.2);
+}
+
+:global(.dark) .statusDelayed {
+  color: #fcd34d;
+  background-color: rgba(217, 119, 6, 0.2);
+}
+
+:global(.dark) .statusCancelled {
+  color: #fca5a5;
+  background-color: rgba(220, 38, 38, 0.2);
+}
+
+:global(.dark) .priorityLow {
+  color: #67e8f9;
+  background-color: rgba(8, 145, 178, 0.2);
+}
+
+:global(.dark) .priorityMedium {
+  color: #a5b4fc;
+  background-color: rgba(67, 56, 202, 0.2);
+}
+
+:global(.dark) .priorityHigh {
+  color: #fdba74;
+  background-color: rgba(234, 88, 12, 0.2);
+}
+
+:global(.dark) .priorityUrgent {
+  color: #fca5a5;
+  background-color: rgba(220, 38, 38, 0.2);
+}
