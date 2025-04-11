@@ -1,0 +1,77 @@
+/* Custom styles for unique components not covered in the index.css */
+
+/* Provides some additional styling for the desk status indicator */
+.statusIndicator {
+  display: inline-flex;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.statusAvailable {
+  background-color: #10b981;
+}
+
+.statusOccupied {
+  background-color: #f59e0b;
+}
+
+.statusMaintenance {
+  background-color: #ef4444;
+}
+
+/* Provides styling for the booking calendar view */
+.calendarContainer {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.calendarDay {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
+}
+
+.calendarDayHeader {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Dashboard card hover effects */
+.dashboardCard {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboardCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ensure dark mode compatibility for all custom styles */
+:global(.dark) .statusAvailable {
+  background-color: #059669;
+}
+
+:global(.dark) .statusOccupied {
+  background-color: #d97706;
+}
+
+:global(.dark) .statusMaintenance {
+  background-color: #dc2626;
+}
+
+:global(.dark) .calendarDay {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+:global(.dark) .dashboardCard {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
