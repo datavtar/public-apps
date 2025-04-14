@@ -1,0 +1,30 @@
+/* styles/styles.module.css */
+
+/* Custom styles that are difficult or verbose to achieve with Tailwind utilities */
+
+/* Style for Recharts Pie Label */
+.pieLabel text {
+  fill: var(--color-text-base);
+  font-size: 10px; /* Adjust as needed */
+}
+
+.dark .pieLabel text {
+   fill: #e2e8f0; /* Lighter text for dark mode */
+}
+
+
+/* Ensure camera fills container */
+.cameraContainer video {
+    display: block; /* Removes extra space below video */
+    width: 100%;
+    height: auto;
+}
+
+.cameraContainer {
+    position: relative;
+    width: 100%;
+    /* Maintain aspect ratio if needed, e.g., padding-top: 56.25% for 16:9 */
+    /* Or let the Camera component handle aspect ratio */
+}
+
+/* You can add more specific custom styles here if necessary */
