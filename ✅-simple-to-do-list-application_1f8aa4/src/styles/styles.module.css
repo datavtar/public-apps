@@ -1,0 +1,43 @@
+/* Custom CSS for styles not easily achievable with Tailwind alone */
+
+.appBackground {
+    /* Use Tailwind's bg utility in the component for theme switching */
+    /* background-color: var(--color-bg-secondary); */
+}
+
+.completedTask {
+    /* Use Tailwind's opacity utility */
+    /* opacity: 0.7; */
+}
+
+.completedTask label {
+    /* Use Tailwind's text color and line-through utilities */
+    /* text-decoration: line-through; */
+    /* color: #9ca3af; Dark: #64748b */
+}
+
+/* Ensure custom styles respect theme transitions if needed */
+.completedTask {
+    @apply transition-opacity duration-300 ease-in-out opacity-70 dark:opacity-60;
+}
+
+/* Style the select dropdown arrow using Tailwind classes where possible */
+/* The inline style in the component handles the background image for the arrow */
+
+/* Avoid nested :global inside :global - keep it simple */
+:global(.modal-open) {
+    overflow: hidden;
+}
+
+/* Define animations using Tailwind's keyframes/animation utilities if possible */
+/* Tailwind includes fade-in and other animations, use those first */
+
+/* Example: Custom animation if Tailwind's aren't sufficient */
+@keyframes customFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.custom-fade {
+  animation: customFadeIn 0.3s ease-out;
+}
