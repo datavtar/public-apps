@@ -1,0 +1,105 @@
+/* Character profile icons */
+.characterIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-size: 60%; /* Adjust size of icon within circle */
+  background-position: center;
+  border: 3px solid #e2e8f0; /* light gray border */
+  margin: 0 auto;
+  background-repeat: no-repeat;
+}
+
+.characterIconLarge {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-size: 60%;
+  background-position: center;
+  border: 3px solid #e2e8f0;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+}
+
+.characterIconMedium {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-size: 60%;
+  background-position: center;
+  border: 3px solid #e2e8f0;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+}
+
+/* Character classes - Using SVG for icons */
+.knight {
+  background-color: #a3a3a3; /* neutral gray */
+  /* SVG for a shield or sword */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>');
+}
+
+.archer {
+  background-color: #4ade80; /* green */
+  /* SVG for a bow or arrow */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3l-1 2M9 3l1 2m0 16l1-2M15 21l-1-2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M17.66 4.93l-1.41 1.41M4.93 17.66l1.41-1.41M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>');
+}
+
+.mage {
+  background-color: #60a5fa; /* blue */
+  /* SVG for a staff or magic symbol */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18m0-14l7 4-7 4m0-8l-7 4 7 4"/></svg>');
+}
+
+/* Combat characters */
+.combatCharacter {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  background-size: 60%; /* Consistent icon size */
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 3px solid #e2e8f0; /* light gray border */
+  margin: 0 auto;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark mode adjustments */
+.dark .combatCharacter,
+.dark .characterIcon,
+.dark .characterIconLarge,
+.dark .characterIconMedium {
+  border-color: #475569; /* slate-600 */
+}
+
+/* Combat animations */
+.attackAnimation {
+  animation: attack 0.4s ease-in-out;
+}
+
+.defendAnimation {
+  animation: defend 0.5s ease;
+}
+
+@keyframes attack {
+  0% { transform: translateX(0) scale(1); }
+  30% { transform: translateX(-15px) scale(1.05); }
+  60% { transform: translateX(20px) scale(0.95); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+@keyframes defend {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(52, 211, 153, 0); /* Use Tailwind green-500 */
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(52, 211, 153, 0);
+  }
+}
