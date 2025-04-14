@@ -1,0 +1,47 @@
+/* Custom styles for components */
+
+/* Notification animation */
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: var(--z-tooltip);
+  animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
+  max-width: 24rem;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Required form field indicator */
+.form-label.required::after {
+  content: "*";
+  color: #ef4444;
+  margin-left: 0.25rem;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 640px) {
+  .notification {
+    right: 0.5rem;
+    left: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+}
