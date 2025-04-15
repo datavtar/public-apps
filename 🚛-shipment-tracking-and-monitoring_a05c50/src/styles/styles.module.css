@@ -1,0 +1,55 @@
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  height: 1.5rem; /* 24px */
+  width: 2.75rem; /* 44px */
+  align-items: center;
+  border-radius: 9999px;
+  background-color: #e5e7eb; /* gray-200 */
+  transition-property: background-color;
+  transition-duration: 300ms;
+  cursor: pointer;
+}
+
+.dark .theme-toggle {
+  background-color: #475569; /* slate-600 */
+}
+
+.theme-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* blue-500 with opacity */
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  height: 1rem; /* 16px */
+  width: 1rem; /* 16px */
+  border-radius: 9999px;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition-property: transform;
+  transition-duration: 300ms;
+  transform: translateX(0.25rem);
+}
+
+.dark .theme-toggle-thumb {
+  transform: translateX(1.5rem);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
