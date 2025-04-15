@@ -1,0 +1,18 @@
+/* Custom styles if needed, leverage Tailwind first */
+/* Ensure no :global rules are nested */
+
+/* Example: If you needed very specific styling for the todo item */
+/* .todoItem {
+  @apply flex items-center p-4 bg-white rounded shadow;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.todoItem:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.dark .todoItem:hover {
+    background-color: var(--color-bg-secondary);
+} */
+
+/* Keeping this file mostly empty as Tailwind covers most needs */
