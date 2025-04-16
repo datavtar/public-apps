@@ -1,0 +1,57 @@
+/* styles/styles.module.css */
+
+/* Style for Theme Toggle Icon positioning and transitions */
+.themeToggleIcon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; /* Prevent icon from blocking thumb click */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%; /* Occupy half the toggle width */
+}
+
+.lightModeIcon {
+    left: 0;
+    opacity: 1;
+     color: #f59e0b; /* Sun yellow - Tailwind amber-500 */
+    transform: translateY(-50%) translateX(0);
+}
+
+/* When dark mode is active, hide light icon */
+:global(.dark) .lightModeIcon {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-50%); /* Slide out left */
+}
+
+.darkModeIcon {
+    right: 0;
+    opacity: 0;
+     color: #8b5cf6; /* Moon purple - Tailwind violet-500 */
+    transform: translateY(-50%) translateX(50%); /* Start slid out right */
+}
+
+/* When dark mode is active, show dark icon */
+:global(.dark) .darkModeIcon {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0); /* Slide in */
+}
+
+/* Ensure thumb slides over the icons cleanly */
+:global(.theme-toggle-thumb) {
+    /* Use a color that contrasts with the icons in both modes */
+     background-color: var(--color-bg-primary);
+     border: 1px solid var(--color-text-base);
+     box-shadow: var(--shadow-sm);
+     z-index: 1; /* Ensure thumb is above icons */
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.3s ease,
+                  border-color 0.3s ease;
+}
+
+/* Optional: slightly darker thumb background in dark mode if needed */
+/* The problematic comment block causing the syntax error has been removed */
+
