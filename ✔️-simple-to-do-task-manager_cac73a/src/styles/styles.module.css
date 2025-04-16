@@ -1,0 +1,12 @@
+/* Custom styles for unique components - Use sparingly */
+
+/* Add subtle animation on hover for todo items */
+.todoItem:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+/* Ensure long text in todo items is handled gracefully */
+.todoItem span {
+  overflow-wrap: anywhere; /* Break long words if needed */
+}
