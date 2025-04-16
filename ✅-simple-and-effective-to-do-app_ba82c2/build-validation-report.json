@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-04-16T14:03:20.526Z",
+  "buildSize": "156 KB",
+  "checks": [
+    {
+      "name": "React",
+      "check": true
+    },
+    {
+      "name": "ReactDOM",
+      "check": true
+    },
+    {
+      "name": "Bundled app code",
+      "check": true
+    }
+  ],
+  "potentialIssues": []
+}
