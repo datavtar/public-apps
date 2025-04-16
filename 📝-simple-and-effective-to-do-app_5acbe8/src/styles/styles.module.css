@@ -1,0 +1,18 @@
+/*
+ styles.module.css 
+ Use this file for custom CSS that CANNOT be achieved with Tailwind utilities.
+ For this To-Do app, Tailwind provides sufficient utilities, so this file remains minimal.
+*/
+
+/* Example of a custom style if needed:
+.custom-gradient-text {
+  background: linear-gradient(to right, theme('colors.primary.500'), theme('colors.secondary.500'));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+*/
+
+/* Ensure global styles don't interfere */
+:global(.modal-open) {
+  overflow: hidden;
+}
