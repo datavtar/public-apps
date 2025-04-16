@@ -1,0 +1,15 @@
+/* Custom styles that are hard or verbose to achieve with Tailwind utilities */
+
+/* Style for completed task items if needed beyond basic Tailwind */
+.completedTask {
+  /* Example: Slightly different background or border if needed */
+  /* background-color: rgba(0, 255, 0, 0.05); */
+}
+
+/* Ensure focus rings are visible in dark mode against dark backgrounds */
+.dark :focus {
+  /* You might adjust focus ring colors or offsets slightly for better visibility if needed */
+  /* Example: ring-offset-color: #1e293b; */ /* slate-800 */
+}
+
+/* Add any other custom styles below */
