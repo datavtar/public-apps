@@ -1,0 +1,53 @@
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.lead-details-sidebar {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Fix for responsive charts */
+@media (max-width: 640px) {
+  .recharts-responsive-container {
+    min-height: 300px;
+  }
+}
+
+/* Smooth transitions for status bars */
+.card .w-full .h-2\.5 div {
+  transition: width 1s ease-in-out;
+}
+
+/* Better hover effect for table rows */
+.table tr:hover {
+  transition: background-color 0.2s ease;
+}
+
+/* Custom scrollbar for sidebar */
+.lead-details-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.lead-details-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lead-details-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lead-details-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 20px;
+}
+
+/* Dark mode adjustments for scrollbar */
+.dark .lead-details-sidebar {
+  scrollbar-color: rgba(71, 85, 105, 0.5) transparent;
+}
+
+.dark .lead-details-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(71, 85, 105, 0.5);
+}
