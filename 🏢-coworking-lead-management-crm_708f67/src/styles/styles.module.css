@@ -1,0 +1,29 @@
+/* Add custom styles here if needed, but prefer Tailwind utilities */
+
+/* Example: Custom style for a very specific element */
+/*
+.uniqueComponent {
+  border: 1px dashed var(--color-primary-500);
+}
+*/
+
+/* Ensure Recharts tooltips fit within the dark theme */
+.recharts-tooltip-wrapper {
+    z-index: var(--z-tooltip) !important;
+}
+
+/* Enhance dropdown arrow visibility */
+select.input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.dark select.input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); /* Use a lighter arrow for dark mode */
+}
