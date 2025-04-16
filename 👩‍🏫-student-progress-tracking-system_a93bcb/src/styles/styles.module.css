@@ -1,0 +1,97 @@
+/* Custom styles for the Student Progress Tracker app */
+
+/* Adding animation for modal entrance */
+.modalEnter {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Animation for statistic cards */
+.statCardAnimation {
+  animation: slideIn 0.4s ease-out forwards;
+}
+
+/* Custom progress bar styling */
+.progressBar {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Custom scrollbar for tables */
+.customScrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Print-specific styles */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .printFull {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Dark mode specific overrides */
+:global(.dark) .customScrollbar::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+:global(.dark) .customScrollbar::-webkit-scrollbar-thumb {
+  background: #64748b;
+}
+
+:global(.dark) .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Chart tooltip custom styling */
+.chartTooltip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .chartTooltip {
+  background-color: rgba(15, 23, 42, 0.9);
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+/* Student card hover effect */
+.studentCard {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.studentCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+:global(.dark) .studentCard:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
