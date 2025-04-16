@@ -1,0 +1,42 @@
+/* styles/styles.module.css */
+
+/* Add custom styles here if needed, but prefer Tailwind utilities */
+
+/* Ensure app container takes full height */
+.appContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Improve focus visibility for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Style recharts text elements for dark mode */
+.dark .recharts-text {
+    fill: var(--color-text-base) !important;
+}
+
+.dark .recharts-tooltip-wrapper {
+    border: 1px solid var(--color-bg-secondary) !important;
+    background-color: var(--color-bg-secondary) !important;
+}
+
+.dark .recharts-tooltip-item {
+     color: var(--color-text-base) !important;
+}
+
+.dark .recharts-tooltip-label {
+     color: var(--color-text-base) !important;
+}
+
+
+/* You can add specific component styles here if absolutely necessary */
+/* Example: */
+/* .customComponent {
+  background-color: blue;
+} */
