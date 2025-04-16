@@ -1,0 +1,60 @@
+/* Custom styles for components not covered by Tailwind */
+
+/* For smoother transitions on the shipment status hover */
+.statusBadge:hover {
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar for tables when they overflow */
+.tableContainer {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-300) transparent;
+}
+
+.tableContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary-300);
+  border-radius: 4px;
+}
+
+/* Override chart tooltip styles */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: var(--color-bg-primary) !important;
+  border: 1px solid var(--color-primary-200) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: var(--color-bg-secondary) !important;
+  border-color: var(--color-primary-700) !important;
+}
+
+.recharts-tooltip-item-name,
+.recharts-tooltip-item-value {
+  color: var(--color-text-base) !important;
+}
+
+/* Pulse animation for critical shipments */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.criticalPulse {
+  animation: pulse 2s infinite ease-in-out;
+}
