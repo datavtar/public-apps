@@ -1,0 +1,90 @@
+/* Styles specific to the student tracker app */
+
+/* Hide scrollbar */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* Custom modal animations */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-backdrop {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Progress tracking styles */
+.progress-target-indicator {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  border-right: 2px dashed rgba(99, 102, 241, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-target-indicator::after {
+  content: 'Target';
+  font-size: 10px;
+  position: absolute;
+  top: -15px;
+  color: rgba(99, 102, 241, 0.8);
+}
+
+/* Hover effect for student rows */
+.student-row:hover .row-actions {
+  opacity: 1;
+}
+
+.row-actions {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Status pill animations */
+.status-pill {
+  transition: all 0.2s ease;
+}
+
+.status-pill:hover {
+  transform: scale(1.05);
+}
+
+/* Grid layout for dashboard */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+/* Print styles for reports */
+@media print {
+  .student-report-print {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .report-header {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
