@@ -1,0 +1,18 @@
+/* styles/styles.module.css */
+
+/* Custom styles that cannot be achieved with Tailwind utilities or are too complex */
+
+/* Example: Custom styling for the Recharts bar fill if needed beyond Tailwind colors */
+/* Usually, setting fill via className (like fill-primary-600) is preferred */
+.rechartsBar:global(.recharts-bar-rectangle) {
+  /* Add any custom non-Tailwind bar styles here if necessary */
+  /* Example: custom filter effect */
+  /* filter: brightness(1.1); */
+}
+
+/* Ensure Tooltip content has appropriate styles if Tailwind classes aren't sufficient */
+:global(.recharts-tooltip-wrapper) {
+  /* Add any necessary overrides or base styles for tooltip wrapper */
+}
+
+/* Add other custom styles below */
