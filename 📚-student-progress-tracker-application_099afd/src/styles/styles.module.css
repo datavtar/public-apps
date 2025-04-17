@@ -1,0 +1,116 @@
+/* Custom styling for elements not covered by Tailwind */
+
+/* Add subtle transitions for hover effects */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive font adjustments for mobile screens */
+@media (max-width: 640px) {
+  .modal-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Custom scrollbar for better UI */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Focus indicators for better accessibility */
+.input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid rgba(79, 70, 229, 0.5);
+  outline-offset: 2px;
+}
+
+/* Custom focus style for buttons */
+button:focus-visible {
+  outline: 2px solid rgba(79, 70, 229, 0.5);
+  outline-offset: 2px;
+}
+
+/* Custom animation for new items */
+@keyframes highlight {
+  0% {
+    background-color: rgba(79, 70, 229, 0.1);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlight-new {
+  animation: highlight 2s ease-out;
+}
+
+/* Status badge animations */
+.badge-animated {
+  transition: background-color 0.3s ease;
+}
+
+/* Mobile menu animation */
+.mobile-menu-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.mobile-menu-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Print styles */
+@media print {
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .btn, 
+  .input,
+  .modal-backdrop {
+    display: none !important;
+  }
+  
+  .table {
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #e2e8f0;
+  }
+}
