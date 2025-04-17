@@ -1,0 +1,22 @@
+/* styles/styles.module.css */
+
+/* Add a subtle animation when tasks are added or interacted with */
+.taskItem {
+  transition: all 0.3s ease-in-out, transform 0.2s ease-out; 
+}
+
+.taskItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ensure smooth transition on dark mode toggle for gradient background */
+/* Note: Tailwind's theme-transition-all on the root div handles most transitions */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* You can add more custom, non-Tailwind styles here if needed */
+/* For example, a very specific animation or layout tweak */
+
+/* Keep this file minimal, rely on Tailwind first */
