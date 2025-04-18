@@ -1,0 +1,36 @@
+/* styles/styles.module.css */
+
+/* Add custom styles here if Tailwind utilities are not sufficient */
+/* Example: Custom animation or very specific layout */
+
+/* Ensure :global context isn't nested incorrectly */
+/* No custom styles needed for this simple app as Tailwind handles most cases */
+
+/* Example of a potential custom style (if needed): */
+/* 
+.customCheckbox {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--color-text-base);
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.customCheckbox:checked {
+  background-color: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+}
+
+.customCheckbox:checked::after {
+  content: '\2713'; 
+  font-size: 0.8rem;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+*/
