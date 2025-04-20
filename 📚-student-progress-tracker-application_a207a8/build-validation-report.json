@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-04-20T06:04:59.615Z",
+  "buildSize": "603 KB",
+  "checks": [
+    {
+      "name": "React",
+      "check": true
+    },
+    {
+      "name": "ReactDOM",
+      "check": true
+    },
+    {
+      "name": "Bundled app code",
+      "check": true
+    }
+  ],
+  "potentialIssues": [
+    {
+      "issue": "Reference error or undefined function",
+      "count": 1
+    }
+  ]
+}

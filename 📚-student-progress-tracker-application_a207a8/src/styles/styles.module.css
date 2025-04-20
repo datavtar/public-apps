@@ -1,0 +1,73 @@
+/* Custom styles that complement or override Tailwind */
+
+/* Theme Toggle Enhancements */
+.themeToggleIcon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    color: var(--color-text-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sunIcon {
+    left: 0.25rem; /* Align Sun icon to the left */
+    opacity: 1;
+}
+
+.moonIcon {
+    right: 0.25rem; /* Align Moon icon to the right */
+    opacity: 0;
+}
+
+.thumbLight {
+    transform: translateX(0.25rem); 
+}
+
+.thumbDark {
+    transform: translateX(calc(100% + 0.25rem)); /* Move thumb to the right past the Moon */
+}
+
+/* Dark mode specific icon visibility */
+.dark .sunIcon {
+    opacity: 0;
+}
+
+.dark .moonIcon {
+    opacity: 1;
+}
+
+/* Minor adjustments for specific components if needed */
+.modal-content {
+    /* Ensures modal content doesn't exceed viewport height, adds scroll */
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Style file input button */
+.input[type="file"]::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; /* pill shape */
+    border-width: 0px;
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 600; /* font-semibold */
+    background-color: var(--tw-bg-opacity, 1) theme('colors.primary.50');
+    color: var(--tw-text-opacity, 1) theme('colors.primary.700');
+    transition: background-color 0.2s ease-in-out;
+}
+
+.input[type="file"]::file-selector-button:hover {
+     background-color: var(--tw-bg-opacity, 1) theme('colors.primary.100');
+}
+
+.dark .input[type="file"]::file-selector-button {
+    background-color: var(--tw-bg-opacity, 1) theme('colors.primary.900');
+    color: var(--tw-text-opacity, 1) theme('colors.primary.300');
+}
+
+.dark .input[type="file"]::file-selector-button:hover {
+    background-color: var(--tw-bg-opacity, 1) theme('colors.primary.800');
+}
