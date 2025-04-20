@@ -1,0 +1,74 @@
+/* Theme toggle styling */
+.themeToggleIcon {
+  @apply absolute top-1/2 transform -translate-y-1/2 transition-opacity duration-300;
+}
+
+.sunIcon {
+  @apply left-1.5 opacity-100;
+}
+
+.moonIcon {
+  @apply right-1.5 opacity-100;
+}
+
+.thumbLight {
+  @apply transform translate-x-0.5;
+}
+
+.thumbDark {
+  @apply transform translate-x-[calc(100%-0.125rem)];
+}
+
+/* Print-specific styles */
+@media print {
+  .themeToggleIcon,
+  .thumb {
+    display: none !important;
+  }
+  
+  .hideOnPrint {
+    display: none !important;
+  }
+  
+  .pageBreakBeforePrint {
+    page-break-before: always;
+  }
+  
+  .pageBreakAfterPrint {
+    page-break-after: always;
+  }
+  
+  /* Ensure charts and graphs print correctly */
+  .recharts-wrapper,
+  .recharts-surface {
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Better contrast for printed charts */
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: #aaa !important;
+    stroke-width: 0.5px !important;
+  }
+  
+  .recharts-text {
+    fill: #000 !important;
+  }
+  
+  /* Table styling for print */
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .table-cell {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .table-header {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+}
