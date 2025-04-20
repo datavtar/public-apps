@@ -1,0 +1,44 @@
+/* styles.module.css */
+
+/* Ensures the main container takes at least the full screen height */
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg-secondary);
+}
+
+/* Apply slightly different background in dark mode if needed */
+.dark .appContainer {
+  background-color: var(--color-bg-primary); /* Or a slightly different dark shade */
+}
+
+/* Style for overdue tasks - subtle red glow/border */
+.overdueTask {
+  border-left: 4px solid var(--color-error, #ef4444); /* Use a CSS variable for color */
+  /* Add a subtle glow maybe? */
+  /* box-shadow: 0 0 5px rgba(239, 68, 68, 0.3); */
+}
+
+.dark .overdueTask {
+   border-left-color: var(--color-error-dark, #f87171); /* Different red for dark mode */
+   /* box-shadow: 0 0 5px rgba(248, 113, 113, 0.4); */
+}
+
+/* Improve focus visibility for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary-focus, #2563eb);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Remove default outline when custom focus is applied */
+*:focus {
+  outline: none;
+}
+
+/* Responsive adjustments if needed beyond Tailwind */
+@media (max-width: 640px) {
+  /* Example: Adjust modal width on small screens if Tailwind classes aren't enough */
+  /* .modal-content { max-width: 95%; } */
+}
