@@ -1,0 +1,144 @@
+/* Custom styling for the Shipment Tracker app */
+
+/* Map style overrides */
+:global(.leaflet-container) {
+  font-family: inherit;
+  z-index: 0;
+}
+
+:global(.leaflet-popup-content-wrapper) {
+  border-radius: var(--radius-md);
+}
+
+:global(.leaflet-popup-content) {
+  margin: 0.5rem;
+  font-family: inherit;
+}
+
+/* Custom marker styles */
+:global(.leaflet-marker-icon) {
+  transition: transform 0.2s;
+}
+
+:global(.leaflet-marker-icon:hover) {
+  transform: scale(1.1);
+}
+
+/* Custom tooltip styles for charts */
+:global(.recharts-tooltip-wrapper) {
+  outline: none;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+}
+
+:global(.recharts-default-tooltip) {
+  background-color: var(--color-bg-primary) !important;
+  border: 1px solid rgba(204, 204, 204, 0.5) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 0.5rem !important;
+  color: var(--color-text-base) !important;
+}
+
+/* Custom scrollbar for better UX */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Map popup animations */
+:global(.leaflet-popup) {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Shipment status styles */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.status-in-transit {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.status-delivered {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.status-delayed {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.status-processing {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
+
+/* Makes sure modal is accessible and displays above the map */
+.modal-backdrop {
+  z-index: 1050 !important; /* To override any z-index from the map */
+}
+
+/* Animation for the shipment entry in list */
+.shipment-item-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.shipment-item-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.shipment-item-exit {
+  opacity: 1;
+}
+
+.shipment-item-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Dark mode adjustments */
+:global(.dark) .status-in-transit {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+:global(.dark) .status-delivered {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+:global(.dark) .status-delayed {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+:global(.dark) .status-processing {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
