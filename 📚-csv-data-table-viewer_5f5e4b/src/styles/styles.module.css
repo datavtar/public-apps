@@ -1,0 +1,42 @@
+/* Custom styles for components not covered by Tailwind classes */
+
+/* Filter dropdown with animation */
+.filterDropdown {
+  animation: fadeInDown 0.2s ease-out forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add custom scroll styling for filter menus */
+.filterDropdown div {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-400) transparent;
+}
+
+.filterDropdown div::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filterDropdown div::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filterDropdown div::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary-400);
+  border-radius: 10px;
+}
+
+/* Ensure clicking outside closes the filter menu */
+:global(html) {
+  /* Clicking anywhere outside a filter menu should close it */
+  cursor: default;
+}
