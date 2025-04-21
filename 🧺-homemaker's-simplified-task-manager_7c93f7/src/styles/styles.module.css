@@ -1,0 +1,45 @@
+/* Custom styles for unique components or overrides */
+
+.appContainer {
+  /* Ensure background covers the full viewport height */
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-base);
+}
+
+.dark .appContainer {
+  background-color: var(--color-bg-primary);
+}
+
+/* Style for overdue tasks */
+.overdueTask {
+  border-left: 4px solid #ef4444; /* red-500 */
+  /* Add a subtle background change for overdue tasks */
+  background-color: rgba(239, 68, 68, 0.05); /* Slightly reddish background */
+}
+
+.dark .overdueTask {
+  border-left-color: #f87171; /* red-400 */
+  background-color: rgba(248, 113, 113, 0.1); /* Slightly reddish background in dark mode */
+}
+
+/* Ensure consistency in statistic item display */
+.stat-item {
+  @apply flex items-center gap-1 whitespace-nowrap;
+}
+
+/* Add custom styling for Recharts elements if needed */
+/* Example: Custom tooltip style (though inline styles are used in the component) */
+.recharts-tooltip-wrapper {
+  /* Custom tooltip styles can go here if needed beyond inline styles */
+}
+
+/* Improve focus visibility for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500) !important; /* Use a variable if you have one for focus color */
+  outline-offset: 2px;
+}
+
+/* Prevent layout shifts caused by scrollbars */
+body.modal-open {
+  padding-right: var(--scrollbar-width, 0px); /* Compensate for scrollbar removal */
+}
