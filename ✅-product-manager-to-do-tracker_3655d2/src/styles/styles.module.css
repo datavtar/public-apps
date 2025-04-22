@@ -1,0 +1,40 @@
+/* styles.module.css - Keep minimal, prefer Tailwind */
+
+/* Add any custom styles here if Tailwind isn't sufficient */
+
+/* Example: Custom animation (if needed beyond Tailwind's animate-*) */
+/* @keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+} */
+
+/* .subtle-pulse-animation {
+  animation: subtle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+} */
+
+/* Ensure recharts text is styled correctly in dark mode */
+.recharts-text {
+    fill: var(--color-text-base);
+    transition: fill 0.3s ease;
+}
+
+.recharts-tooltip-wrapper {
+    z-index: var(--z-tooltip) !important; /* Ensure tooltip is above other elements */
+}
+
+/* Style Recharts Legend */
+.recharts-legend-item-text {
+  color: var(--color-text-base) !important; 
+  vertical-align: middle;
+}
+
+/* Style Recharts Label */
+.recharts-pie-label-text {
+  fill: var(--color-text-base) !important; 
+  font-size: 0.75rem; /* 12px */
+}
+
+/* Responsive container adjustments if needed */
+.recharts-responsive-container {
+    min-height: 200px; /* Ensure charts have a minimum height */
+}
