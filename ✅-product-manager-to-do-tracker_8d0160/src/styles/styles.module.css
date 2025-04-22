@@ -1,0 +1,153 @@
+/* Modern sidebar styling */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation Item styling */
+.navItem {
+  color: var(--color-text-base);
+  font-weight: 500;
+}
+
+.navItem:hover {
+  background-color: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+}
+
+.navItemActive {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+}
+
+/* Dashboard cards styling */
+.dashboardCard {
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboardCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.09);
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+/* Chart card styling */
+.chartCard {
+  transition: transform 0.2s ease;
+}
+
+.chartCard:hover {
+  transform: translateY(-2px);
+}
+
+/* Task card in list view */
+.taskCard {
+  background-color: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.taskCard:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Dark mode for task card */
+:global(.dark) .taskCard {
+  background-color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .taskCard:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Kanban board styling */
+.kanbanContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  height: calc(100vh - 170px);
+  overflow: auto;
+}
+
+.kanbanColumn {
+  background-color: #f3f4f6;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+:global(.dark) .kanbanColumn {
+  background-color: #1e293b;
+}
+
+.kanbanColumnHeader {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .kanbanColumnHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.taskCount {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+}
+
+:global(.dark) .taskCount {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.kanbanCards {
+  padding: 12px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.kanbanCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+:global(.dark) .kanbanCard {
+  background-color: #0f172a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.kanbanCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .kanbanCard:hover {
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
