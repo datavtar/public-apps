@@ -1,0 +1,130 @@
+/* Custom styles that extend Tailwind */
+
+/* Custom transition for task items */
+.taskEnter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.taskEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.taskExit {
+  opacity: 1;
+}
+
+.taskExitActive {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Custom scrollbar for modals */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 20px;
+}
+
+/* Ensure modal appears with a nice transition */
+.modal-backdrop {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
+
+/* Improve focus states for better accessibility */
+input:focus, 
+select:focus, 
+textarea:focus,
+button:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus,
+.dark button:focus {
+  outline-color: rgba(96, 165, 250, 0.5);
+}
+
+/* Override browser default styling for date inputs */
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+}
+
+/* Make sure date picker icon is properly styled in dark mode */
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+}
+
+/* Custom styling for badges */
+.badge {
+  letter-spacing: 0.025em;
+  font-weight: 500;
+}
+
+/* Ensure footer stays at bottom with flex layout */
+.min-h-screen {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+}
+
+/* Hover effect for task items */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Improve spacing on mobile */
+@media (max-width: 640px) {
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .card, .stat-card {
+    padding: 1rem;
+  }
+}
