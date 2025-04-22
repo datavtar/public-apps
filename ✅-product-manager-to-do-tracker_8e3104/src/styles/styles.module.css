@@ -1,0 +1,36 @@
+/* Custom scrollbar for tag filter dropdown */
+.tagScrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tagScrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tagScrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb, #cbd5e1); /* Light mode default */
+  border-radius: 10px;
+  border: 3px solid transparent; /* Creates padding around scroll thumb */
+}
+
+.tagScrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scrollbar-thumb-hover, #94a3b8); /* Light mode hover */
+}
+
+/* Dark mode scrollbar colors */
+:global(.dark) .tagScrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb-dark, #475569); /* Dark mode default */
+}
+
+:global(.dark) .tagScrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scrollbar-thumb-hover-dark, #64748b); /* Dark mode hover */
+}
+
+/* Ensure long task titles/descriptions wrap properly */
+.taskTitle,
+.taskDescription {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Optional: Add hyphens for better breaking */
+  /* hyphens: auto; */
+}
