@@ -1,0 +1,58 @@
+/* Custom styling for season badges */
+.seasonBadge {
+  display: inline-flex;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+}
+
+.winter {
+  background-color: rgba(186, 230, 253, 0.4);
+  color: rgb(14, 116, 144);
+}
+
+.dark .winter {
+  background-color: rgba(14, 116, 144, 0.3);
+  color: rgb(186, 230, 253);
+}
+
+.summer {
+  background-color: rgba(254, 215, 170, 0.4);
+  color: rgb(194, 65, 12);
+}
+
+.dark .summer {
+  background-color: rgba(194, 65, 12, 0.3);
+  color: rgb(254, 215, 170);
+}
+
+.monsoon {
+  background-color: rgba(167, 243, 208, 0.4);
+  color: rgb(6, 95, 70);
+}
+
+.dark .monsoon {
+  background-color: rgba(6, 95, 70, 0.3);
+  color: rgb(167, 243, 208);
+}
+
+.autumn {
+  background-color: rgba(254, 202, 202, 0.4);
+  color: rgb(153, 27, 27);
+}
+
+.dark .autumn {
+  background-color: rgba(153, 27, 27, 0.3);
+  color: rgb(254, 202, 202);
+}
+
+.all {
+  background-color: rgba(226, 232, 240, 0.4);
+  color: rgb(71, 85, 105);
+}
+
+.dark .all {
+  background-color: rgba(71, 85, 105, 0.3);
+  color: rgb(226, 232, 240);
+}
