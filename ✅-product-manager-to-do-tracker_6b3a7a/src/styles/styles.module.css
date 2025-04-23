@@ -1,0 +1,59 @@
+/* Sidebar styles */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+}
+
+/* Navigation item styles */
+.navItem {
+  @apply text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white;
+}
+
+.navItemActive {
+  @apply bg-primary-50 dark:bg-primary-900 text-primary-600 dark:text-primary-300 font-medium;
+}
+
+/* Dashboard card styles */
+.dashboardCard {
+  @apply p-4 rounded-lg shadow-sm transition-all duration-300;
+}
+
+.iconCircle {
+  @apply p-2 rounded-full bg-white bg-opacity-20 flex-shrink-0;
+}
+
+/* Chart card styles */
+.chartCard {
+  height: 350px; /* Ensure consistent height for chart cards */
+}
+
+/* Task card styles */
+.taskCard {
+  @apply bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-4 hover:shadow-md;
+}
+
+/* Kanban board styles */
+.kanbanContainer {
+  @apply flex gap-4 overflow-x-auto pb-4;
+}
+
+.kanbanColumn {
+  @apply flex-shrink-0 w-72 bg-gray-100 dark:bg-slate-700 rounded-lg flex flex-col;
+  min-height: 300px; /* Ensures columns have a minimum height */
+}
+
+.kanbanColumnHeader {
+  @apply flex items-center justify-between p-3 border-b border-gray-200 dark:border-slate-600 rounded-t-lg;
+}
+
+.taskCount {
+  @apply text-xs font-medium px-2 py-0.5 rounded-full;
+}
+
+.kanbanCards {
+  @apply p-3 space-y-3 overflow-y-auto flex-1;
+}
+
+.kanbanCard {
+  @apply bg-white dark:bg-slate-800 rounded-md shadow-sm p-3 border border-gray-200 dark:border-slate-600 hover:shadow-lg cursor-pointer;
+}
