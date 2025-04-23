@@ -1,0 +1,42 @@
+/* Custom styling that can't be achieved with Tailwind */
+.stat-card {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  transition: var(--transition-base);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Custom styling for charts to ensure proper visibility in dark mode */
+:global(.dark) :global(.recharts-text.recharts-cartesian-axis-tick-value),
+:global(.dark) :global(.recharts-text.recharts-pie-label-text),
+:global(.dark) :global(.recharts-legend-item-text) {
+  fill: #e2e8f0;
+}
+
+:global(.dark) :global(.recharts-cartesian-grid-horizontal line),
+:global(.dark) :global(.recharts-cartesian-grid-vertical line) {
+  stroke: #475569;
+}
+
+/* Ensure modal closes when ESC key is pressed */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-backdrop {
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Responsive modifications for small screens */
+@media (max-width: 640px) {
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}
