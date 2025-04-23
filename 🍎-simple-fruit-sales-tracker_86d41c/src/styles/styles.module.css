@@ -1,0 +1,59 @@
+/* Custom season badges */
+.seasonBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.winter {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.dark .winter {
+  background-color: #0c4a6e;
+  color: #bae6fd;
+}
+
+.spring {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.dark .spring {
+  background-color: #166534;
+  color: #d1fae5;
+}
+
+.summer {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.dark .summer {
+  background-color: #854d0e;
+  color: #fef9c3;
+}
+
+.fall {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.dark .fall {
+  background-color: #9a3412;
+  color: #ffedd5;
+}
+
+/* Button outline style that's not in the default Tailwind classes */
+.btn-outline {
+  background-color: transparent;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+}
