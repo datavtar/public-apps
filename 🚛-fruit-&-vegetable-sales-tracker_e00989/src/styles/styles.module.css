@@ -1,0 +1,37 @@
+/* styles.module.css */
+
+/* Ensure charts have a minimum height to be visible */
+.chartContainer {
+  min-height: 300px; /* Adjust as needed */
+  width: 100%;
+}
+
+/* Improve tooltip appearance */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Custom scrollbar styling (optional) */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary, #a0aec0); /* Use a neutral color or primary */
+  border-radius: 4px;
+  border: 2px solid var(--color-bg-secondary);
+}
+
+.dark .modal-content::-webkit-scrollbar-thumb {
+   background-color: var(--color-primary-dark, #718096); /* Adjust dark mode color */
+}
+
+/* Force chart container height */
+.chartContainer > .recharts-responsive-container {
+    height: 300px !important; /* Force Recharts height */
+}
