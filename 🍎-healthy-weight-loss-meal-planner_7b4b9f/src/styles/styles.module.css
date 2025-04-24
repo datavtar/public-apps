@@ -1,0 +1,471 @@
+/* App-wide styles */
+.appBackground {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-base);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header styles */
+.header {
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Footer styles */
+.footer {
+  background-color: var(--color-bg-primary);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Card styles */
+.card {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Button styles */
+.gradientButton {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  transition: all 0.3s ease;
+}
+
+.gradientButton:hover {
+  transform: translateY(-2px);
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-base);
+  transition: all 0.2s;
+}
+
+.navButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.activeNavButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  box-shadow: var(--shadow-sm);
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  color: var(--color-text-base);
+  transition: all 0.2s;
+}
+
+.themeToggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode color adjustments for navbar */
+.dark .navButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .themeToggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Meal list and calendar styles */
+.mealSlot {
+  background-color: var(--color-bg-secondary);
+  transition: all 0.2s;
+}
+
+.mealSlot:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.addButton {
+  background-color: var(--color-bg-secondary);
+  border: 1px dashed #bbb;
+  transition: all 0.2s;
+}
+
+.addButton:hover {
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+/* Badge styles for meal types */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.breakfastBadge {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #f59e0b;
+}
+
+.lunchBadge {
+  background-color: rgba(76, 175, 80, 0.15);
+  color: #10b981;
+}
+
+.dinnerBadge {
+  background-color: rgba(63, 81, 181, 0.15);
+  color: #6366f1;
+}
+
+.snackBadge {
+  background-color: rgba(0, 150, 136, 0.15);
+  color: #14b8a6;
+}
+
+.tagBadge {
+  background-color: rgba(33, 33, 33, 0.1);
+  color: var(--color-text-base);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+}
+
+/* Dark mode colors for badges */
+.dark .breakfastBadge {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #fbbf24;
+}
+
+.dark .lunchBadge {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #34d399;
+}
+
+.dark .dinnerBadge {
+  background-color: rgba(63, 81, 181, 0.2);
+  color: #a5b4fc;
+}
+
+.dark .snackBadge {
+  background-color: rgba(0, 150, 136, 0.2);
+  color: #5eead4;
+}
+
+.dark .tagBadge {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Nutrition box */
+.nutritionBox {
+  background-color: var(--color-bg-secondary);
+}
+
+/* Preparation time badge */
+.prepTime {
+  background-color: rgba(33, 33, 33, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+}
+
+.dark .prepTime {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Form elements */
+.input, .select, .searchInput {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-base);
+  transition: border-color 0.2s;
+}
+
+.input:focus, .select:focus, .searchInput:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.dark .input, .dark .select, .dark .searchInput {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-bg-secondary);
+}
+
+.dark .input:focus, .dark .select:focus, .dark .searchInput:focus {
+  border-color: #4CAF50;
+}
+
+/* Button variants */
+.secondaryButton {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--color-text-base);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dangerButton {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #ef4444;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.dangerButton:hover {
+  background-color: rgba(220, 38, 38, 0.2);
+}
+
+.textButton {
+  color: #4CAF50;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.textButton:hover {
+  opacity: 0.8;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  color: var(--color-text-base);
+  transition: all 0.2s;
+}
+
+.iconButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .secondaryButton {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .secondaryButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .dangerButton {
+  background-color: rgba(220, 38, 38, 0.2);
+}
+
+.dark .dangerButton:hover {
+  background-color: rgba(220, 38, 38, 0.3);
+}
+
+.dark .iconButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Filter button */
+.filterButton {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-base);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Modal styles */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 90%;
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.closeButton {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-base);
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Meal selector */
+.mealSelectorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--color-bg-secondary);
+}
+
+.mealSelectorItem:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* Shopping list items */
+.shoppingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-bg-secondary);
+}
+
+.shoppingItemChecked {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0.6;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  padding: 0.125rem 0.5rem;
+}
+
+/* Stats view */
+.statCard {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+}
+
+.statIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Analytics summary cards */
+.analyticsSummaryCard {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+}
+
+/* Analytics specific styles */
+.card {
+  margin-bottom: 1.5rem;
+}
+
+/* Make sure dark mode is applied properly */
+.dark .appBackground {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-base);
+}
+
+.dark .header,
+.dark .footer,
+.dark .card,
+.dark .modalContent,
+.dark .statCard {
+  background-color: var(--color-bg-primary);
+}
+
+.dark .mealSlot,
+.dark .addButton,
+.dark .nutritionBox,
+.dark .filterButton,
+.dark .mealSelectorItem,
+.dark .shoppingItem {
+  background-color: var(--color-bg-secondary);
+}
+
+/* Ensure recharts elements work with dark mode */
+.dark text {
+  fill: var(--color-text-base);
+}
+
+/* Ensure tooltip styles are applied in dark mode */
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: var(--color-bg-primary) !important;
+  border-color: var(--color-bg-secondary) !important;
+  color: var(--color-text-base) !important;
+}
+
+.dark .recharts-tooltip-label,
+.dark .recharts-tooltip-item-name,
+.dark .recharts-tooltip-item-value {
+  color: var(--color-text-base) !important;
+}
