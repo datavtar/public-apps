@@ -1,0 +1,89 @@
+/* Chart container with consistent height */
+.chartContainer {
+  height: 300px;
+  width: 100%;
+}
+
+/* Make tables responsive with horizontal scroll on small screens */
+.tableResponsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  position: relative; /* Added for the ::after pseudo-element positioning */
+}
+
+/* Add a subtle indicator for horizontal scrollable tables on small screens */
+@media (max-width: 767px) {
+  .tableResponsive::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.1));
+    pointer-events: none;
+  }
+
+  /* Optimize for touch on small devices */
+  .tableResponsive table {
+    touch-action: pan-x;
+  }
+  
+  /* Ensure cells have proper spacing on mobile */
+  .tableResponsive th,
+  .tableResponsive td {
+    white-space: nowrap;
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* Hide scrollbars in WebKit browsers while preserving functionality */
+@media (max-width: 767px) {
+  .tableResponsive::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .tableResponsive::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .tableResponsive::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+}
+
+/* Improve interaction on touch devices for table rows */
+@media (hover: none) {
+  .tableResponsive tbody tr {
+    transition: background-color 0.2s;
+  }
+  
+  .tableResponsive tbody tr:active {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Better tap targets for mobile */
+@media (max-width: 767px) {
+  .tableResponsive button {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Ensure modals are properly sized on small screens */
+@media (max-width: 640px) {
+  /* Add margin on the sides while keeping the dialog visible */
+  .modal-content {
+    max-height: 85vh;
+    width: calc(100% - 2rem);
+    margin: 1rem; /* Adjusted margin for consistency */
+    overflow-y: auto; /* Allow modal content to scroll if needed */
+  }
+}
