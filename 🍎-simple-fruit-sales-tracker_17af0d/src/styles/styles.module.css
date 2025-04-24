@@ -1,0 +1,58 @@
+.seasonBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.winter {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.winter svg {
+  color: #0284c7;
+}
+
+.spring {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.summer {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.summer svg {
+  color: #eab308;
+}
+
+.fall {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+/* Dark mode styles */
+:global(.dark) .winter {
+  background-color: rgba(8, 47, 73, 0.5);
+  color: #7dd3fc;
+}
+
+:global(.dark) .spring {
+  background-color: rgba(6, 78, 59, 0.5);
+  color: #86efac;
+}
+
+:global(.dark) .summer {
+  background-color: rgba(113, 63, 18, 0.5);
+  color: #fde047;
+}
+
+:global(.dark) .fall {
+  background-color: rgba(124, 45, 18, 0.5);
+  color: #fdba74;
+}
