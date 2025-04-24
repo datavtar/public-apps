@@ -1,0 +1,595 @@
+/* Gradient and UI Colors */
+:root {
+  --gradient-primary: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  --gradient-secondary: linear-gradient(135deg, #a3e635 0%, #65a30d 100%);
+  --ui-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --ui-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Main Containers and Backgrounds */
+.appBackground {
+  background-color: #f9fafb;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .appBackground {
+  background-color: #0f172a;
+}
+
+.header {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(.dark) .header {
+  background-color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid #f3f4f6;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(.dark) .footer {
+  background-color: #1e293b;
+  border-top-color: #2d3748;
+}
+
+/* Card Component */
+.card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: var(--ui-shadow);
+  padding: 1.5rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+:global(.dark) .card {
+  background-color: #1e293b;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ui-shadow-hover);
+}
+
+/* Stat Cards */
+.statCard {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: var(--ui-shadow);
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+:global(.dark) .statCard {
+  background-color: #1e293b;
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* Shopping List Items */
+.shoppingItem {
+  background-color: #f3f4f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .shoppingItem {
+  background-color: #2d3748;
+}
+
+.shoppingItemChecked {
+  background-color: #f3f4f6;
+  opacity: 0.75;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .shoppingItemChecked {
+  background-color: #2d3748;
+}
+
+/* Nutrition Box */
+.nutritionBox {
+  background-color: #f3f4f6;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .nutritionBox {
+  background-color: #2d3748;
+}
+
+/* Navigation Buttons */
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  color: #4b5563;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .navButton {
+  color: #94a3b8;
+}
+
+.navButton:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+:global(.dark) .navButton:hover {
+  background-color: #2d3748;
+  color: #f1f5f9;
+}
+
+.activeNavButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f3f4f6;
+  color: #15803d;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .activeNavButton {
+  background-color: #374151;
+  color: #4ade80;
+}
+
+/* Meal Slots & Selectors */
+.mealSlot {
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .mealSlot {
+  background-color: #2d3748;
+}
+
+.mealSlot:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+:global(.dark) .mealSlot:hover {
+  background-color: #374151;
+}
+
+.addButton {
+  background-color: #f3f4f6;
+  border: 1px dashed #d1d5db;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .addButton {
+  background-color: #2d3748;
+  border-color: #4b5563;
+}
+
+.addButton:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+:global(.dark) .addButton:hover {
+  background-color: #374151;
+  border-color: #6b7280;
+}
+
+.mealSelectorItem {
+  background-color: #f9fafb;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .mealSelectorItem {
+  background-color: #2d3748;
+}
+
+.mealSelectorItem:hover {
+  background-color: #f3f4f6;
+  transform: translateX(2px);
+}
+
+:global(.dark) .mealSelectorItem:hover {
+  background-color: #374151;
+}
+
+/* Buttons */
+.gradientButton {
+  background: var(--gradient-primary);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.gradientButton:hover {
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.gradientButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .secondaryButton {
+  background-color: #2d3748;
+  color: #e2e8f0;
+}
+
+.secondaryButton:hover {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+:global(.dark) .secondaryButton:hover {
+  background-color: #374151;
+  color: #f1f5f9;
+}
+
+.textButton {
+  color: #4b5563;
+  background: none;
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .textButton {
+  color: #94a3b8;
+}
+
+.textButton:hover {
+  color: #1f2937;
+  background-color: #f3f4f6;
+}
+
+:global(.dark) .textButton:hover {
+  color: #f1f5f9;
+  background-color: #2d3748;
+}
+
+.dangerButton {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .dangerButton {
+  background-color: rgba(185, 28, 28, 0.2);
+  color: #ef4444;
+}
+
+.dangerButton:hover {
+  background-color: #fecaca;
+}
+
+:global(.dark) .dangerButton:hover {
+  background-color: rgba(185, 28, 28, 0.3);
+}
+
+.iconButton {
+  color: #6b7280;
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .iconButton {
+  color: #9ca3af;
+}
+
+.iconButton:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+:global(.dark) .iconButton:hover {
+  background-color: #2d3748;
+  color: #f1f5f9;
+}
+
+.closeButton {
+  color: #6b7280;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .closeButton {
+  color: #9ca3af;
+}
+
+.closeButton:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+:global(.dark) .closeButton:hover {
+  background-color: #2d3748;
+  color: #f1f5f9;
+}
+
+/* Form Controls */
+.input, .select, .textarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .input, 
+:global(.dark) .select, 
+:global(.dark) .textarea {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-color: #4b5563;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+:global(.dark) .input:focus, 
+:global(.dark) .select:focus, 
+:global(.dark) .textarea:focus {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.625rem 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .searchInput {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-color: #4b5563;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+:global(.dark) .searchInput:focus {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+}
+
+.filterButton {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .filterButton {
+  background-color: #2d3748;
+  color: #e2e8f0;
+}
+
+/* Modal */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.modalContent {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+:global(.dark) .modalContent {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+/* Badges and Tags */
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.breakfastBadge {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+:global(.dark) .breakfastBadge {
+  background-color: rgba(217, 119, 6, 0.2);
+  color: #f59e0b;
+}
+
+.lunchBadge {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+:global(.dark) .lunchBadge {
+  background-color: rgba(5, 150, 105, 0.2);
+  color: #10b981;
+}
+
+.dinnerBadge {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+:global(.dark) .dinnerBadge {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #6366f1;
+}
+
+.snackBadge {
+  background-color: #ccfbf1;
+  color: #0d9488;
+}
+
+:global(.dark) .snackBadge {
+  background-color: rgba(13, 148, 136, 0.2);
+  color: #14b8a6;
+}
+
+.tagBadge {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .tagBadge {
+  background-color: #2d3748;
+  color: #9ca3af;
+}
+
+.countBadge {
+  background-color: #e5e7eb;
+  color: #4b5563;
+  border-radius: 9999px;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .countBadge {
+  background-color: #4b5563;
+  color: #e5e7eb;
+}
+
+.prepTime {
+  background-color: #e5e7eb;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .prepTime {
+  background-color: #4b5563;
+}
+
+/* Theme Toggle */
+.themeToggle {
+  border-radius: 0.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .themeToggle {
+  color: #e2e8f0;
+}
+
+.themeToggle:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+:global(.dark) .themeToggle:hover {
+  background-color: #2d3748;
+  color: #f1f5f9;
+}
