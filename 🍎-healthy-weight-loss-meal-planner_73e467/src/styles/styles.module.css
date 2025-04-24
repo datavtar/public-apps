@@ -1,0 +1,602 @@
+/* Modern visual styles */
+.appBackground {
+  background-color: #f7f9fc;
+}
+
+.dark .appBackground {
+  background-color: #0f172a;
+}
+
+.header {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dark .header {
+  background-color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background-color: white;
+  border-top: 1px solid #eaeef3;
+}
+
+.dark .footer {
+  background-color: #1e293b;
+  border-top: 1px solid #2d3748;
+}
+
+/* Card styling */
+.card {
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.dark .card {
+  background-color: #1e293b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.dark .card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Meal slots styling */
+.mealSlot {
+  background-color: #f3f6fc;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.dark .mealSlot {
+  background-color: #2d3748;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.mealSlot:hover {
+  background-color: #e9eef7;
+}
+
+.dark .mealSlot:hover {
+  background-color: #364156;
+}
+
+.addButton {
+  border: 1px dashed #d1d9e6;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.dark .addButton {
+  border: 1px dashed #3f495e;
+  background-color: #222d42;
+}
+
+.addButton:hover {
+  border-color: #9cb4dc;
+  background-color: #eff3fa;
+}
+
+.dark .addButton:hover {
+  border-color: #4b5a75;
+  background-color: #2a364b;
+}
+
+/* Navigation */
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.dark .navButton {
+  color: #94a3b8;
+}
+
+.dark .navButton:hover {
+  background-color: #2a364b;
+  color: #e2e8f0;
+}
+
+.activeNavButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+.dark .activeNavButton {
+  background-color: #064e3b;
+  color: #6ee7b7;
+}
+
+/* Buttons */
+.gradientButton {
+  background: linear-gradient(90deg, #2bce88 0%, #13a063 100%);
+  transition: all 0.2s ease;
+}
+
+.gradientButton:hover {
+  background: linear-gradient(90deg, #3dd597 0%, #15b06e 100%);
+}
+
+.secondaryButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  background-color: #f1f5f9;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+.dark .secondaryButton {
+  background-color: #2a364b;
+  color: #94a3b8;
+}
+
+.dark .secondaryButton:hover {
+  background-color: #364156;
+  color: #e2e8f0;
+}
+
+.dangerButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  background-color: #fee2e2;
+  color: #ef4444;
+  transition: all 0.2s ease;
+}
+
+.dangerButton:hover {
+  background-color: #fecaca;
+}
+
+.dark .dangerButton {
+  background-color: #481a1a;
+  color: #f87171;
+}
+
+.dark .dangerButton:hover {
+  background-color: #5c2020;
+}
+
+.textButton {
+  font-size: 0.875rem;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.textButton:hover {
+  color: #334155;
+}
+
+.dark .textButton {
+  color: #94a3b8;
+}
+
+.dark .textButton:hover {
+  color: #e2e8f0;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.iconButton:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.dark .iconButton {
+  color: #94a3b8;
+}
+
+.dark .iconButton:hover {
+  background-color: #2a364b;
+  color: #e2e8f0;
+}
+
+/* Form elements */
+.input, .select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.input:focus, .select:focus {
+  border-color: #2bce88;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(43, 206, 136, 0.1);
+}
+
+.dark .input, .dark .select {
+  border-color: #2d3748;
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.dark .input:focus, .dark .select:focus {
+  border-color: #2bce88;
+  box-shadow: 0 0 0 3px rgba(43, 206, 136, 0.2);
+}
+
+.searchInput {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  border-color: #2bce88;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(43, 206, 136, 0.1);
+}
+
+.dark .searchInput {
+  border-color: #2d3748;
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.dark .searchInput:focus {
+  border-color: #2bce88;
+  box-shadow: 0 0 0 3px rgba(43, 206, 136, 0.2);
+}
+
+/* Filter buttons */
+.filterButton {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+}
+
+.filterButton:hover {
+  background-color: #f1f5f9;
+}
+
+.dark .filterButton {
+  border-color: #2d3748;
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.dark .filterButton:hover {
+  background-color: #2a364b;
+}
+
+/* Theme toggle */
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.themeToggle:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.dark .themeToggle {
+  color: #94a3b8;
+}
+
+.dark .themeToggle:hover {
+  background-color: #2a364b;
+  color: #e2e8f0;
+}
+
+/* Modal */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dark .modalContent {
+  background-color: #1e293b;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.dark .closeButton {
+  color: #94a3b8;
+}
+
+.dark .closeButton:hover {
+  background-color: #2a364b;
+  color: #e2e8f0;
+}
+
+/* Tags and badges */
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.breakfastBadge {
+  background-color: #fef3c7;
+  color: #a16207;
+}
+
+.dark .breakfastBadge {
+  background-color: #78350f;
+  color: #fde68a;
+}
+
+.lunchBadge {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.dark .lunchBadge {
+  background-color: #064e3b;
+  color: #a7f3d0;
+}
+
+.dinnerBadge {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+
+.dark .dinnerBadge {
+  background-color: #3730a3;
+  color: #c7d2fe;
+}
+
+.snackBadge {
+  background-color: #ccfbf1;
+  color: #0d9488;
+}
+
+.dark .snackBadge {
+  background-color: #115e59;
+  color: #99f6e4;
+}
+
+.tagBadge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.dark .tagBadge {
+  background-color: #2a364b;
+  color: #94a3b8;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.375rem;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.dark .countBadge {
+  background-color: #064e3b;
+  color: #a7f3d0;
+}
+
+/* Nutrition box */
+.nutritionBox {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.dark .nutritionBox {
+  background-color: #1e293b;
+  border: 1px solid #2d3748;
+}
+
+/* Shopping list items */
+.shoppingItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.shoppingItem:hover {
+  background-color: #f1f5f9;
+}
+
+.dark .shoppingItem {
+  border: 1px solid #2d3748;
+  background-color: #1e293b;
+}
+
+.dark .shoppingItem:hover {
+  background-color: #2a364b;
+}
+
+.shoppingItemChecked {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.dark .shoppingItemChecked {
+  border: 1px solid #2d3748;
+  background-color: #1e293b;
+}
+
+/* Meal selector items */
+.mealSelectorItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.mealSelectorItem:hover {
+  background-color: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dark .mealSelectorItem {
+  border: 1px solid #2d3748;
+  background-color: #1e293b;
+}
+
+.dark .mealSelectorItem:hover {
+  background-color: #2a364b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Stat cards */
+.statCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.statCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.dark .statCard {
+  background-color: #1e293b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .statCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Prep time badge */
+.prepTime {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #f1f5f9;
+  font-weight: 500;
+}
+
+.dark .prepTime {
+  background-color: #2a364b;
+}
