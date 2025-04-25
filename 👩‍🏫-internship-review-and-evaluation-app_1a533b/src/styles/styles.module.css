@@ -1,0 +1,59 @@
+/* Custom styles not covered by Tailwind */
+
+.evaluationFeedback {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .evaluationFeedback {
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .evaluationFeedback {
+    max-width: 400px;
+  }
+}
+
+/* Fix range input styling for better visibility in dark mode */
+input[type="range"] {
+  height: 5px;
+  appearance: none;
+  background: #e2e8f0;
+  border-radius: 5px;
+  outline: none;
+}
+
+:global(.dark) input[type="range"] {
+  background: #475569;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #4f46e5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #4f46e5;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+:global(.dark) input[type="range"]::-webkit-slider-thumb {
+  background: #6366f1;
+}
+
+:global(.dark) input[type="range"]::-moz-range-thumb {
+  background: #6366f1;
+}
