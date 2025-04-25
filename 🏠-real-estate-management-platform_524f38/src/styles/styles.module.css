@@ -1,0 +1,28 @@
+.propertyGallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.galleryImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.galleryImage:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .propertyGallery {
+    grid-template-columns: 1fr;
+  }
+  
+  .galleryImage {
+    height: 250px;
+  }
+}
