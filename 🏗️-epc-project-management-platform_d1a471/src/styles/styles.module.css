@@ -1,0 +1,28 @@
+/* Custom styles for EPCNxt App */
+
+.appWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: var(--color-text-base);
+  transition: var(--transition-base);
+}
+
+/* Responsive table adjustments */
+@media (max-width: 640px) {
+  .responsiveTable td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+}
