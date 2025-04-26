@@ -1,0 +1,73 @@
+/* Custom styles for components not covered by Tailwind */
+
+/* For file upload button - hide the native input but keep it accessible */
+.fileInputWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.fileInputWrapper input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* For the grades and marks styling */
+.gradeA {
+  color: #22c55e; /* green-500 */
+}
+
+.gradeB {
+  color: #3b82f6; /* blue-500 */
+}
+
+.gradeC {
+  color: #eab308; /* yellow-500 */
+}
+
+.gradeD {
+  color: #ef4444; /* red-500 */
+}
+
+/* Ensure dark mode compatibility */
+.dark .gradeA {
+  color: #4ade80; /* green-400 */
+}
+
+.dark .gradeB {
+  color: #60a5fa; /* blue-400 */
+}
+
+.dark .gradeC {
+  color: #facc15; /* yellow-400 */
+}
+
+.dark .gradeD {
+  color: #f87171; /* red-400 */
+}
+
+/* Print styles for evaluation reports */
+@media print {
+  .printHide {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .printFull {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Transition for sidebar mobile menu */
+.sidebarTransition {
+  transition: transform 0.3s ease-in-out;
+}
