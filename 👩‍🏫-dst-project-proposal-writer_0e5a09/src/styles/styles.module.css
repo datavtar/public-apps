@@ -1,0 +1,39 @@
+.activeTab {
+  border-bottom: 2px solid var(--color-text-base);
+  font-weight: 500;
+}
+
+.tab-button {
+  @apply px-4 py-2 rounded-t-md flex items-center justify-center transition-colors;
+}
+
+.tab-button:hover {
+  @apply bg-gray-100 dark:bg-slate-700;
+}
+
+/* Custom scrollbar styles for the proposal modal */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 4px;
+}
+
+/* For text truncation in the category chart */
+.truncate-text {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
