@@ -1,0 +1,120 @@
+/* Custom styles that can't be achieved with Tailwind */
+.pieChartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pieChartLegendItem {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.pieChartLegendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+
+/* Modal animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-backdrop {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Badge status colors for better contrast in dark mode */
+:global(.dark) .badge-success {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+:global(.dark) .badge-warning {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+:global(.dark) .badge-error {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+:global(.dark) .badge-info {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+/* Stats hover effect */
+.stat-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure theme toggle has better contrast in dark mode */
+:global(.dark) .theme-toggle {
+  background-color: rgba(55, 65, 81, 0.8);
+}
+
+/* Add a subtle border to cards in dark mode for better separation */
+:global(.dark) .card {
+  border: 1px solid rgba(75, 85, 99, 0.2);
+}
+
+/* Tooltip styling for charts */
+:global(.recharts-tooltip-wrapper) {
+  outline: none;
+}
+
+:global(.recharts-default-tooltip) {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+:global(.dark) :global(.recharts-default-tooltip) {
+  background-color: rgba(31, 41, 55, 0.9) !important;
+  border-color: rgba(75, 85, 99, 0.4) !important;
+  color: #e5e7eb !important;
+}
+
+:global(.recharts-tooltip-item-name),
+:global(.recharts-tooltip-item-value) {
+  color: #1f2937 !important;
+}
+
+:global(.dark) :global(.recharts-tooltip-item-name),
+:global(.dark) :global(.recharts-tooltip-item-value) {
+  color: #e5e7eb !important;
+}
