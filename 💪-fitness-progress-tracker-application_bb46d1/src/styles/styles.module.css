@@ -1,0 +1,43 @@
+.customScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+.customScrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.7);
+}
+
+.goalProgressBar {
+  transition: width 0.6s ease-in-out;
+}
+
+.logCard {
+  transition: transform 0.2s ease-in-out;
+}
+
+.logCard:hover {
+  transform: translateY(-2px);
+}
+
+.exerciseCard {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.exerciseCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
