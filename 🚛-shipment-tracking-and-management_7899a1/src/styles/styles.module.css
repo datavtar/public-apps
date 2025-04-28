@@ -1,0 +1,51 @@
+/* Custom styles for components not fully covered by Tailwind utilities or index.css */
+
+/* Ensure the app container takes at least the full viewport height */
+.appContainer {
+  min-height: 100vh;
+}
+
+/* Add specific styles for Recharts Legend or Tooltip if needed */
+/* Example: Customize legend text color */
+/* :global(.recharts-legend-item-text) {
+  color: var(--color-text-base) !important; 
+} */
+
+/* Style for the file input label button to look like a button */
+/* Tailwind handles most of this, but we ensure consistency */
+.fileInputButton {
+  @apply btn btn-secondary btn-responsive inline-flex items-center justify-center gap-2 cursor-pointer;
+}
+
+/* Subtle hover effect for table rows */
+/* Tailwind's hover:bg-gray-50 dark:hover:bg-slate-700 handles this */
+
+/* Ensure modals stack correctly - Tailwind z-index vars handle this */
+
+/* Custom scrollbar styling (optional, browser support varies) */
+/* Example for WebKit browsers */
+/* :global(::-webkit-scrollbar) {
+  width: 8px;
+  height: 8px;
+}
+
+:global(::-webkit-scrollbar-track) {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+:global(::-webkit-scrollbar-thumb) {
+  background-color: var(--color-text-base);
+  opacity: 0.5;
+  border-radius: 4px;
+  border: 2px solid var(--color-bg-secondary);
+}
+
+:global(::-webkit-scrollbar-thumb:hover) {
+   opacity: 0.7;
+} */
+
+/* Dark mode scrollbar (if customizing) */
+/* :global(.dark ::-webkit-scrollbar-thumb) {
+   background-color: var(--color-text-base);
+} */
