@@ -1,0 +1,48 @@
+/* Custom styles that Tailwind cannot easily handle */
+
+/* Ensure consistent height and prevent layout shifts */
+.appContainer {
+  min-height: 100vh;
+}
+
+/* Custom badge colors using CSS variables for easier theming if needed */
+.badge-pending {
+  @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200;
+}
+
+.badge-in-transit {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+.badge-out-for-delivery {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+}
+
+.badge-delivered {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+.badge-delayed {
+  @apply bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200;
+}
+
+.badge-exception {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+/* Recharts customisations if needed */
+:global(.recharts-default-tooltip) {
+    @apply !bg-white dark:!bg-slate-800 !border-gray-200 dark:!border-slate-600 !rounded !shadow-lg;
+}
+:global(.recharts-tooltip-label) {
+    @apply !text-gray-900 dark:!text-white !font-semibold !mb-1;
+}
+:global(.recharts-tooltip-item) {
+    @apply !text-gray-700 dark:!text-slate-300;
+}
+:global(.recharts-legend-item-text) {
+    @apply !text-gray-700 dark:!text-slate-300;
+}
+:global(.recharts-pie-label-text) {
+    @apply !fill-gray-700 dark:!fill-slate-300 !text-xs;
+}
