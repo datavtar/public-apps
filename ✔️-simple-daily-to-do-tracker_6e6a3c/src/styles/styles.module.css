@@ -1,0 +1,25 @@
+/* Custom styles not covered by Tailwind's utility classes */
+/* Note: Most styling is handled by Tailwind CSS classes in the component */
+
+/* For custom animations or specific styling needs */
+@keyframes taskFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* This class can be applied if needed for custom task animations */
+.taskFadeIn {
+  animation: taskFadeIn 0.3s ease-out forwards;
+}
+
+/* Use this if we need a more pronounced hover effect on task items */
+.taskItemHover:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Placeholder rules for potential future needs */
+.placeholder {
+  /* Intentionally empty but defined for future use if needed */
+}
