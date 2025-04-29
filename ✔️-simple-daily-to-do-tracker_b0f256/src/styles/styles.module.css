@@ -1,0 +1,64 @@
+/* Custom styles that can't be handled by Tailwind */
+.datePickerWrapper {
+  position: relative;
+}
+
+.timePickerWrapper {
+  position: relative;
+}
+
+.iconWrapper {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-text-base);
+  opacity: 0.5;
+}
+
+/* Enhance the date and time inputs styling */
+input[type="date"],
+input[type="time"] {
+  padding-left: 2.5rem;
+}
+
+/* Custom styles for overdue tasks */
+.overdue {
+  border-left: 3px solid #ef4444;
+}
+
+/* Custom styles for tasks due soon */
+.dueSoon {
+  border-left: 3px solid #f59e0b;
+}
+
+/* Style for the date and time chip */
+.dateTimeChip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(209, 213, 219, 0.2);
+  color: var(--color-text-base);
+  margin-right: 0.5rem;
+}
+
+.dark .dateTimeChip {
+  background-color: rgba(51, 65, 85, 0.5);
+}
+
+/* Animation for due soon and overdue indicators */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulseAnimation {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
