@@ -1,0 +1,32 @@
+/* Custom styles for date and time inputs */
+.dateTimeInput {
+  position: relative;
+}
+
+.dateTimeIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-base);
+  opacity: 0.5;
+}
+
+/* Style for overdue tasks */
+.overdueTask {
+  border-left: 3px solid #ef4444;
+}
+
+/* Make sure the date/time inputs have consistent height */
+input[type="date"],
+input[type="time"] {
+  min-height: 42px;
+}
+
+/* Responsive fixes for date/time fields on small screens */
+@media (max-width: 640px) {
+  .dateTimePicker {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
