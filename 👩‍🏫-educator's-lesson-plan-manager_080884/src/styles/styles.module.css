@@ -1,0 +1,24 @@
+.root {
+  --primary-color: #4f46e5;
+  --secondary-color: #0ea5e9;
+}
+
+/* Add custom styles here that can't be achieved with Tailwind */
+
+/* Line clamp utility for truncating text */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom Animation for Activity Addition */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#activities-container > div:last-child {
+  animation: slideDown 0.3s ease-out;
+}
