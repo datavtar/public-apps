@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@shaders/*": [
+        "src/shaders/*"
+      ],
+      "@models/*": [
+        "src/models/*"
+      ]
+    },
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "jest",
+      "node",
+      "three"
+    ],
+    "useDefineForClassFields": true
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "**/*.glsl",
+    "**/*.frag",
+    "**/*.vert"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

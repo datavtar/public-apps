@@ -1,0 +1,42 @@
+.overdueTask {
+  border-left: 3px solid #ef4444;
+}
+
+.overdueTask:not(.dark) {
+  border-color: #dc2626;
+}
+
+/* Make native date/time inputs look better */
+input[type="date"],
+input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  width: 100%;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus {
+  outline: none;
+}
+
+/* Make date/time inputs inherit text color in dark mode */
+.dark input[type="date"],
+.dark input[type="time"] {
+  color: inherit;
+}
+
+/* Hide the calendar icon in webkit browsers */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* Improve visibility in dark mode */
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
