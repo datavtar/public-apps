@@ -1,0 +1,221 @@
+/* Custom styles for the Student Progress Tracker */
+
+/* Report specific styles */
+.reportContainer {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  color: #333;
+}
+
+.reportHeader {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.reportHeader h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #2563eb;
+}
+
+.reportDate {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.reportSection {
+  margin-bottom: 25px;
+}
+
+.reportSection h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #1f2937;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.progressCard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.progressItem {
+  flex: 1 1 200px;
+  padding: 15px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progressItem h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #4b5563;
+}
+
+.progressValue {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: baseline;
+}
+
+.progressLabel {
+  font-size: 14px;
+  color: #6b7280;
+  margin-left: 4px;
+}
+
+.reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.reportTable th,
+.reportTable td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.reportTable th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.attendanceSummary {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+  background-color: #f9fafb;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.attendanceLabel {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.attendanceCount {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.emptyMessage {
+  text-align: center;
+  padding: 15px;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  color: #6b7280;
+}
+
+/* Status and grade styling */
+.scoreA { color: #10b981; font-weight: bold; }
+.scoreB { color: #3b82f6; font-weight: bold; }
+.scoreC { color: #f59e0b; font-weight: bold; }
+.scoreD { color: #f97316; font-weight: bold; }
+.scoreF { color: #ef4444; font-weight: bold; }
+
+.attendanceExcellent { color: #10b981; font-weight: bold; }
+.attendanceGood { color: #3b82f6; font-weight: bold; }
+.attendanceAverage { color: #f59e0b; font-weight: bold; }
+.attendancePoor { color: #f97316; font-weight: bold; }
+.attendanceCritical { color: #ef4444; font-weight: bold; }
+
+.progressExcellent { color: #10b981; font-weight: bold; }
+.progressGood { color: #3b82f6; font-weight: bold; }
+.progressAverage { color: #f59e0b; font-weight: bold; }
+.progressPoor { color: #f97316; font-weight: bold; }
+.progressCritical { color: #ef4444; font-weight: bold; }
+
+.statusPresent { color: #10b981; }
+.statusLate { color: #f59e0b; }
+.statusAbsent { color: #ef4444; }
+
+.statusCompleted { color: #10b981; }
+.statusInProgress { color: #f59e0b; }
+.statusNotStarted { color: #ef4444; }
+
+/* Print specific styles */
+.printReport {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: black;
+  background-color: white;
+}
+
+@media print {
+  .printReport {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: black;
+  }
+  
+  .printReport .reportHeader h1 {
+    color: #2563eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .printReport .reportSection h2 {
+    color: #1f2937 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .printReport .progressItem {
+    background-color: #f9fafb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    break-inside: avoid;
+  }
+  
+  .printReport .reportTable th {
+    background-color: #f9fafb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .printReport .attendanceSummary {
+    background-color: #f9fafb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Force page breaks between sections */
+  .printReport .reportSection {
+    page-break-inside: avoid;
+  }
+  
+  /* Status colors for printing */
+  .printReport .scoreA { color: #10b981 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .scoreB { color: #3b82f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .scoreC { color: #f59e0b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .scoreD { color: #f97316 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .scoreF { color: #ef4444 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  
+  .printReport .statusPresent { color: #10b981 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .statusLate { color: #f59e0b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .statusAbsent { color: #ef4444 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  
+  .printReport .statusCompleted { color: #10b981 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .statusInProgress { color: #f59e0b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .printReport .statusNotStarted { color: #ef4444 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
