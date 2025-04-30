@@ -1,0 +1,13 @@
+/* Custom styles that can't be achieved with Tailwind */
+.taskItem {
+  transition: background-color 0.2s ease;
+}
+
+.taskItem:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Dark mode styles */
+:global(.dark) .taskItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
