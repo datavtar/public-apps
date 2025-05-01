@@ -1,0 +1,80 @@
+/* Custom styles that can't be achieved with Tailwind utilities */
+
+.theme-toggle {
+  @apply relative inline-flex h-6 w-12 items-center rounded-full bg-gray-200 dark:bg-slate-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Make tables more responsive at smaller screens */
+@media (max-width: 640px) {
+  .table-container {
+    max-width: 100vw;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Ensure modal content is scrollable on smaller screens */
+@media (max-height: 800px) {
+  .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* Custom scrollbar for modals */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 20px;
+}
+
+/* Smooth transition for student detail cards when selected */
+.card, .border {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Ensure consistent chart rendering in dark mode */
+.dark .recharts-cartesian-grid line,
+.dark .recharts-cartesian-grid-vertical line,
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-axis-line {
+  stroke: rgba(148, 163, 184, 0.2);
+}
+
+.dark .recharts-text {
+  fill: #e2e8f0;
+}
+
+.dark .recharts-legend-item-text {
+  color: #e2e8f0 !important;
+}
+
+/* Animate chart transitions */
+.recharts-wrapper {
+  transition: opacity 0.3s ease;
+}
+
+/* Ensure charts are centered in their containers */
+.recharts-wrapper,
+.recharts-surface {
+  width: 100% !important;
+}
+
+/* Fix potential chart overflow issues */
+.recharts-responsive-container {
+  width: 100% !important;
+  height: 100% !important;
+}
