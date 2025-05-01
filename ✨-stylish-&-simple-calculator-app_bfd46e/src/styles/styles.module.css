@@ -1,0 +1,75 @@
+/* Custom styles for calculator app */
+.calculatorBackground {
+  background-image: linear-gradient(135deg, rgba(176, 211, 255, 0.1) 0%, rgba(231, 193, 255, 0.1) 100%);
+}
+
+.calculator {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.calculator:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.display {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 80px;
+}
+
+.display::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.display:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.activeOperation {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.equalsButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.equalsButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.equalsButton:hover::before {
+  opacity: 1;
+}
+
+/* Media query for larger screens */
+@media (min-width: 640px) {
+  .calculator {
+    max-width: 420px;
+  }
+}
+
+/* Dark mode styles */
+:global(.dark) .calculatorBackground {
+  background-image: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(76, 29, 149, 0.1) 100%);
+}
