@@ -1,0 +1,56 @@
+.headerLogo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* Pulsing dot for live data indication */
+.pulsingDot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #22c55e; /* Green color */
+  display: inline-block;
+}
+
+.pulsingDot::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgba(34, 197, 94, 0.3); /* Semi-transparent green */
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Live data banner */
+.liveBanner {
+  transition: background-color 0.3s ease;
+}
+
+/* Kraken-inspired styles */
+:global(.dark) {
+  --bg-primary: #0f172a; /* Slate 900 */
+  --bg-secondary: #1e293b; /* Slate 800 */
+  --bg-tertiary: #334155; /* Slate 700 */
+  --text-primary: #f8fafc; /* Slate 50 */
+  --text-secondary: #cbd5e1; /* Slate 300 */
+  --text-tertiary: #94a3b8; /* Slate 400 */
+  --accent-primary: #3b82f6; /* Blue 500 */
+  --accent-secondary: #2563eb; /* Blue 600 */
+  --border-color: #475569; /* Slate 600 */
+}
