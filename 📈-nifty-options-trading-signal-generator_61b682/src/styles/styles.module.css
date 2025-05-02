@@ -1,0 +1,139 @@
+/* Custom styles that augment Tailwind utilities */
+
+/* Specific chart styles */
+.chartTooltip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+}
+
+.dark .chartTooltip {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+/* Pulsing animation for real-time indicators */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(79, 70, 229, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+.pulseIndicator {
+  position: relative;
+}
+
+.pulseIndicator::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  animation: pulse 2s infinite;
+}
+
+/* Enhanced accessibility focus styles */
+.focusRing:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Signal confidence bar gradients */
+.confidenceLow {
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.confidenceMedium {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.confidenceHigh {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+/* Modal entrance animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalAnimation {
+  animation: modalFadeIn 0.2s ease-out forwards;
+}
+
+/* Custom scrollbar for the application */
+.customScrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Print styles */
+@media print {
+  .printHide {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .printFullWidth {
+    width: 100% !important;
+  }
+}
+
+/* Improved mobile experiences */
+@media (max-width: 640px) {
+  .mobileCompact {
+    padding: 0.5rem !important;
+  }
+  
+  .mobileFullWidth {
+    width: 100% !important;
+  }
+}
