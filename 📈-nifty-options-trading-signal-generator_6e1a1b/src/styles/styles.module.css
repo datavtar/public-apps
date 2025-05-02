@@ -1,0 +1,68 @@
+.liveBanner {
+  position: relative;
+  overflow: hidden;
+}
+
+.liveBanner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.pulsingDot {
+  width: 10px;
+  height: 10px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+}
+
+/* Header logo styling */
+.headerLogo {
+  max-width: 40px;
+  max-height: 40px;
+  margin-right: 10px;
+  object-fit: contain;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.headerLogo:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 640px) {
+  .headerLogo {
+    max-width: 32px;
+    max-height: 32px;
+    margin-right: 8px;
+  }
+}
