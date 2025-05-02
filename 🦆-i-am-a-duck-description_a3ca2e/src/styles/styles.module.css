@@ -1,0 +1,19 @@
+/* Custom styles that can't be achieved with Tailwind */
+.favoriteIcon {
+  animation: pulse 1.5s infinite;
+  color: #f59e0b; /* amber-500 */
+  cursor: pointer;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
