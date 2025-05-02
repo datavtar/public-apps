@@ -1,0 +1,116 @@
+/* Custom styles for components not covered by Tailwind */
+
+.modalEnterAnimation {
+  animation: modalFadeIn 0.3s ease forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progress bar animation */
+.progressBarAnimation {
+  transition: width 0.5s ease;
+}
+
+/* Custom scrollbar for modals */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+/* Fade in animation for dashboard cards */
+.fadeInAnimation {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Smooth height transition for expandable sections */
+.heightTransition {
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+/* Pulsing effect for the generate button */
+.pulseAnimation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Chart tooltips customization */
+.chartTooltip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode overrides for chart tooltips */
+.dark .chartTooltip {
+  background-color: rgba(31, 41, 55, 0.9);
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Custom focus styles for better accessibility */
+.accessibleFocus:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Touch-friendly drag handle for mobile */
+.dragHandle {
+  touch-action: none;
+  cursor: grab;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+/* Ensure consistency in chart presentation */
+.chartContainer {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+}
