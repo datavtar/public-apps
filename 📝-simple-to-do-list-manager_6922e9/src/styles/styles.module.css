@@ -1,0 +1,38 @@
+/* styles/styles.module.css */
+
+/* Ensure the container takes full viewport height */
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg-secondary);
+}
+
+.dark .appContainer {
+  background-color: var(--color-bg-secondary);
+}
+
+/* Add specific custom styles here if needed */
+/* Example: Custom animation not available in Tailwind */
+/*
+.myCustomAnimation {
+  animation: customPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes customPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+*/
+
+/* Avoid using :global inside :global */
+/* :global(.some-class) { ... } */
+
+/* Instead, use :global at the top level if necessary */
+/* :global(body) { ... } */
+
+/* It's generally better to rely on index.css for global styles */
