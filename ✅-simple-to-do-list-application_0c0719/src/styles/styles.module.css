@@ -1,0 +1,21 @@
+/* Add custom styles here if Tailwind utilities are not sufficient */
+/* We aim to keep this file minimal */
+
+.taskItem {
+  /* Example: Add a subtle transition on hover or state change if needed beyond Tailwind */
+  transition: background-color 0.15s ease-in-out;
+}
+
+.taskItem:hover {
+  /* Example: Slightly different background on hover */
+  /* Tailwind equivalent: hover:bg-gray-50 dark:hover:bg-slate-700 - already applied via theme-transition-all */
+}
+
+/* Ensure focus styles are visible and consistent if customizing interactive elements */
+.taskItem button:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 1px;
+    border-radius: var(--radius-sm);
+}
+
+/* You likely won't need much here given the comprehensive index.css setup */
