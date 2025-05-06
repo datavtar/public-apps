@@ -1,0 +1,41 @@
+/* Custom animations and styling not covered by Tailwind */
+.heroImage {
+  position: relative;
+  height: 400px;
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: transform 0.5s ease-in-out;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.heroImage:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.aboutImage {
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.imageBadge {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.aboutImage:hover .imageBadge {
+  transform: translateY(-10px);
+}
+
+.mapContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .heroImage, .aboutImage {
+    height: 300px;
+  }
+}
