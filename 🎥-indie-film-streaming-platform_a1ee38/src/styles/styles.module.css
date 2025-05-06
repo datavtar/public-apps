@@ -1,0 +1,112 @@
+/* Common styles */
+.hero {
+  position: relative;
+  height: 100vh;
+  background-image: url('https://source.unsplash.com/random/1920x1080?movie,cinema');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 2rem;
+}
+
+.quoteContainer {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  animation: fadeQuote 1s ease-in-out;
+}
+
+@keyframes fadeQuote {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Movie card styles */
+.movieCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.movieCard:hover {
+  transform: translateY(-5px);
+}
+
+.movieImageContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.movieOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 70%);
+  opacity: 1;
+  transition: background 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* Upload section */
+.uploadSection {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1920x1080?filmmaker,camera');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Filmmaker hero section */
+.filmmakerHero {
+  position: relative;
+  height: 500px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?movie,camera,cinematography');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Challenge hero section */
+.challengeHero {
+  position: relative;
+  height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,award,competition');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .movieImageContainer {
+    height: 300px;
+  }
+  
+  .filmmakerHero,
+  .challengeHero {
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movieImageContainer {
+    height: 250px;
+  }
+  
+  .filmmakerHero,
+  .challengeHero {
+    height: 300px;
+  }
+}
