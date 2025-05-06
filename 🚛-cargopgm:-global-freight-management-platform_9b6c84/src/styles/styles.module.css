@@ -1,0 +1,14 @@
+/* Custom styles for components not covered by Tailwind */
+
+/* Add any custom animations needed */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Add custom styles for components not adequately covered by Tailwind */
+.heroSlide {
+  transition: opacity 1s ease-in-out;
+}
+
+/* We're using mostly Tailwind for this project, so this file is minimal */
