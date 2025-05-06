@@ -1,0 +1,87 @@
+.hero {
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,cinema,movie');
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quoteContainer {
+  position: relative;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.movieCard {
+  position: relative;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieCard:hover {
+  transform: translateY(-5px);
+}
+
+.movieImageContainer {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.1) 100%);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  opacity: 1;
+}
+
+.movieCard:hover .movieImageContainer img {
+  transform: scale(1.05);
+}
+
+.uploadSection {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1920x1080?camera,production');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.filmmakerHero {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1920x800?filmmaker,cinema');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+/* New styles for the Big Short Challenge section */
+.challengeHero {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1920x800?film,competition');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
