@@ -1,0 +1,122 @@
+/* General Component Styles */
+.hero {
+  position: relative;
+  height: 600px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?movie,cinema');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.quoteContainer {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Movie card styles */
+.movieCard {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.movieCard:hover {
+  transform: translateY(-5px);
+}
+
+.movieImageContainer {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 150%; /* 2:3 aspect ratio for movie posters */
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.2) 100%);
+}
+
+/* Upload section with parallax-like effect */
+.uploadSection {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1920x1080?filmmaking,director');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  position: relative;
+}
+
+.uploadSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Challenge section hero */
+.challengeHero {
+  position: relative;
+  height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,contest');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Filmmaker page styles */
+.filmmakerHero {
+  position: relative;
+  height: 500px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?movie,camera,cinematography');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Dashboard specific styles */
+.dashboardTab {
+  transition: all 0.2s ease-in-out;
+}
+
+.dashboardTab:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.dashboardTabActive {
+  background-color: #EF4444;
+  color: white;
+}
+
+/* OTP input style */
+.letter-spacing-wide {
+  letter-spacing: 0.5em;
+}
