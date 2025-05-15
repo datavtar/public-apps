@@ -1,0 +1,166 @@
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero {
+  position: relative;
+  height: 90vh;
+  background-image: url('https://source.unsplash.com/random/1920x1080?cinema,movie,theater');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quoteContainer {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.uploadSection {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,production');
+  background-size: cover;
+  background-position: center;
+}
+
+.uploadSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.movieCard {
+  transition: transform 0.3s ease;
+}
+
+.movieCard:hover {
+  transform: translateY(-10px);
+}
+
+.movieImageContainer {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.movieOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  opacity: 1;
+}
+
+.filmmakerHero {
+  position: relative;
+  height: 500px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?cinema,marketplace,premiere');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Cinema Marketplace elements */
+.marketplaceElements {
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+  z-index: 1;
+}
+
+.filmTicket {
+  position: absolute;
+  width: 160px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  bottom: 30px;
+  right: 50px;
+  transform: rotate(-15deg);
+  animation: float 3s ease-in-out infinite;
+}
+
+.filmFrame {
+  position: absolute;
+  width: 120px;
+  height: 90px;
+  border: 4px solid rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+  bottom: 120px;
+  right: 20px;
+  transform: rotate(10deg);
+  animation: float 4s ease-in-out infinite 1s;
+}
+
+.clapperboard {
+  position: absolute;
+  width: 140px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  bottom: 80px;
+  right: 150px;
+  transform: rotate(-5deg);
+  animation: float 3.5s ease-in-out infinite 0.5s;
+}
+
+.clapperboard::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  right: 10px;
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.5) 15px,
+    transparent 15px,
+    transparent 30px
+  );
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
+  50% { transform: translateY(-15px) rotate(var(--rotation, 0deg)); }
+}
+
+.challengeHero {
+  position: relative;
+  height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,competition,award');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Add animation for the bounce effect in ABC Talkies heading */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-bounce {
+  animation: bounce 2s ease infinite;
+}
