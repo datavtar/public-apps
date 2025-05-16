@@ -1,0 +1,168 @@
+/* Basic hero section styles */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  background-image: url('https://source.unsplash.com/random/1920x1080?movie,cinema');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Quote container for rotating movie quotes */
+.quoteContainer {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Movie card styles */
+.movieCard {
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.movieCard:hover {
+  transform: translateY(-8px);
+}
+
+.movieImageContainer {
+  height: 350px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 60%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.uploadSection {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1920x1080?filmmaking,director');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Filmmaker hero section */
+.filmmakerHero {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?filmmaker,set');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.marketplaceElements {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Challenge hero section */
+.challengeHero {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?filmfestival,award');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Big Shot Challenge registration section */
+.challengeRegistrationSection {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1920x1080?cinema,competition');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* New animations for the updated tagline */
+@keyframes textFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes textPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animatedText {
+  display: inline-block;
+  animation: textPulse 3s ease-in-out infinite;
+  background: linear-gradient(45deg, #ff512f, #dd2476, #ff512f);
+  background-size: 200% 200%;
+  animation: gradientText 5s ease infinite, textPulse 3s ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(221, 36, 118, 0.5);
+}
+
+/* Animated heading style for section titles */
+.animatedHeading {
+  position: relative;
+  display: inline-block;
+  animation: textFadeIn 1s ease-out;
+  color: #333;
+  padding-bottom: 0.5rem;
+}
+
+.animatedHeading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #dd2476, #ff512f);
+  animation: lineExpand 1.5s ease-out forwards;
+}
+
+@keyframes lineExpand {
+  from { width: 0; }
+  to { width: 60%; }
+}
+
+/* Dark mode adaptations */
+:global(.dark) .animatedHeading {
+  color: #fff;
+}
