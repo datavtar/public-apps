@@ -1,0 +1,260 @@
+/* Header and hero section */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?movie,cinema');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  background-attachment: fixed;
+}
+
+/* Animated text for hero section */
+.animatedText {
+  animation: fadeInUp 1.2s ease-out;
+  background-image: linear-gradient(135deg, #ff4b2b, #ff416c);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+}
+
+/* Animated heading for mission statement */
+.animatedHeading {
+  animation: bounce 1s both;
+  display: inline-block;
+  position: relative;
+}
+
+.animatedHeading::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: -6px;
+  left: 0;
+  background-color: #ff4b2b;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+  animation: lineExpand 0.8s 0.5s forwards;
+}
+
+@keyframes lineExpand {
+  to {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}
+
+/* Quote container styles */
+.quoteContainer {
+  opacity: 0;
+  animation: fadeIn 1s ease-in forwards 0.5s;
+}
+
+/* Movie cards styling */
+.movieCard {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.movieCard:hover {
+  transform: translateY(-10px);
+}
+
+.movieImageContainer {
+  position: relative;
+  height: 0;
+  padding-top: 150%; /* 2:3 aspect ratio */
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieImageContainer img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movieOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.movieCard:hover .movieOverlay {
+  opacity: 1;
+}
+
+/* Filmmaker section styles */
+.filmmakerHero {
+  position: relative;
+  min-height: 400px;
+  background-image: url('https://source.unsplash.com/random/1200x600?filmmaker,director');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Upload section styles */
+.uploadSection {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1200x600?camera,film');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.uploadSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.uploadSection > div {
+  position: relative;
+  z-index: 2;
+}
+
+/* Challenge registration section styles */
+.challengeRegistrationSection {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1200x600?award,trophy');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.challengeRegistrationSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.challengeRegistrationSection > div {
+  position: relative;
+  z-index: 2;
+}
+
+/* Challenge hero section */
+.challengeHero {
+  position: relative;
+  min-height: 400px;
+  background-image: url('https://source.unsplash.com/random/1200x600?award,competition');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Visual elements for filmmaker marketplace */
+.marketplaceElements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.filmTicket {
+  position: absolute;
+  width: 150px;
+  height: 80px;
+  background-color: rgba(255, 75, 43, 0.2);
+  border-radius: 8px;
+  top: 10%;
+  right: 10%;
+  transform: rotate(15deg);
+  box-shadow: 0 0 20px rgba(255, 75, 43, 0.3);
+}
+
+.filmFrame {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  bottom: 15%;
+  right: 15%;
+  transform: rotate(-10deg);
+}
+
+.clapperboard {
+  position: absolute;
+  width: 100px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  bottom: 20%;
+  right: 25%;
+  transform: rotate(-5deg);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 500px;
+    background-attachment: scroll;
+  }
+  
+  .uploadSection,
+  .challengeRegistrationSection {
+    background-attachment: scroll;
+  }
+}
