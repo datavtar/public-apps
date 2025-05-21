@@ -1,0 +1,172 @@
+/* Additional styles not covered by Tailwind classes */
+
+/* Custom styles for the TMS app */
+.tracking-dot {
+  position: relative;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+  border-radius: 50%;
+  background-color: #10b981;
+  width: 8px;
+  height: 8px;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Hover effect for navigation items */
+.nav-item:hover {
+  transition: background-color 0.2s ease;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobile menu animation */
+.mobile-menu-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.mobile-menu-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mobile-menu-exit-active {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.5);
+}
+
+/* Form focus enhancement */
+.form-focus-ring:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  outline: none;
+}
+
+/* Status indicator animation */
+.status-indicator {
+  position: relative;
+}
+
+.status-indicator::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-indicator.available::before {
+  background-color: #10b981;
+}
+
+.status-indicator.in-transit::before {
+  background-color: #3b82f6;
+  animation: pulse 1.5s infinite;
+}
+
+.status-indicator.maintenance::before {
+  background-color: #f59e0b;
+}
+
+.status-indicator.inactive::before {
+  background-color: #ef4444;
+}
+
+/* Map route visualization */
+.route-line {
+  stroke-dasharray: 5, 5;
+  animation: dash 30s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+/* Print-specific styles */
+@media print {
+  .print-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .print-logo {
+    height: 40px;
+  }
+
+  .print-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem;
+    text-align: left;
+  }
+
+  .print-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+  }
+
+  .print-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+}
