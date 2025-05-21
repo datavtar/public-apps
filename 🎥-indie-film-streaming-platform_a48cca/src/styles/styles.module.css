@@ -1,0 +1,293 @@
+/* Hero section */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background: url('https://source.unsplash.com/random/1920x1080?film,cinema,movie') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+}
+
+/* Animated text with gradient effect */
+.animatedText {
+  background: linear-gradient(90deg, #ff4d4d, #ff9999, #ff4d4d);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: gradientFlow 6s ease infinite, bounceInDown 1.2s;
+}
+
+/* Quote container animation */
+.quoteContainer {
+  padding: 20px;
+  border-radius: 10px;
+  animation: fadeInUp 1s ease-out;
+  transition: all 0.3s ease;
+  max-width: 800px;
+  margin: 0 auto 20px;
+}
+
+/* Movie cards styling */
+.movieCard {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  height: 100%;
+}
+
+.movieCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+}
+
+.movieImageContainer {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 150%; /* 2:3 aspect ratio */
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.movieOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 70%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* Upload section background and styling */
+.uploadSection {
+  position: relative;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1920x1080?filmmaker,directing') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+/* Challenge registration section */
+.challengeRegistrationSection {
+  position: relative;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1920x1080?award,trophy,competition') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+/* Film maker hero banner */
+.filmmakerHero {
+  position: relative;
+  height: 500px;
+  margin-bottom: 40px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: url('https://source.unsplash.com/random/1920x1080?filming,director,set') center/cover no-repeat;
+}
+
+/* Challenge hero banner */
+.challengeHero {
+  position: relative;
+  height: 400px;
+  margin-bottom: 40px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: url('https://source.unsplash.com/random/1920x1080?film,award,festival') center/cover no-repeat;
+}
+
+/* Marketplace visual elements */
+.marketplaceElements {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.filmTicket {
+  width: 140px;
+  height: 70px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  position: absolute;
+  right: 40px;
+  top: 0;
+  transform: rotate(15deg);
+}
+
+.filmFrame {
+  width: 80px;
+  height: 100px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 30px;
+  transform: rotate(-10deg);
+}
+
+.clapperboard {
+  width: 120px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: rotate(-5deg);
+  overflow: hidden;
+}
+
+.clapperboard::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: rotate(-5deg);
+}
+
+/* Animated heading */
+.animatedHeading {
+  animation: bounceIn 1s both;
+  opacity: 0;
+  animation-delay: 0.3s;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes bounceIn {
+  0%, 20%, 40%, 60%, 80%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes bounceInDown {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -3000px, 0) scaleY(3);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0, 25px, 0) scaleY(0.9);
+  }
+  75% {
+    transform: translate3d(0, -10px, 0) scaleY(0.95);
+  }
+  90% {
+    transform: translate3d(0, 5px, 0) scaleY(0.985);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 500px;
+  }
+  
+  .filmmakerHero,
+  .challengeHero {
+    height: 350px;
+  }
+  
+  .marketplaceElements {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 400px;
+  }
+  
+  .quoteContainer {
+    padding: 15px;
+  }
+  
+  .uploadSection,
+  .challengeRegistrationSection {
+    background-attachment: scroll;
+  }
+}
