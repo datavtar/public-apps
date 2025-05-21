@@ -1,0 +1,64 @@
+/* Custom animations for task list */
+.todoAnimation-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.todoAnimation-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.todoAnimation-exit {
+  opacity: 1;
+}
+
+.todoAnimation-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Custom checkbox styles */
+.customCheckbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.customCheckbox:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.customCheckbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.dark .customCheckbox:checked {
+  background-color: #60a5fa;
+  border-color: #60a5fa;
+}
+
+/* Make filter dropdown look better */
+.filterDropdown {
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
