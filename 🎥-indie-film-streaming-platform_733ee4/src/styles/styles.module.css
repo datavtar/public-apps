@@ -1,0 +1,255 @@
+/* Custom styles for the FilmHub app */
+
+/* Hero section */
+.hero {
+  position: relative;
+  height: 85vh;
+  background-image: url('https://source.unsplash.com/random/1920x1080?cinema,film');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Updated Hero section with the new banner image as requested in v1.8.0 */
+.updatedHero {
+  position: relative;
+  height: 85vh;
+  background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1925&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadSection {
+  position: relative;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://source.unsplash.com/random/1920x1080?filmmaking,camera');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.challengeRegistrationSection {
+  position: relative;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://source.unsplash.com/random/1920x1080?trophy,award,competition');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.challengeHero {
+  position: relative;
+  height: 60vh;
+  background-image: url('https://source.unsplash.com/random/1920x1080?filmmaking,competition');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.filmmakerHero {
+  position: relative;
+  height: 60vh;
+  background-image: url('https://source.unsplash.com/random/1920x1080?filmmaker,director');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Movie card styling */
+.movieCard {
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.movieCard:hover {
+  transform: translateY(-10px);
+}
+
+.movieImageContainer {
+  position: relative;
+  height: 0;
+  padding-top: 150%; /* 2:3 aspect ratio for movie posters */
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieImageContainer img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movieOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  opacity: 1;
+}
+
+/* Quote Container Animation */
+.quoteContainer {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animated text for hero section */
+.animatedText {
+  animation: slideUp 1s ease-out, glow 2s ease-in-out infinite alternate;
+  text-shadow: 0 0 8px rgba(255, 59, 59, 0.7);
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px rgba(255, 59, 59, 0.5); }
+  to { text-shadow: 0 0 15px rgba(255, 59, 59, 0.8), 0 0 20px rgba(255, 59, 59, 0.5); }
+}
+
+/* Animated heading with underline animation */
+.animatedHeading {
+  position: relative;
+  display: inline-block;
+  animation: fadeInUp 1.2s ease-out;
+}
+
+.animatedHeading::after {
+  content: '';
+  position: absolute;
+  left: 25%;
+  bottom: -10px;
+  width: 50%;
+  height: 3px;
+  background-color: #ef4444; /* Tailwind red-500 */
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s ease;
+  animation: lineExpand 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  from { 
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes lineExpand {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Visual elements for cinema marketplace */
+.marketplaceElements {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  z-index: 5;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.filmTicket {
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 150px;
+  height: 80px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: rotate(15deg);
+  animation: float 6s ease-in-out infinite;
+}
+
+.filmFrame {
+  position: absolute;
+  top: 40%;
+  right: 25%;
+  width: 100px;
+  height: 100px;
+  border: 8px solid #ffb142;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: rotate(-10deg);
+  animation: float 5s ease-in-out 1s infinite;
+}
+
+.clapperboard {
+  position: absolute;
+  bottom: 30%;
+  right: 15%;
+  width: 120px;
+  height: 100px;
+  background-color: #2f3640;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: rotate(5deg);
+  animation: float 7s ease-in-out 0.5s infinite;
+}
+
+.clapperboard::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background-color: #f5f6fa;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
+  50% { transform: translateY(-20px) rotate(var(--rotation, 0deg)); }
+  100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
+}
+
+.filmTicket { --rotation: 15deg; }
+.filmFrame { --rotation: -10deg; }
+.clapperboard { --rotation: 5deg; }
