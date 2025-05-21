@@ -1,0 +1,268 @@
+/* Hero styling */
+.updatedHero {
+  position: relative;
+  height: 80vh;
+  width: 100%;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,cinema');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Animated text for hero */
+.animatedText {
+  background: linear-gradient(to right, #ff4b4b, #ff9f9f, #ff4b4b);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 3s linear infinite;
+}
+
+@keyframes textShine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Text animation for headings */
+.animatedHeading {
+  position: relative;
+  display: inline-block;
+}
+
+.animatedHeading::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #ef4444; /* Red-600 */
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.5s ease;
+}
+
+.animatedHeading:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Quote carousel container */
+.quoteContainer {
+  position: relative;
+  min-height: 150px;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Movie card styling */
+.movieCard {
+  position: relative;
+  height: 100%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.movieCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.movieImageContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.movieOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 50%);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.movieCard:hover .movieOverlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Upload section styling */
+.uploadSection {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1920x1080?filmmaking,studio');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.uploadSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+}
+
+/* Challenge Registration Section */
+.challengeRegistrationSection {
+  position: relative;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,award,trophy');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.challengeRegistrationSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+}
+
+/* Filmmaker hero section */
+.filmmakerHero {
+  position: relative;
+  min-height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,director,camera');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Challenge hero section */
+.challengeHero {
+  position: relative;
+  min-height: 400px;
+  background-image: url('https://source.unsplash.com/random/1920x1080?film,festival,competition');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Visual elements for marketplace */
+.marketplaceElements {
+  position: absolute;
+  right: 5%;
+  bottom: 10%;
+  width: 300px;
+  height: 300px;
+  transform: rotate(-10deg);
+}
+
+.filmTicket {
+  position: absolute;
+  width: 180px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  top: 20px;
+  left: 60px;
+  transform: rotate(5deg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.filmTicket::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 2px dashed rgba(239, 68, 68, 0.5); /* Red-600 at 50% opacity */
+  border-radius: 4px;
+}
+
+.filmFrame {
+  position: absolute;
+  width: 150px;
+  height: 100px;
+  border: 8px solid rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  bottom: 20px;
+  right: 20px;
+  transform: rotate(-5deg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 3;
+}
+
+.clapperboard {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  bottom: 40px;
+  left: 0;
+  transform: rotate(-8deg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.clapperboard::before {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.clapperboard::after {
+  content: '';
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .updatedHero {
+    height: 70vh;
+  }
+  
+  .quoteContainer {
+    min-height: 120px;
+  }
+  
+  .movieImageContainer {
+    height: 300px;
+  }
+  
+  .marketplaceElements {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .updatedHero {
+    height: 60vh;
+  }
+  
+  .quoteContainer {
+    min-height: 100px;
+  }
+  
+  .movieImageContainer {
+    height: 250px;
+  }
+}
