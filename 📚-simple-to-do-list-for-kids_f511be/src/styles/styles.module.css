@@ -1,0 +1,15 @@
+/* styles.module.css - This file can be used for custom CSS not achievable with Tailwind */
+/* For this application, Tailwind CSS is sufficient, so this file may remain empty or be used for highly specific tweaks. */
+
+/* Example of a custom style if needed: */
+/*
+.customAnimation {
+  animation: myKeyframe 1s ease-in-out infinite;
+}
+
+@keyframes myKeyframe {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+*/
