@@ -1,0 +1,201 @@
+/* Custom CSS for elements not covered by Tailwind */
+
+.camera-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.camera-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.capture-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.capture-button:hover {
+  transform: scale(1.05);
+}
+
+.capture-button-inner {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary-600);
+}
+
+.close-camera-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  z-index: 20;
+}
+
+.food-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.food-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
+
+.nutrient-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
+.nutrient-protein {
+  background-color: rgba(124, 58, 237, 0.1);
+  color: rgb(124, 58, 237);
+}
+
+.nutrient-carbs {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: rgb(16, 185, 129);
+}
+
+.nutrient-fat {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: rgb(245, 158, 11);
+}
+
+.ailment-tag {
+  display: inline-flex;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  transition: all 0.2s ease;
+}
+
+.ailment-tag-selected {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-800);
+  border: 1px solid var(--color-primary-300);
+}
+
+.ailment-tag-unselected {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-base);
+  border: 1px solid var(--color-gray-300);
+}
+
+/* Dark mode adjustments */
+.dark .ailment-tag-selected {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: rgb(165, 180, 252);
+  border-color: rgba(79, 70, 229, 0.4);
+}
+
+.dark .ailment-tag-unselected {
+  background-color: rgba(30, 41, 59, 0.5);
+  color: rgb(226, 232, 240);
+  border-color: rgba(51, 65, 85, 0.8);
+}
+
+.dark .nutrient-protein {
+  background-color: rgba(124, 58, 237, 0.2);
+  color: rgb(167, 139, 250);
+}
+
+.dark .nutrient-carbs {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: rgb(110, 231, 183);
+}
+
+.dark .nutrient-fat {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: rgb(252, 211, 77);
+}
+
+/* Progress bars */
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+
+.dark .progress-bar-container {
+  background-color: rgba(51, 65, 85, 0.5);
+}
+
+/* Calendar day styles */
+.calendar-day {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-day-number {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.calendar-day-selected {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-800);
+  font-weight: 600;
+}
+
+.calendar-day-with-entry:not(.calendar-day-selected)::after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-primary-500);
+  margin-top: 2px;
+}
+
+.dark .calendar-day-selected {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: rgb(165, 180, 252);
+}
