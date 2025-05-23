@@ -1,0 +1,50 @@
+/* styles/styles.module.css */
+
+/* This file is intentionally kept minimal. 
+   Prefer Tailwind CSS utilities for styling. 
+   Only add styles here for very specific cases 
+   that cannot be achieved with Tailwind's utility classes. */
+
+/* Example: Custom print styles for the invoice details page */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-container {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact; /* Ensures background colors and images are printed */
+    print-color-adjust: exact;
+  }
+  /* Ensure dark mode styles are overridden for print */
+  .dark .print-container,
+  .dark body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .dark .table-header,
+  .dark .table-cell,
+  .dark .text-gray-500,
+  .dark .text-gray-600,
+  .dark .text-gray-800,
+  .dark .text-primary-600 {
+    color: #000000 !important;
+  }
+  .dark .bg-gray-100,
+  .dark .bg-slate-700\/50, 
+  .dark .bg-slate-800\/80 {
+    background-color: #f9fafb !important; /* Light gray for table header or subtle backgrounds */
+  }
+  .dark .border-slate-700,
+  .dark .border-slate-600 {
+    border-color: #e5e7eb !important; /* Light gray border */
+  }
+}
