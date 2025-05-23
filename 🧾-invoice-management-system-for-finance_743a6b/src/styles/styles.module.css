@@ -1,0 +1,27 @@
+/* styles.module.css - Minimal custom styles */
+
+/* Example of a custom style if needed, though Tailwind should cover most cases */
+.customInvoiceCard {
+  /* Add specific styles here if Tailwind utilities are not sufficient */
+  /* For instance, complex gradients or specific box-shadows not in Tailwind's default config */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.customInvoiceCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Ensure Recharts tooltips are styled for dark mode if necessary */
+/* This might be needed if default Recharts styles don't adapt well */
+.recharts-tooltip-wrapper {
+  background-color: var(--color-bg-primary) !important;
+  border: 1px solid var(--color-text-base) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--color-text-base) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.recharts-tooltip-item {
+  color: var(--color-text-base) !important;
+}
