@@ -1,0 +1,84 @@
+/* styles.module.css */
+
+.appContainer {
+  /* Ensures footer is at bottom if content is short */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.chatSection {
+  /* Max height for chat section, allows it to grow but not excessively */
+  max-height: calc(100vh - 200px); /* Adjust as needed based on header/footer/gaps */
+  display: flex;
+  flex-direction: column;
+}
+
+.invoiceSection {
+  max-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+}
+
+.messagesContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messagesContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messagesContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-base, #9ca3af); /* gray-400 */
+  border-radius: var(--radius-lg, 0.5rem);
+  border: 2px solid var(--color-bg-secondary, #f9fafb);
+}
+
+.dark .messagesContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-base, #6b7280); /* gray-500 */
+  border-color: var(--color-bg-secondary, #1e293b);
+}
+
+
+/* Typing indicator animation */
+.typingIndicator span {
+  height: 6px;
+  width: 6px;
+  background-color: currentColor; /* Use text color */
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 1px;
+  animation: bounce 1s infinite ease-in-out;
+}
+
+.typingIndicator span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typingIndicator span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}
+
+/* Responsive adjustments for smaller screens if needed */
+@media (max-width: 767px) { /* md breakpoint */
+  .chatSection,
+  .invoiceSection {
+    max-height: none; /* Allow full height on mobile stack */
+    min-height: 300px; /* Ensure sections are usable */
+  }
+  .messagesContainer {
+    max-height: 30vh; /* Or a fixed pixel value like 250px */
+  }
+  .table-container {
+    max-height: 40vh; /* Ensure table is scrollable and doesn't take too much space */
+  }
+}
