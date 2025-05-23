@@ -1,0 +1,285 @@
+/* Custom styles for invoice management system */
+
+/* Enhanced table hover effects */
+.invoiceTable {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.invoiceTable tbody tr {
+  transition: all 0.2s ease;
+}
+
+.invoiceTable tbody tr:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Status badge animations */
+.statusBadge {
+  position: relative;
+  overflow: hidden;
+}
+
+.statusBadge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s;
+}
+
+.statusBadge:hover::before {
+  left: 100%;
+}
+
+/* Card elevation on hover */
+.analyticsCard {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.analyticsCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Filter panel slide animation */
+.filterPanel {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal backdrop blur effect */
+.modalBackdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Enhanced button hover effects */
+.actionButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.actionButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+.actionButton:hover::before {
+  width: 100px;
+  height: 100px;
+}
+
+/* Progress bar for payment status */
+.progressBar {
+  position: relative;
+  background: #e5e7eb;
+  border-radius: 0.5rem;
+  height: 0.5rem;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  border-radius: 0.5rem;
+  transition: width 0.8s ease;
+  position: relative;
+}
+
+.progressFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Enhanced pagination */
+.paginationButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.paginationButton.active {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Loading skeleton with improved animation */
+.skeleton {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dark mode specific enhancements */
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+.dark .progressBar {
+  background: #374151;
+}
+
+.dark .modalBackdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Smooth transitions for theme switching */
+.themeTransition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Enhanced focus states for accessibility */
+.focusEnhanced:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive table scrolling indicator */
+.tableContainer {
+  position: relative;
+}
+
+.tableContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tableContainer.scrollable::after {
+  opacity: 1;
+}
+
+/* Invoice amount highlighting */
+.amountHighlight {
+  position: relative;
+  font-weight: 600;
+}
+
+.amountHighlight.large {
+  color: #059669;
+}
+
+.amountHighlight.medium {
+  color: #d97706;
+}
+
+.amountHighlight.small {
+  color: #6b7280;
+}
+
+/* Status indicator pulse effect */
+.statusPulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Overdue warning effect */
+.overdueWarning {
+  position: relative;
+}
+
+.overdueWarning::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  pointer-events: none;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .mobileOptimized {
+    padding: 0.75rem;
+  }
+  
+  .mobileHide {
+    display: none;
+  }
+  
+  .mobileStack {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .printOptimized {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+}
