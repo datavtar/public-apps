@@ -1,0 +1,66 @@
+/* styles/styles.module.css */
+
+/* Custom styles for table action buttons to ensure they don't wrap too aggressively */
+.tableActionButtonsContainer {
+  min-width: 100px; /* Adjust as needed */
+  flex-wrap: nowrap; /* Prefer to keep icons in one line */
+}
+
+/* Styles for printable invoice view */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .invoice-printable-area, .invoice-printable-area * {
+    visibility: visible;
+  }
+  .invoice-printable-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    box-shadow: none;
+    border: none;
+    background-color: white !important;
+    color: black !important;
+  }
+  .invoice-printable-area .dark\:text-slate-100,
+  .invoice-printable-area .dark\:text-slate-200,
+  .invoice-printable-area .dark\:text-slate-300,
+  .invoice-printable-area .dark\:text-slate-400 {
+    color: black !important;
+  }
+  .invoice-printable-area .dark\:bg-slate-700,
+  .invoice-printable-area .dark\:bg-slate-800,
+  .invoice-printable-area .dark\:bg-slate-900 {
+    background-color: white !important;
+  }
+  .invoice-printable-area .dark\:border-slate-600,
+  .invoice-printable-area .dark\:border-slate-700 {
+    border-color: #ccc !important;
+  }
+  .invoice-printable-area .text-primary-600, 
+  .invoice-printable-area .dark\:text-primary-400 {
+    color: #1d4ed8 !important; /* Example primary color for print */
+  }
+  .no-print {
+    display: none !important;
+  }
+  .modal-backdrop {
+    background-color: transparent !important;
+  }
+  /* Ensure modal content takes full page for printing */
+  .invoiceViewModalContent {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+}
