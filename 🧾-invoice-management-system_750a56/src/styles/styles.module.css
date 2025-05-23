@@ -1,0 +1,286 @@
+/* Custom styles for Invoice Management System */
+
+/* Print styles for invoice detail view */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+  }
+  
+  .table {
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .badge {
+    border: 1px solid #333 !important;
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Custom dropdown positioning */
+.filter-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  z-index: var(--z-dropdown);
+  min-width: 12rem;
+}
+
+/* Status badge hover effects */
+.status-badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.status-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Invoice number link styling */
+.invoice-link {
+  position: relative;
+  text-decoration: none;
+}
+
+.invoice-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.invoice-link:hover::after {
+  width: 100%;
+}
+
+/* Custom table row hover effects */
+.table-row {
+  transition: background-color 0.2s ease;
+}
+
+/* Smooth transitions for theme switching */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom scrollbar for webkit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.8);
+}
+
+/* Form input focus enhancement */
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Animation for stats cards */
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode specific enhancements */
+.dark .stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Button loading state */
+.btn-loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Custom focus styles for accessibility */
+.focus-visible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-stack {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .mobile-full {
+    width: 100%;
+  }
+}
+
+/* Invoice form specific styles */
+.invoice-form {
+  max-width: none;
+}
+
+.invoice-form .form-section {
+  border-top: 1px solid rgba(229, 231, 235, 1);
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.dark .invoice-form .form-section {
+  border-top-color: rgba(75, 85, 99, 1);
+}
+
+/* Item row styling */
+.item-row {
+  padding: 1rem;
+  background-color: rgba(249, 250, 251, 1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(229, 231, 235, 1);
+  transition: all 0.2s ease;
+}
+
+.dark .item-row {
+  background-color: rgba(31, 41, 55, 1);
+  border-color: rgba(75, 85, 99, 1);
+}
+
+.item-row:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Status dropdown styling */
+.status-select {
+  appearance: none;
+  background-image: none;
+  padding-right: 0.5rem;
+  min-width: fit-content;
+  text-align: center;
+}
+
+/* Enhanced table cell styling */
+.table-cell-clickable {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.table-cell-clickable:hover {
+  color: #3b82f6;
+}
+
+.dark .table-cell-clickable:hover {
+  color: #60a5fa;
+}
+
+/* Custom modal animations */
+.modal-backdrop {
+  animation: fadeInBackdrop 0.3s ease-out;
+}
+
+.modal-content {
+  animation: slideInModal 0.3s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Success/Error message styling */
+.message-success {
+  background-color: #dcfce7;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+.dark .message-success {
+  background-color: #14532d;
+  border-color: #16a34a;
+  color: #86efac;
+}
+
+.message-error {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+  color: #991b1b;
+}
+
+.dark .message-error {
+  background-color: #7f1d1d;
+  border-color: #dc2626;
+  color: #fca5a5;
+}
