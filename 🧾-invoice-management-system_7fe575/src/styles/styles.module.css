@@ -1,0 +1,35 @@
+/* Custom styles for unique components or overrides */
+
+.appContainer {
+  /* Ensure a smooth transition for the overall app theme change */
+  transition: background-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* Style for scrollbars in modal content if needed */
+.modalContentScrollable ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContentScrollable ::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.modalContentScrollable ::-webkit-scrollbar-thumb {
+  background: #888; /* A neutral scrollbar color */
+  border-radius: var(--radius-sm);
+}
+
+.modalContentScrollable ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.dark .modalContentScrollable ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.dark .modalContentScrollable ::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Additional specific styles if Tailwind utilities are not sufficient */
