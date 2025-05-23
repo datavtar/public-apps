@@ -1,0 +1,10 @@
+/* styles.module.css - This file can be used for custom CSS modules. */
+/* For this simple "Hello World" app, all styling is handled by Tailwind CSS */
+/* and the global styles provided in index.css. */
+/* No custom module CSS is needed for this specific app. */
+
+/* Example of how you might use it if needed: */
+/* .customComponent { */
+/*   padding: var(--spacing-md); */
+/*   border-radius: var(--radius-lg); */
+/* } */
