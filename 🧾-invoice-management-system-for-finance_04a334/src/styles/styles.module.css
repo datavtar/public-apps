@@ -1,0 +1,403 @@
+/* Invoice Management System Specific Styles */
+
+/* Custom animations for invoice elements */
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Invoice card hover effects */
+.invoiceCard {
+  animation: slideInUp 0.3s ease-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.invoiceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Status badge animations */
+.statusBadge {
+  position: relative;
+  overflow: hidden;
+}
+
+.statusBadge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.statusBadge:hover::before {
+  left: 100%;
+}
+
+/* Chart container enhancements */
+.chartContainer {
+  animation: fadeInScale 0.5s ease-out;
+  transition: all 0.3s ease;
+}
+
+.chartContainer:hover {
+  transform: scale(1.02);
+}
+
+/* Modal entrance animation */
+.modalEnter {
+  animation: fadeInScale 0.3s ease-out;
+}
+
+/* Loading spinner for AI processing */
+.aiSpinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form field focus effects */
+.formField {
+  transition: all 0.2s ease;
+}
+
+.formField:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Table row hover animation */
+.tableRow {
+  transition: all 0.2s ease;
+}
+
+.tableRow:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+  transform: translateX(4px);
+}
+
+/* Button ripple effect */
+.buttonRipple {
+  position: relative;
+  overflow: hidden;
+}
+
+.buttonRipple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.buttonRipple:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Progress bar animation */
+.progressBar {
+  width: 0;
+  animation: progressFill 2s ease-in-out forwards;
+}
+
+@keyframes progressFill {
+  to {
+    width: 100%;
+  }
+}
+
+/* Stats card gradient animations */
+.statsCardGradient {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Custom scrollbar for modal content */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Dark mode scrollbar */
+.dark .modalContent::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .modalContent::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Invoice item row animations */
+.invoiceItemRow {
+  animation: slideInUp 0.3s ease-out;
+  transition: all 0.2s ease;
+}
+
+.invoiceItemRow:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Notification toast positioning */
+.toastContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast {
+  animation: slideInUp 0.3s ease-out;
+  margin-bottom: 10px;
+}
+
+/* Floating action button */
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  animation: fadeInScale 0.5s ease-out;
+  transition: all 0.3s ease;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Search highlight animation */
+.searchHighlight {
+  animation: pulse 1s infinite;
+  background-color: rgba(255, 255, 0, 0.3);
+}
+
+/* Page transition */
+.pageTransition {
+  animation: slideInUp 0.4s ease-out;
+}
+
+/* Loading state for table rows */
+.loadingRow {
+  animation: pulse 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Dark mode loading state */
+.dark .loadingRow {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+/* Error state styling */
+.errorState {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Success state styling */
+.successState {
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Print styles for invoices */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .invoicePrint {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  .invoicePrint * {
+    background: transparent !important;
+    color: black !important;
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .mobileStack {
+    flex-direction: column;
+  }
+  
+  .mobileHide {
+    display: none;
+  }
+  
+  .mobileCenter {
+    text-align: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .highContrast {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible for accessibility */
+.focusVisible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Custom invoice layout styles */
+.invoiceLayout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .invoiceLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* AI processing indicator */
+.aiProcessing {
+  position: relative;
+}
+
+.aiProcessing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(147, 51, 234, 0.1) 25%, transparent 25%, transparent 75%, rgba(147, 51, 234, 0.1) 75%), 
+              linear-gradient(45deg, rgba(147, 51, 234, 0.1) 25%, transparent 25%, transparent 75%, rgba(147, 51, 234, 0.1) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  animation: aiStripes 1s linear infinite;
+}
+
+@keyframes aiStripes {
+  0% {
+    background-position: 0 0, 10px 10px;
+  }
+  100% {
+    background-position: 20px 20px, 30px 30px;
+  }
+}
