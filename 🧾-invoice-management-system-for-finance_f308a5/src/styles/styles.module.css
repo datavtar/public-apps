@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for Invoice Management System */
+
+.modalScrollable {
+  max-height: 90vh; /* Ensure modal content is scrollable if it exceeds viewport height */
+  overflow-y: auto;
+}
+
+/* Print specific styles */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact; /* Ensure background colors and images are printed in Chrome/Safari */
+    print-color-adjust: exact; /* Standard property */
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .modal-backdrop {
+    position: static !important;
+    background: none !important;
+  }
+
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: 1px solid #eee !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    max-height: none !important; /* Allow full content height for printing */
+    overflow: visible !important; /* Show all content */
+  }
+  
+  .invoicePrintArea h1, 
+  .invoicePrintArea h2, 
+  .invoicePrintArea h3, 
+  .invoicePrintArea h4, 
+  .invoicePrintArea p, 
+  .invoicePrintArea td, 
+  .invoicePrintArea th {
+    color: #000 !important; /* Ensure text is black for printing */
+  }
+
+  .invoicePrintArea .dark\:bg-slate-700,
+  .invoicePrintArea .dark\:bg-slate-800,
+  .invoicePrintArea .bg-gray-50 {
+    background-color: #fff !important; /* Ensure light backgrounds for printing */
+  }
+
+  .invoicePrintArea .dark\:border-slate-600,
+  .invoicePrintArea .border-b {
+    border-color: #ccc !important; /* Ensure visible borders */
+  }
+  
+  /* Ensure badges are readable when printed */
+  .badge {
+    border: 1px solid #ccc;
+    background-color: #f0f0f0 !important;
+    color: #333 !important;
+  }
+  .badge-success { background-color: #e6ffee !important; color: #006400 !important; border-color: #90ee90 !important; }
+  .badge-error { background-color: #ffe6e6 !important; color: #8b0000 !important; border-color: #ffcccb !important; }
+  .badge-info { background-color: #e6f7ff !important; color: #007bff !important; border-color: #b3e0ff !important; }
+  .badge-warning { background-color: #fffbe6 !important; color: #ffc107 !important; border-color: #ffeeba !important; }
+}
+
+/* Make Recharts responsive text visible in dark mode */
+.recharts-text,
+.recharts-cartesian-axis-tick-value,
+.recharts-legend-item-text {
+  fill: var(--color-text-base) !important;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.dark .recharts-cartesian-grid line {
+  stroke: var(--color-bg-secondary) !important;
+}
+
+.stat-card {
+  position: relative; /* For absolute positioning of icons */
+}
+
+/* Custom scrollbar for modal if needed, more subtle */
+.modalScrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalScrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modalScrollable::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-base);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-bg-primary);
+}
+
+.dark .modalScrollable::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-base);
+  border-color: var(--color-bg-primary);
+}
