@@ -1,0 +1,429 @@
+/* Custom styles for invoice management system */
+
+/* Animation for smooth transitions */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Custom modal animations */
+.modalContent {
+  animation: fadeInScale 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom table hover effects */
+.tableRow {
+  transition: all 0.15s ease-in-out;
+}
+
+.tableRow:hover {
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode table hover */
+.dark .tableRow:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom status badge animations */
+.statusBadge {
+  transition: all 0.2s ease-in-out;
+}
+
+.statusBadge:hover {
+  transform: scale(1.05);
+}
+
+/* Invoice item animation */
+.invoiceItem {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Custom scrollbar for tables */
+.tableContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+.dark .tableContainer::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark .tableContainer::-webkit-scrollbar-thumb {
+  background: #64748b;
+}
+
+.dark .tableContainer::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Custom focus styles for better accessibility */
+.customFocus:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Loading spinner for charts */
+.chartLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.chartLoading::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom tooltip styles for charts */
+.recharts-tooltip-wrapper {
+  z-index: 1000;
+}
+
+.recharts-tooltip-content {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark .recharts-tooltip-content {
+  background: #334155 !important;
+  border-color: #475569 !important;
+  color: #e2e8f0 !important;
+}
+
+/* Enhanced button hover effects */
+.enhancedButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.enhancedButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.enhancedButton:hover::before {
+  left: 100%;
+}
+
+/* Custom file upload styling */
+.fileUploadArea {
+  transition: all 0.3s ease;
+  border: 2px dashed #d1d5db;
+}
+
+.fileUploadArea:hover {
+  border-color: #3b82f6;
+  background-color: #f8fafc;
+}
+
+.dark .fileUploadArea:hover {
+  background-color: #1e293b;
+  border-color: #60a5fa;
+}
+
+/* Custom card shadow effects */
+.cardHover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cardHover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .cardHover:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Progress bar animation */
+.progressBar {
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom input focus glow */
+.inputGlow:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+}
+
+.dark .inputGlow:focus {
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+  border-color: #60a5fa;
+}
+
+/* Status indicator pulse */
+.statusPulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive text scaling */
+@media (max-width: 640px) {
+  .responsiveText {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .responsiveText {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .responsiveText {
+    font-size: 1.125rem;
+  }
+}
+
+/* Print styles for invoice */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .printInvoice {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+/* Custom grid layouts */
+.autoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .autoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Enhanced modal backdrop */
+.modalBackdrop {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Smooth appear animation for list items */
+.listItem {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.listItem:nth-child(1) { animation-delay: 0.1s; }
+.listItem:nth-child(2) { animation-delay: 0.2s; }
+.listItem:nth-child(3) { animation-delay: 0.3s; }
+.listItem:nth-child(4) { animation-delay: 0.4s; }
+.listItem:nth-child(5) { animation-delay: 0.5s; }
+
+/* Custom toggle switch */
+.toggleSwitch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background-color: #e5e7eb;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.toggleSwitch.active {
+  background-color: #3b82f6;
+}
+
+.toggleSwitch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggleSwitch.active::after {
+  transform: translateX(24px);
+}
+
+/* Dark mode toggle styles */
+.dark .toggleSwitch {
+  background-color: #374151;
+}
+
+.dark .toggleSwitch.active {
+  background-color: #60a5fa;
+}
+
+/* Enhanced table cell animations */
+.tableCell {
+  transition: all 0.2s ease;
+}
+
+.tableCell:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.dark .tableCell:hover {
+  background-color: rgba(96, 165, 250, 0.1);
+}
+
+/* Loading state for buttons */
+.buttonLoading {
+  position: relative;
+  pointer-events: none;
+}
+
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  margin-left: -8px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Custom error state styling */
+.errorState {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2;
+}
+
+.dark .errorState {
+  background-color: #450a0a;
+  border-color: #dc2626 !important;
+}
+
+/* Success state styling */
+.successState {
+  border-color: #10b981 !important;
+  background-color: #f0fdf4;
+}
+
+.dark .successState {
+  background-color: #052e16;
+  border-color: #059669 !important;
+}
+
+/* Custom badge styles */
+.badgeGlow {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.dark .badgeGlow {
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
+
+/* Responsive padding */
+.responsivePadding {
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .responsivePadding {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsivePadding {
+    padding: 2rem;
+  }
+}
+
+/* Enhanced focus visible */
+.focusVisible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Custom divider */
+.customDivider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+  margin: 1rem 0;
+}
+
+.dark .customDivider {
+  background: linear-gradient(90deg, transparent, #475569, transparent);
+}
