@@ -1,0 +1,194 @@
+.modalLarge {
+  width: 100%;
+  max-width: 800px;
+  z-index: var(--z-modal);
+}
+
+@media (max-width: 768px) {
+  .modalLarge {
+    max-width: 95vw;
+    margin: 1rem;
+  }
+}
+
+/* Custom scrollbar for modals */
+.modalLarge {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.modalLarge::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modalLarge::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.modalLarge::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.modalLarge::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+.dark .modalLarge {
+  scrollbar-color: #475569 #334155;
+}
+
+.dark .modalLarge::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark .modalLarge::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .modalLarge::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Animation for status badges */
+.badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Table row hover effects */
+.table tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.dark .table tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Chart animations */
+.recharts-wrapper {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state for AI processing */
+.ai-processing {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-processing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.2),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Button loading state */
+.btn:disabled {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn:disabled::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced focus states */
+.input:focus,
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .table-container {
+    font-size: 0.875rem;
+  }
+  
+  .table-cell {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .modal-content {
+    margin: 0.5rem;
+    max-height: 95vh;
+  }
+}
+
+/* Print optimizations */
+@media print {
+  .no-print,
+  .btn,
+  .modal-backdrop {
+    display: none !important;
+  }
+  
+  .table {
+    font-size: 12px;
+  }
+  
+  .card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
