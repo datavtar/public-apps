@@ -1,0 +1,93 @@
+/* Custom styles for specific components not covered by Tailwind utilities */
+
+/* Smooth scrolling for chat container */
+.chatContainer {
+  scroll-behavior: smooth;
+}
+
+/* Custom typing indicator animation */
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.typingIndicator div {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typingIndicator div:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typingIndicator div:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Custom fade-in animation for messages */
+.messageEnter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.messageEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+/* Custom button hover effects */
+.eligibilityButton {
+  transition: all 0.2s ease-in-out;
+}
+
+.eligibilityButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure proper text wrapping in chat messages */
+.chatMessage {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Custom scrollbar for chat container */
+.chatScrollArea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatScrollArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatScrollArea::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.chatScrollArea::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.7);
+}
+
+/* Dark mode scrollbar */
+.dark .chatScrollArea::-webkit-scrollbar-thumb {
+  background-color: rgba(71, 85, 105, 0.5);
+}
+
+.dark .chatScrollArea::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(71, 85, 105, 0.7);
+}
