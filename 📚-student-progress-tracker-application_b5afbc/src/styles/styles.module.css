@@ -1,0 +1,334 @@
+/* Custom styles for Student Progress Tracker */
+
+.attendanceForm {
+  /* Custom styles for attendance form if needed */
+}
+
+.attendanceTable {
+  /* Custom styles for attendance table if needed */
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.statusBadge.present {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.statusBadge.absent {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+.statusBadge.late {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* Dark mode styles */
+.dark .statusBadge.present {
+  background-color: #14532d;
+  color: #bbf7d0;
+}
+
+.dark .statusBadge.absent {
+  background-color: #7f1d1d;
+  color: #fecaca;
+}
+
+.dark .statusBadge.late {
+  background-color: #78350f;
+  color: #fde68a;
+}
+
+/* Responsive table scrolling */
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for modal transitions */
+.modalOverlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects for interactive elements */
+.cardHover {
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.cardHover:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Focus styles for better accessibility */
+.focusVisible:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for better UX */
+.customScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.customScrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+.dark .customScrollbar {
+  scrollbar-color: #475569 #1e293b;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Responsive text truncation */
+.truncateText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .truncateText {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .truncateText {
+    max-width: 100px;
+  }
+}
+
+/* Loading state styles */
+.loadingSpinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f4f6;
+  border-radius: 50%;
+  border-top-color: #4f46e5;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced form styling */
+.formSection {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fafafa;
+}
+
+.dark .formSection {
+  border-color: #374151;
+  background-color: #1f2937;
+}
+
+.formSectionTitle {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dark .formSectionTitle {
+  color: #d1d5db;
+}
+
+/* Custom checkbox and radio styles */
+.customCheckbox {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+.customCheckbox:checked {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+.customCheckbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Print styles */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+    page-break-inside: avoid;
+  }
+  
+  .tableWrapper {
+    overflow: visible !important;
+  }
+}
+
+/* Utility classes for spacing and layout */
+.spaceY4 > * + * {
+  margin-top: 1rem;
+}
+
+.spaceX2 > * + * {
+  margin-left: 0.5rem;
+}
+
+/* Enhanced button states */
+.btnLoading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btnLoading::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  max-width: 400px;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notificationSuccess {
+  background-color: #dcfce7;
+  border-left: 4px solid #16a34a;
+  color: #166534;
+}
+
+.notificationError {
+  background-color: #fecaca;
+  border-left: 4px solid #dc2626;
+  color: #991b1b;
+}
+
+.notificationWarning {
+  background-color: #fef3c7;
+  border-left: 4px solid #d97706;
+  color: #92400e;
+}
+
+.notificationInfo {
+  background-color: #dbeafe;
+  border-left: 4px solid #2563eb;
+  color: #1e40af;
+}
