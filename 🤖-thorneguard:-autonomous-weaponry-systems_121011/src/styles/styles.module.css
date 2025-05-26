@@ -1,0 +1,27 @@
+/* Custom styles for ThorneGuard app */
+
+/* No additional custom styles needed - all styling is handled by Tailwind CSS utilities */
+
+/* Focus states for better accessibility */
+.btn:focus {
+  outline: 2px solid theme('colors.yellow.400');
+  outline-offset: 2px;
+}
+
+/* Enhanced gradient animations */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
