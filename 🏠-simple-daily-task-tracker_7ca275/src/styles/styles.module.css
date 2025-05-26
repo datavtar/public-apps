@@ -1,0 +1,141 @@
+/* Custom styles for unique components not covered by Tailwind utilities */
+
+.taskItem {
+  transition: all 0.2s ease-in-out;
+}
+
+.taskItem:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .taskItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.completedTask {
+  opacity: 0.7;
+}
+
+.priorityBadge {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.modalOverlay {
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statsCard {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+}
+
+.dark .statsCard {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%);
+}
+
+.taskCheckbox {
+  transition: all 0.2s ease-in-out;
+}
+
+.taskCheckbox:hover {
+  transform: scale(1.1);
+}
+
+.tabButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.tabButton::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.tabButton.active::before {
+  transform: translateX(0);
+}
+
+.weeklyProgress {
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  transition: width 0.5s ease-in-out;
+}
+
+.taskActions {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.taskItem:hover .taskActions {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .taskActions {
+    opacity: 1;
+  }
+}
+
+.glowEffect {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.dark .glowEffect {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+.pulseAnimation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
