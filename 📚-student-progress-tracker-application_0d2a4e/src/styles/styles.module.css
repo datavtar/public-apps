@@ -1,0 +1,235 @@
+/* Report Styling */
+.printReport {
+  @apply text-black bg-white;
+  font-family: 'Times New Roman', serif;
+  line-height: 1.6;
+  max-width: 8.5in;
+  margin: 0 auto;
+  padding: 1in;
+}
+
+.reportContainer {
+  @apply max-w-4xl mx-auto p-6;
+}
+
+.reportHeader {
+  @apply text-center mb-8 pb-4 border-b-2 border-gray-300;
+}
+
+.reportHeader h1 {
+  @apply text-3xl font-bold text-gray-900 mb-2;
+}
+
+.reportDate {
+  @apply text-sm text-gray-600 mb-1;
+}
+
+.reportName {
+  @apply text-lg font-semibold text-gray-800 mb-1;
+}
+
+.reportDateRange {
+  @apply text-sm text-gray-600;
+}
+
+.reportSection {
+  @apply mb-8;
+}
+
+.reportSection h2 {
+  @apply text-xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2;
+}
+
+.reportTable {
+  @apply w-full border-collapse border border-gray-300 mb-4;
+}
+
+.reportTable th {
+  @apply bg-gray-100 border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900;
+}
+
+.reportTable td {
+  @apply border border-gray-300 px-4 py-2 text-gray-800;
+}
+
+.progressCard {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-lg;
+}
+
+.progressItem {
+  @apply text-center;
+}
+
+.progressItem h3 {
+  @apply text-lg font-medium text-gray-700 mb-2;
+}
+
+.progressValue {
+  @apply text-3xl font-bold;
+}
+
+.progressLabel {
+  @apply text-lg text-gray-500;
+}
+
+.attendanceSummary {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-gray-50 p-4 rounded-lg;
+}
+
+.attendanceLabel {
+  @apply font-medium text-gray-700;
+}
+
+.attendanceCount {
+  @apply text-xl font-bold text-gray-900 ml-2;
+}
+
+.emptyMessage {
+  @apply text-center text-gray-500 italic py-4;
+}
+
+/* Score Color Classes for Reports */
+.scoreA {
+  @apply text-green-700 font-bold;
+}
+
+.scoreB {
+  @apply text-blue-700 font-bold;
+}
+
+.scoreC {
+  @apply text-yellow-700 font-bold;
+}
+
+.scoreD {
+  @apply text-orange-700 font-bold;
+}
+
+.scoreF {
+  @apply text-red-700 font-bold;
+}
+
+/* Attendance Color Classes for Reports */
+.attendanceExcellent {
+  @apply text-green-700 font-bold;
+}
+
+.attendanceGood {
+  @apply text-blue-700 font-bold;
+}
+
+.attendanceAverage {
+  @apply text-yellow-700 font-bold;
+}
+
+.attendancePoor {
+  @apply text-orange-700 font-bold;
+}
+
+.attendanceCritical {
+  @apply text-red-700 font-bold;
+}
+
+/* Progress Color Classes for Reports */
+.progressExcellent {
+  @apply text-green-700 font-bold;
+}
+
+.progressGood {
+  @apply text-blue-700 font-bold;
+}
+
+.progressAverage {
+  @apply text-yellow-700 font-bold;
+}
+
+.progressPoor {
+  @apply text-orange-700 font-bold;
+}
+
+.progressCritical {
+  @apply text-red-700 font-bold;
+}
+
+/* Status Color Classes for Reports */
+.statusPresent {
+  @apply text-green-700 font-medium;
+}
+
+.statusAbsent {
+  @apply text-red-700 font-medium;
+}
+
+.statusLate {
+  @apply text-yellow-700 font-medium;
+}
+
+.statusExcused {
+  @apply text-blue-700 font-medium;
+}
+
+.statusCompleted {
+  @apply text-green-700 font-medium;
+}
+
+.statusInProgress {
+  @apply text-yellow-700 font-medium;
+}
+
+.statusNotStarted {
+  @apply text-red-700 font-medium;
+}
+
+/* Attendance Report Styling */
+.attendanceReportContainer {
+  @apply max-w-6xl mx-auto p-6;
+}
+
+.summaryGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.summaryCard {
+  @apply bg-white border border-gray-200 rounded-lg p-4 text-center;
+}
+
+.summaryCard h3 {
+  @apply text-sm font-medium text-gray-600 mb-2;
+}
+
+.summaryValue {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+/* Print-specific styles */
+@media print {
+  .printReport {
+    box-shadow: none !important;
+    padding: 0.5in !important;
+  }
+  
+  .reportHeader {
+    border-bottom: 2px solid #000 !important;
+  }
+  
+  .reportSection h2 {
+    border-bottom: 1px solid #000 !important;
+    page-break-after: avoid;
+  }
+  
+  .reportTable {
+    border: 1px solid #000 !important;
+  }
+  
+  .reportTable th,
+  .reportTable td {
+    border: 1px solid #000 !important;
+  }
+  
+  .progressCard,
+  .attendanceSummary,
+  .summaryGrid {
+    background: #f5f5f5 !important;
+    border: 1px solid #ccc !important;
+  }
+}
