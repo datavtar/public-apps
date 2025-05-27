@@ -1,0 +1,338 @@
+/* Custom styles for components not fully covered by Tailwind */
+
+/* Enhanced focus states for better accessibility */
+.customFocus:focus {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for dark mode */
+.darkScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+.darkScrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.darkScrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.darkScrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+}
+
+.darkScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Enhanced card hover effects */
+.cardHover {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cardHover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .cardHover:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth gradient backgrounds */
+.gradientBg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.dark .gradientBg {
+  background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%);
+}
+
+/* Custom checkbox styling */
+.customCheckbox {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.customCheckbox:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.customCheckbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.dark .customCheckbox {
+  border-color: #4b5563;
+}
+
+.dark .customCheckbox:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Enhanced table row hover effects */
+.tableRowHover {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.tableRowHover:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.dark .tableRowHover:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Custom input focus glow */
+.inputGlow:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dark .inputGlow:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Pulse animation for loading states */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulseAnimation {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom modal backdrop blur */
+.modalBackdropBlur {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Enhanced button press effect */
+.buttonPress:active {
+  transform: scale(0.98);
+}
+
+/* Custom tooltip styling */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: var(--z-tooltip);
+}
+
+.tooltip:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dark .tooltip::before {
+  background: #374151;
+}
+
+/* Custom progress bar */
+.progressBar {
+  height: 0.5rem;
+  background: #e5e7eb;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  transition: width 0.3s ease-in-out;
+}
+
+.dark .progressBar {
+  background: #374151;
+}
+
+/* Enhanced notification styles */
+.notification {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+/* Custom radio button styling */
+.customRadio {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.customRadio:checked {
+  border-color: #3b82f6;
+}
+
+.customRadio:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #3b82f6;
+  border-radius: 50%;
+}
+
+.dark .customRadio {
+  border-color: #4b5563;
+}
+
+.dark .customRadio:checked {
+  border-color: #3b82f6;
+}
+
+/* Custom select dropdown arrow */
+.customSelect {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.dark .customSelect {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+/* Enhanced card animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slideInUp {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Custom badge glow effect */
+.badgeGlow {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.dark .badgeGlow {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Enhanced modal entrance animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalFadeIn {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+/* Custom divider with gradient */
+.gradientDivider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+}
+
+.dark .gradientDivider {
+  background: linear-gradient(90deg, transparent, #374151, transparent);
+}
+
+/* Enhanced table cell padding for mobile */
+@media (max-width: 640px) {
+  .tableCellMobile {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* Custom scrollbar for light mode */
+.lightScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+}
+
+.lightScrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lightScrollbar::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+
+.lightScrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.lightScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
