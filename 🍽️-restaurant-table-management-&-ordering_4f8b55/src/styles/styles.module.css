@@ -1,0 +1,295 @@
+/* Custom styles for unique components not covered in Tailwind */
+
+/* Restaurant Layout Specific Styles */
+.layout-container {
+  position: relative;
+  min-height: 400px;
+  background: linear-gradient(45deg, #f9fafb 25%, transparent 25%),
+              linear-gradient(-45deg, #f9fafb 25%, transparent 25%),
+              linear-gradient(45deg, transparent 75%, #f9fafb 75%),
+              linear-gradient(-45deg, transparent 75%, #f9fafb 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Table Animation Effects */
+.table-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.table-hover:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Drag and Drop Feedback */
+.table-dragging {
+  opacity: 0.8;
+  transform: rotate(5deg);
+  z-index: 1000;
+}
+
+.drop-zone-active {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-color: rgb(59, 130, 246);
+}
+
+/* Menu Item Card Enhancements */
+.menu-card {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.menu-card:hover .menu-image {
+  transform: scale(1.05);
+}
+
+.menu-image {
+  transition: transform 0.3s ease;
+}
+
+/* Cart Animation */
+.cart-item-enter {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.cart-item-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+.cart-item-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cart-item-exit-active {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.3s ease;
+}
+
+/* Status Indicator Pulse */
+.status-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #f97316;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Smooth Scroll */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Notification Toast */
+.toast {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  z-index: 1070;
+  transform: translateX(400px);
+  transition: transform 0.3s ease;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+/* Mobile Responsive Enhancements */
+@media (max-width: 640px) {
+  .layout-container {
+    min-height: 300px;
+    padding: 1rem;
+  }
+  
+  .table-hover {
+    transform: none;
+  }
+  
+  .table-hover:hover {
+    transform: scale(1.02);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-before: always;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .table-hover:hover {
+    box-shadow: 0 0 0 2px #000;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .table-hover,
+  .menu-image,
+  .cart-item-enter-active,
+  .cart-item-exit-active {
+    transition: none;
+  }
+  
+  .status-pulse {
+    animation: none;
+  }
+}
+
+/* Focus Indicators for Accessibility */
+.focus-ring:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Error State Styling */
+.error-state {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.error-text {
+  color: #dc2626;
+}
+
+/* Success State Styling */
+.success-state {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.success-text {
+  color: #059669;
+}
+
+/* Glass Morphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(90deg, #f97316, #ea580c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Interactive Elements */
+.interactive-scale {
+  transition: transform 0.2s ease;
+}
+
+.interactive-scale:active {
+  transform: scale(0.95);
+}
+
+/* Card Shadows */
+.card-shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card-shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.card-shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Utility Classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Dark Mode Specific Enhancements */
+@media (prefers-color-scheme: dark) {
+  .layout-container {
+    background: linear-gradient(45deg, #1e293b 25%, transparent 25%),
+                linear-gradient(-45deg, #1e293b 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #1e293b 75%),
+                linear-gradient(-45deg, transparent 75%, #1e293b 75%);
+  }
+  
+  .glass {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #1e293b;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
