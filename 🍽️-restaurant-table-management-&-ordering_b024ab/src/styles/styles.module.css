@@ -1,0 +1,125 @@
+/* Custom module styles for specific components not covered by Tailwind */
+
+/* Seat Editor Modal Animations */
+.seatEditorModal {
+  animation: fadeInScale 0.2s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Table hover effects for better UX */
+.tableHover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tableHover:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Portal selection enhanced styling */
+.portalCard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 1) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.portalCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Seat input number styling */
+.seatInput {
+  text-align: center;
+  font-weight: 600;
+}
+
+.seatInput::-webkit-outer-spin-button,
+.seatInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.seatInput[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Demo code highlight */
+.demoCodeHighlight {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-left: 4px solid #f59e0b;
+}
+
+/* Table editing mode indicators */
+.editingIndicator {
+  position: relative;
+}
+
+.editingIndicator::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px dashed #3b82f6;
+  border-radius: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
+/* Enhanced visual contrast for portal text */
+.portalTitle {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.portalDescription {
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Loading state improvements */
+.loadingContainer {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+/* Responsive improvements for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .tableHover:hover {
+    filter: none;
+    box-shadow: none;
+  }
+  
+  .portalCard:hover {
+    transform: none;
+  }
+}
+
+/* Accessibility improvements */
+.focusVisible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .portalCard {
+    background: white !important;
+    border: 1px solid #000 !important;
+  }
+}
