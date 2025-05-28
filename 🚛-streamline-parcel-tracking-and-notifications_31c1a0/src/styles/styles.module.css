@@ -1,0 +1,309 @@
+/* Custom styles for ParcelTracker Pro */
+
+/* Animation for status badges */
+.statusBadge {
+  transition: all 0.2s ease-in-out;
+}
+
+.statusBadge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tracking timeline styles */
+.timelineItem {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timelineItem:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 2rem;
+  bottom: -1rem;
+  width: 2px;
+  background: linear-gradient(to bottom, #e5e7eb, #f3f4f6);
+}
+
+.timelineItem::after {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #3b82f6;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #e5e7eb;
+}
+
+.timelineItem.delivered::after {
+  background: #10b981;
+  box-shadow: 0 0 0 2px #d1fae5;
+}
+
+.timelineItem.delayed::after {
+  background: #ef4444;
+  box-shadow: 0 0 0 2px #fee2e2;
+}
+
+/* Dark mode timeline */
+.dark .timelineItem:not(:last-child)::before {
+  background: linear-gradient(to bottom, #4b5563, #374151);
+}
+
+.dark .timelineItem::after {
+  border-color: #1f2937;
+  box-shadow: 0 0 0 2px #374151;
+}
+
+.dark .timelineItem.delivered::after {
+  box-shadow: 0 0 0 2px #065f46;
+}
+
+.dark .timelineItem.delayed::after {
+  box-shadow: 0 0 0 2px #7f1d1d;
+}
+
+/* Notification pulse animation */
+.notificationPulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Enhanced table hover effects */
+.tableRow {
+  transition: all 0.2s ease-in-out;
+}
+
+.tableRow:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dark .tableRow:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading skeleton animations */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Priority indicator styles */
+.priorityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.priorityDot.low {
+  background-color: #6b7280;
+}
+
+.priorityDot.medium {
+  background-color: #f59e0b;
+}
+
+.priorityDot.high {
+  background-color: #ef4444;
+}
+
+/* Custom scrollbar for modal content */
+.modalScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.modalScrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modalScrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.modalScrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.modalScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .modalScrollbar {
+  scrollbar-color: #475569 #334155;
+}
+
+.dark .modalScrollbar::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark .modalScrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .modalScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Enhanced focus states */
+.focusRing {
+  transition: all 0.2s ease-in-out;
+}
+
+.focusRing:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.dark .focusRing:focus-visible {
+  outline-color: #60a5fa;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1);
+}
+
+/* Status indicator animations */
+.statusIndicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.statusIndicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.statusIndicator:hover::before {
+  left: 100%;
+}
+
+/* Responsive table improvements */
+@media (max-width: 768px) {
+  .responsiveTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .responsiveTable thead {
+    display: none;
+  }
+  
+  .responsiveTable tbody {
+    display: block;
+  }
+  
+  .responsiveTable tr {
+    display: block;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  .responsiveTable td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border: none;
+  }
+  
+  .responsiveTable td::before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: #374151;
+    min-width: 120px;
+  }
+  
+  .dark .responsiveTable tr {
+    border-color: #4b5563;
+  }
+  
+  .dark .responsiveTable td::before {
+    color: #d1d5db;
+  }
+}
+
+/* Print styles */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .card {
+    page-break-inside: avoid;
+  }
+  
+  .statusBadge {
+    border: 1px solid #000 !important;
+    background: transparent !important;
+    color: #000 !important;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid;
+  }
+  
+  .btn {
+    border: 2px solid;
+  }
+  
+  .statusBadge {
+    border: 2px solid;
+    font-weight: bold;
+  }
+}
