@@ -1,0 +1,284 @@
+/* High Contrast Mode Styles */
+.high-contrast {
+  /* Override default colors with high contrast variants */
+}
+
+/* Enhanced focus styles for high contrast mode */
+.high-contrast button:focus,
+.high-contrast input:focus,
+.high-contrast select:focus,
+.high-contrast textarea:focus {
+  outline: 3px solid #0066cc !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px #0066cc !important;
+}
+
+/* High contrast button styles */
+.high-contrast .btn-primary {
+  background-color: #0066cc !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+}
+
+.high-contrast .btn-primary:hover {
+  background-color: #0052a3 !important;
+  border-color: #000000 !important;
+}
+
+/* High contrast link styles */
+.high-contrast a {
+  color: #0066cc !important;
+  text-decoration: underline !important;
+}
+
+.high-contrast a:hover {
+  color: #0052a3 !important;
+  text-decoration: none !important;
+}
+
+/* High contrast table styles */
+.high-contrast table {
+  border: 2px solid #000000 !important;
+}
+
+.high-contrast th,
+.high-contrast td {
+  border: 1px solid #000000 !important;
+}
+
+/* High contrast modal styles */
+.high-contrast .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Enhanced text readability */
+.high-contrast .text-muted {
+  color: #000000 !important;
+}
+
+.high-contrast .text-secondary {
+  color: #333333 !important;
+}
+
+/* High contrast icon styles */
+.high-contrast .lucide {
+  stroke-width: 2.5 !important;
+}
+
+/* Animation overrides for high contrast */
+.high-contrast * {
+  animation-duration: 0.1s !important;
+  transition-duration: 0.1s !important;
+}
+
+/* Ensure minimum contrast ratios */
+.high-contrast .bg-gray-50 {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.high-contrast .bg-gray-100 {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+}
+
+.high-contrast .text-gray-500 {
+  color: #000000 !important;
+}
+
+.high-contrast .text-gray-600 {
+  color: #000000 !important;
+}
+
+.high-contrast .text-gray-700 {
+  color: #000000 !important;
+}
+
+/* High contrast dropdown styles */
+.high-contrast .dropdown-menu {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+.high-contrast .dropdown-item {
+  color: #000000 !important;
+  border-bottom: 1px solid #000000 !important;
+}
+
+.high-contrast .dropdown-item:hover {
+  background-color: #e0e0e0 !important;
+  color: #000000 !important;
+}
+
+/* Theme settings dropdown specific styles */
+.theme-settings-dropdown {
+  position: relative;
+}
+
+/* Ensure proper z-index for theme settings */
+.theme-settings-dropdown > div[role="menu"] {
+  z-index: 9999;
+}
+
+/* High contrast toggle switch styles */
+.high-contrast .toggle-switch {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+}
+
+.high-contrast .toggle-switch:checked {
+  background-color: #000000 !important;
+}
+
+.high-contrast .toggle-thumb {
+  background-color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+.high-contrast .toggle-switch:checked .toggle-thumb {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Accessibility improvements */
+.high-contrast *:focus-visible {
+  outline: 3px solid #0066cc !important;
+  outline-offset: 2px !important;
+}
+
+/* Print styles for high contrast */
+@media print {
+  .high-contrast * {
+    background-color: white !important;
+    color: black !important;
+    border-color: black !important;
+  }
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Smooth transitions for theme changes */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Override transitions in high contrast mode for better performance */
+.high-contrast .theme-transition {
+  transition: none !important;
+}
+
+/* Custom scrollbar for high contrast */
+.high-contrast ::-webkit-scrollbar {
+  width: 12px;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+}
+
+.high-contrast ::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border: 1px solid #ffffff;
+}
+
+.high-contrast ::-webkit-scrollbar-thumb:hover {
+  background-color: #333333;
+}
+
+/* High contrast form validation styles */
+.high-contrast .form-control:invalid {
+  border-color: #cc0000 !important;
+  box-shadow: 0 0 0 2px #cc0000 !important;
+}
+
+.high-contrast .form-control:valid {
+  border-color: #00cc00 !important;
+  box-shadow: 0 0 0 2px #00cc00 !important;
+}
+
+/* High contrast loading states */
+.high-contrast .loading {
+  background-color: #f0f0f0 !important;
+  animation: high-contrast-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes high-contrast-pulse {
+  from {
+    background-color: #f0f0f0;
+  }
+  to {
+    background-color: #e0e0e0;
+  }
+}
+
+/* High contrast disabled states */
+.high-contrast button:disabled,
+.high-contrast input:disabled,
+.high-contrast select:disabled,
+.high-contrast textarea:disabled {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  border-color: #999999 !important;
+  cursor: not-allowed !important;
+}
+
+/* High contrast selected states */
+.high-contrast .selected,
+.high-contrast .active {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* High contrast error states */
+.high-contrast .error {
+  background-color: #ffcccc !important;
+  color: #cc0000 !important;
+  border: 2px solid #cc0000 !important;
+}
+
+/* High contrast success states */
+.high-contrast .success {
+  background-color: #ccffcc !important;
+  color: #00cc00 !important;
+  border: 2px solid #00cc00 !important;
+}
+
+/* High contrast warning states */
+.high-contrast .warning {
+  background-color: #ffffcc !important;
+  color: #cc9900 !important;
+  border: 2px solid #cc9900 !important;
+}
+
+/* Ensure proper contrast for tooltips */
+.high-contrast .tooltip {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* High contrast breadcrumb styles */
+.high-contrast .breadcrumb {
+  background-color: #f0f0f0 !important;
+  border: 1px solid #000000 !important;
+}
+
+.high-contrast .breadcrumb-item {
+  color: #000000 !important;
+}
+
+.high-contrast .breadcrumb-item.active {
+  color: #666666 !important;
+  font-weight: bold !important;
+}
