@@ -1,0 +1,491 @@
+/* Vibrant Icon Styles for ACME Parcel Tracker */
+
+/* Rainbow border animation */
+.border-rainbow {
+  border-image: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) 1;
+  animation: rainbow-border 3s linear infinite;
+}
+
+@keyframes rainbow-border {
+  0% { border-image-source: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
+  25% { border-image-source: linear-gradient(45deg, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000); }
+  50% { border-image-source: linear-gradient(45deg, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000, #ff7f00); }
+  75% { border-image-source: linear-gradient(45deg, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000, #ff7f00, #ffff00); }
+  100% { border-image-source: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
+}
+
+/* Vibrant icon container animations */
+.vibrant-icon-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vibrant-icon-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  border-radius: inherit;
+  z-index: -1;
+  animation: rainbow-rotate 2s linear infinite;
+}
+
+@keyframes rainbow-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pulsing vibrant effects */
+.vibrant-pulse {
+  animation: vibrant-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes vibrant-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Colorful gradient text */
+.gradient-text {
+  background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Floating animation for playful elements */
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Colorful shadow effects */
+.colorful-shadow {
+  box-shadow: 
+    0 0 20px rgba(255, 0, 255, 0.3),
+    0 0 40px rgba(0, 255, 255, 0.2),
+    0 0 60px rgba(255, 255, 0, 0.1);
+}
+
+/* Vibrant glow effect */
+.vibrant-glow {
+  position: relative;
+}
+
+.vibrant-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  filter: blur(20px);
+  opacity: 0.7;
+  z-index: -1;
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Sparkle effect for icons */
+.sparkle-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkle-effect::before {
+  content: '✨';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 12px;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+/* Confetti background animation */
+.confetti-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.confetti-bg::before {
+  content: '🎉🎊✨🌟💫⭐🎨🌈';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
+  font-size: 20px;
+  opacity: 0.1;
+  animation: confetti-fall 10s linear infinite;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+/* Playful button hover effects */
+.playful-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.playful-button:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.playful-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.playful-button:hover::before {
+  left: 100%;
+}
+
+/* Vibrant status indicators */
+.status-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  overflow: hidden;
+}
+
+.status-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.status-indicator:hover::before {
+  transform: translateX(100%);
+}
+
+/* Bouncing animation for important elements */
+.bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(-50px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(0);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Rainbow text animation */
+.rainbow-text {
+  background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow-animation 3s ease infinite;
+}
+
+@keyframes rainbow-animation {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Vibrant card hover effects */
+.vibrant-card {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.vibrant-card:hover {
+  transform: translateY(-5px) rotate(1deg);
+  box-shadow: 
+    0 10px 30px rgba(255, 0, 255, 0.2),
+    0 20px 60px rgba(0, 255, 255, 0.15),
+    0 30px 90px rgba(255, 255, 0, 0.1);
+}
+
+/* Emoji rain effect for celebrations */
+.emoji-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.emoji-rain::before {
+  content: '🎉 🎊 ✨ 🌟 💫 ⭐ 🎨 🌈 🦄 🍭 🎪 🎭 🎨 🎯 🎲 🎸 🎺 🎻 🥳 🤩 😍 🥰 😊 😄 😃 😀 🙂 😉 😊';
+  position: absolute;
+  top: -50px;
+  left: 0;
+  right: 0;
+  font-size: 24px;
+  animation: emoji-fall 8s linear infinite;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+@keyframes emoji-fall {
+  0% {
+    transform: translateY(-100px) translateX(0px);
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px);
+  }
+}
+
+/* Neon glow text effect */
+.neon-text {
+  color: #fff;
+  text-shadow:
+    0 0 5px #ff0080,
+    0 0 10px #ff0080,
+    0 0 15px #ff0080,
+    0 0 20px #ff0080,
+    0 0 35px #ff0080,
+    0 0 40px #ff0080;
+  animation: neon-flicker 2s infinite alternate;
+}
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 5px #ff0080,
+      0 0 10px #ff0080,
+      0 0 15px #ff0080,
+      0 0 20px #ff0080,
+      0 0 35px #ff0080,
+      0 0 40px #ff0080;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+/* Colorful loading spinner */
+.colorful-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid transparent;
+  border-top: 4px solid #ff0000;
+  border-right: 4px solid #ff7f00;
+  border-bottom: 4px solid #ffff00;
+  border-left: 4px solid #00ff00;
+  border-radius: 50%;
+  animation: colorful-spin 1s linear infinite;
+}
+
+@keyframes colorful-spin {
+  0% {
+    transform: rotate(0deg);
+    border-top-color: #ff0000;
+    border-right-color: #ff7f00;
+    border-bottom-color: #ffff00;
+    border-left-color: #00ff00;
+  }
+  25% {
+    border-top-color: #ff7f00;
+    border-right-color: #ffff00;
+    border-bottom-color: #00ff00;
+    border-left-color: #0000ff;
+  }
+  50% {
+    border-top-color: #ffff00;
+    border-right-color: #00ff00;
+    border-bottom-color: #0000ff;
+    border-left-color: #4b0082;
+  }
+  75% {
+    border-top-color: #00ff00;
+    border-right-color: #0000ff;
+    border-bottom-color: #4b0082;
+    border-left-color: #9400d3;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-top-color: #ff0000;
+    border-right-color: #ff7f00;
+    border-bottom-color: #ffff00;
+    border-left-color: #00ff00;
+  }
+}
+
+/* Party mode background */
+.party-mode {
+  background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  background-size: 400% 400%;
+  animation: party-gradient 3s ease infinite;
+}
+
+@keyframes party-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Accessibility improvements for high contrast mode */
+.high-contrast .vibrant-pulse,
+.high-contrast .float-animation,
+.high-contrast .sparkle-effect::before,
+.high-contrast .confetti-bg::before,
+.high-contrast .emoji-rain::before {
+  animation: none;
+}
+
+.high-contrast .colorful-shadow,
+.high-contrast .vibrant-glow::after {
+  display: none;
+}
+
+.high-contrast .rainbow-text,
+.high-contrast .neon-text {
+  background: none;
+  -webkit-text-fill-color: inherit;
+  text-shadow: none;
+  color: inherit;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .confetti-bg::before,
+  .emoji-rain::before {
+    font-size: 16px;
+  }
+  
+  .vibrant-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .playful-button:hover {
+    transform: translateY(-1px) scale(1.02);
+  }
+}
+
+/* Print styles - remove animations and vibrant colors for printing */
+@media print {
+  .vibrant-pulse,
+  .float-animation,
+  .sparkle-effect::before,
+  .confetti-bg::before,
+  .emoji-rain::before,
+  .colorful-spinner,
+  .party-mode {
+    animation: none;
+  }
+  
+  .colorful-shadow,
+  .vibrant-glow::after {
+    display: none;
+  }
+  
+  .rainbow-text,
+  .neon-text {
+    background: none;
+    -webkit-text-fill-color: black;
+    text-shadow: none;
+    color: black;
+  }
+  
+  .border-rainbow {
+    border: 1px solid black;
+  }
+}
