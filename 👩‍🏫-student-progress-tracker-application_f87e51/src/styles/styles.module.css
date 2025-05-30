@@ -1,0 +1,418 @@
+/* Custom styles for unique components not covered in global CSS */
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Card hover effects */
+.studentCard {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studentCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Grade badge animations */
+.gradeBadge {
+  transition: all 0.2s ease-in-out;
+}
+
+.gradeBadge:hover {
+  transform: scale(1.05);
+}
+
+/* Progress bar animations */
+.progressBar {
+  background: linear-gradient(90deg, #e5e7eb, #e5e7eb);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: progressAnimation 0.8s ease-out;
+}
+
+@keyframes progressAnimation {
+  from {
+    width: 0;
+  }
+}
+
+/* Attendance status indicators */
+.attendanceIndicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.attendanceIndicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.attendanceIndicator:hover::before {
+  left: 100%;
+}
+
+/* Chart container enhancements */
+.chartContainer {
+  position: relative;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05));
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+.chartContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
+  border-radius: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.chartContainer:hover::before {
+  opacity: 1;
+}
+
+/* Stat card enhancements */
+.statCard {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #10b981, #f59e0b, #ef4444);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.statCard:hover::before {
+  transform: translateX(0);
+}
+
+.statCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode stat cards */
+.dark .statCard {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-color: rgba(71, 85, 105, 0.8);
+}
+
+/* Loading skeleton enhancements */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeletonLoading 1.5s infinite;
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #475569 25%, #64748b 50%, #475569 75%);
+  background-size: 200% 100%;
+}
+
+/* Modal enhancements */
+.modalContent {
+  animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Table row hover effects */
+.tableRow {
+  transition: all 0.2s ease-in-out;
+}
+
+.tableRow:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+  transform: scale(1.005);
+}
+
+.dark .tableRow:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Button ripple effect */
+.rippleButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.rippleButton::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.rippleButton:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Search input enhancements */
+.searchInput {
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  transform: scale(1.02);
+}
+
+/* Grade distribution chart custom colors */
+.gradeA {
+  fill: #10b981;
+}
+
+.gradeB {
+  fill: #3b82f6;
+}
+
+.gradeC {
+  fill: #f59e0b;
+}
+
+.gradeD {
+  fill: #ef4444;
+}
+
+.gradeF {
+  fill: #7c2d12;
+}
+
+/* Navigation active state */
+.navActive {
+  position: relative;
+}
+
+.navActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #3b82f6;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Attendance button states */
+.attendanceButton {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.attendanceButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.attendanceButton.active {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 0 0 4px currentColor;
+}
+
+/* Responsive grid animations */
+.gridItem {
+  animation: gridItemSlideIn 0.3s ease-out;
+}
+
+.gridItem:nth-child(1) { animation-delay: 0.1s; }
+.gridItem:nth-child(2) { animation-delay: 0.2s; }
+.gridItem:nth-child(3) { animation-delay: 0.3s; }
+.gridItem:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes gridItemSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error state animations */
+.errorAlert {
+  animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Success state animations */
+.successAlert {
+  animation: successPulse 0.6s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Print styles */
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  
+  .printOnly {
+    display: block !important;
+  }
+  
+  .chartContainer {
+    break-inside: avoid;
+  }
+  
+  .statCard {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .statCard {
+    border-width: 2px;
+  }
+  
+  .gradeBadge {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .progressFill {
+    transition: none;
+  }
+}
+
+/* Focus visible improvements */
+.focusVisible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Custom scrollbar */
+.customScrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb {
+  background: #64748b;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
