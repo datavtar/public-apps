@@ -1,0 +1,56 @@
+/* styles.module.css */
+
+/* Custom styles for Todo app, if any, that cannot be achieved with Tailwind alone */
+
+/* Example: Custom scrollbar for todo list if it becomes scrollable */
+/* 
+.todoListContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.todoListContainer::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.todoListContainer::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: var(--radius-md);
+}
+
+.dark .todoListContainer::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.todoListContainer::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.dark .todoListContainer::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+*/
+
+/* Ensure focus rings are visible in dark mode for custom styled elements if needed */
+.dark .todoItem button:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+.todoItem button:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+/* Add a subtle transition for todo items for visual appeal */
+.todoItem {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.todoItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Ensure global styles from index.css are not accidentally overridden for common elements
+   but allow specific component styling here. Avoid :global nesting issues. */
