@@ -1,0 +1,329 @@
+/* Custom animations for the shipment tracking app */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Custom status indicator animations */
+.statusPulse {
+  animation: pulse 2s infinite;
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.slideInRight {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Custom hover effects for interactive elements */
+.hoverLift {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.hoverLift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom scrollbar for better UX */
+.customScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E0 #F7FAFC;
+}
+
+.customScrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #F7FAFC;
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E0;
+  border-radius: 3px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #A0AEC0;
+}
+
+/* Dark mode scrollbar */
+.dark .customScrollbar {
+  scrollbar-color: #4A5568 #2D3748;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-track {
+  background: #2D3748;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb {
+  background: #4A5568;
+}
+
+.dark .customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+/* Enhanced table row hover effect */
+.tableRowHover {
+  transition: all 0.2s ease-in-out;
+}
+
+.tableRowHover:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+  transform: scale(1.001);
+}
+
+.dark .tableRowHover:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Custom loading spinner */
+.customSpinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3B82F6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status badge glow effect */
+.statusGlow {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.statusGlow:hover {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+/* Modal entrance animation */
+.modalEnter {
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Chart container styling */
+.chartContainer {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.chartContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dark .chartContainer {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Success animation for form submissions */
+.successPulse {
+  animation: successPulse 0.6s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Enhanced button animations */
+.buttonHover {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.buttonHover:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.buttonHover:hover:before {
+  left: 100%;
+}
+
+/* Card entrance stagger animation */
+.cardStagger:nth-child(1) { animation-delay: 0.1s; }
+.cardStagger:nth-child(2) { animation-delay: 0.2s; }
+.cardStagger:nth-child(3) { animation-delay: 0.3s; }
+.cardStagger:nth-child(4) { animation-delay: 0.4s; }
+.cardStagger:nth-child(5) { animation-delay: 0.5s; }
+
+/* Enhanced focus styles for accessibility */
+.enhancedFocus:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  border-color: #3B82F6;
+}
+
+/* Responsive text scaling */
+@media (max-width: 640px) {
+  .responsiveText {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .responsiveText {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .responsiveText {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+/* Custom tooltip styling */
+.customTooltip {
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.dark .customTooltip {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1F2937;
+}
+
+/* Loading state overlay */
+.loadingOverlay {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.dark .loadingOverlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Error shake animation */
+.errorShake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Gradient text effect */
+.gradientText {
+  background: linear-gradient(45deg, #3B82F6, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom range slider styling */
+.customRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #E5E7EB;
+  outline: none;
+  transition: background 0.3s;
+}
+
+.customRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #3B82F6;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.customRange::-webkit-slider-thumb:hover {
+  background: #2563EB;
+  transform: scale(1.1);
+}
+
+.dark .customRange {
+  background: #4B5563;
+}
+
+.dark .customRange::-webkit-slider-thumb {
+  background: #60A5FA;
+}
+
+.dark .customRange::-webkit-slider-thumb:hover {
+  background: #3B82F6;
+}
