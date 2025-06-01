@@ -1,0 +1,280 @@
+/* Custom styles for unique components not covered by Tailwind */
+
+/* Audio visualization enhancements */
+.audioVisualizer {
+  background: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.3) 0%, 
+    rgba(147, 51, 234, 0.3) 50%, 
+    rgba(239, 68, 68, 0.3) 100%);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.audioBar {
+  background: linear-gradient(to top, 
+    rgba(59, 130, 246, 0.8), 
+    rgba(147, 51, 234, 0.8));
+  transition: height 0.1s ease-out;
+  min-height: 2px;
+}
+
+/* Recording button pulse animation */
+.recordingPulse {
+  animation: recordingPulse 2s infinite;
+}
+
+@keyframes recordingPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+/* Connection status indicator */
+.connectionIndicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.connectionIndicator::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: connectionBlink 2s infinite;
+}
+
+.connectionIndicator.connected::before {
+  background-color: #10b981;
+}
+
+.connectionIndicator.connecting::before {
+  background-color: #f59e0b;
+}
+
+.connectionIndicator.disconnected::before {
+  background-color: #ef4444;
+}
+
+@keyframes connectionBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+/* Progress bar with gradient */
+.progressBar {
+  background: linear-gradient(90deg, 
+    #10b981 0%, 
+    #f59e0b 70%, 
+    #ef4444 100%);
+  border-radius: 0.25rem;
+  transition: width 0.3s ease-out;
+}
+
+/* Modal backdrop with blur effect */
+.modalBackdrop {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Conversation bubble animations */
+.messageEnter {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Audio level meter */
+.audioMeter {
+  background: linear-gradient(90deg, 
+    #10b981 0%, 
+    #10b981 60%, 
+    #f59e0b 80%, 
+    #ef4444 100%);
+  border-radius: 0.25rem;
+  transition: width 0.1s ease-out;
+}
+
+/* Warning pulse animation */
+.warningPulse {
+  animation: warningPulse 1s infinite;
+}
+
+@keyframes warningPulse {
+  0%, 100% {
+    background-color: rgba(251, 191, 36, 0.1);
+  }
+  50% {
+    background-color: rgba(251, 191, 36, 0.3);
+  }
+}
+
+/* Session timer with warning state */
+.sessionTimer {
+  transition: all 0.3s ease;
+}
+
+.sessionTimer.warning {
+  background-color: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  animation: warningPulse 2s infinite;
+}
+
+/* Smooth state transitions */
+.stateTransition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Recording time display with color coding */
+.recordingTime {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.recordingTime.warning {
+  color: #f59e0b;
+  animation: timeWarning 1s infinite;
+}
+
+.recordingTime.danger {
+  color: #ef4444;
+  animation: timeDanger 0.5s infinite;
+}
+
+@keyframes timeWarning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes timeDanger {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Enhanced focus states for accessibility */
+.focusEnhanced:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* Microphone button enhanced states */
+.micButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.micButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.micButton:hover::before {
+  transform: translateX(100%);
+}
+
+/* Loading spinner for processing state */
+.processingSpinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error shake animation */
+.errorShake {
+  animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Success checkmark animation */
+.successCheck {
+  animation: successScale 0.3s ease-out;
+}
+
+@keyframes successScale {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive text scaling */
+@media (max-width: 640px) {
+  .responsiveText {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsiveText {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsiveText {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
