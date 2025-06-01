@@ -1,0 +1,311 @@
+/* WebSocket Connection Indicator Animations */
+.connectionPulse {
+  animation: connectionPulse 2s infinite;
+}
+
+@keyframes connectionPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Recording Button Enhanced Animations */
+.recordingButton {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.recordingButton:hover {
+  transform: scale(1.05);
+}
+
+.recordingButton.recording {
+  animation: recordingPulse 1.5s infinite;
+  transform: scale(1.1);
+}
+
+@keyframes recordingPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+}
+
+/* Audio Level Visualizer */
+.audioLevelBar {
+  transition: width 0.1s ease-out;
+  background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+}
+
+/* Session Timer Warning */
+.sessionWarning {
+  animation: sessionBlink 1s infinite alternate;
+}
+
+@keyframes sessionBlink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+/* WebSocket Status Indicators */
+.statusConnected {
+  color: #10b981;
+  animation: statusConnected 2s infinite;
+}
+
+.statusConnecting {
+  color: #f59e0b;
+  animation: statusConnecting 1s infinite;
+}
+
+.statusDisconnected {
+  color: #ef4444;
+}
+
+@keyframes statusConnected {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes statusConnecting {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Modal Enhanced Animations */
+.modalBackdrop {
+  animation: modalBackdropFadeIn 0.3s ease-out;
+}
+
+.modalContent {
+  animation: modalContentSlideIn 0.3s ease-out;
+}
+
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalContentSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Conversation Message Animations */
+.messageSlideIn {
+  animation: messageSlideIn 0.4s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Audio Processing Animation */
+.processingSpinner {
+  animation: processingSpinner 2s linear infinite;
+}
+
+@keyframes processingSpinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced Button Hover Effects */
+.buttonHover {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.buttonHover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.buttonHover:hover::before {
+  left: 100%;
+}
+
+/* Real-time Audio Waveform Effect */
+.audioWaveform {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 20px;
+}
+
+.audioWaveform .bar {
+  width: 3px;
+  background: #ef4444;
+  border-radius: 2px;
+  animation: audioWave 0.8s infinite ease-in-out;
+}
+
+.audioWaveform .bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.audioWaveform .bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.audioWaveform .bar:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.audioWaveform .bar:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes audioWave {
+  0%, 40%, 100% {
+    height: 4px;
+  }
+  20% {
+    height: 16px;
+  }
+}
+
+/* Dark Mode Smooth Transitions */
+.darkModeTransition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Responsive Improvements */
+@media (max-width: 640px) {
+  .recordingButton {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .modalContent {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+  
+  .conversationMessage {
+    padding: 0.75rem;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .recordingButton,
+  .connectionPulse,
+  .sessionWarning,
+  .statusConnected,
+  .statusConnecting,
+  .processingSpinner,
+  .audioWaveform .bar {
+    animation: none;
+  }
+  
+  .buttonHover::before {
+    display: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .recordingButton {
+    border: 2px solid currentColor;
+  }
+  
+  .connectionStatus {
+    font-weight: bold;
+  }
+}
+
+/* Focus Management for Keyboard Navigation */
+.focusVisible:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* Loading State Enhancements */
+.loadingShimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Connection Quality Indicator */
+.connectionQuality {
+  position: relative;
+}
+
+.connectionQuality::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--connection-color, #10b981);
+  animation: connectionQualityPulse 2s infinite;
+}
+
+@keyframes connectionQualityPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
