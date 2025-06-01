@@ -1,0 +1,270 @@
+/* Additional custom styles for audio app */
+
+.recordingPulse {
+  animation: recordingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes recordingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.audioLevelBar {
+  transition: width 0.1s ease-out;
+  background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+}
+
+.conversationMessage {
+  animation: slideInMessage 0.3s ease-out;
+}
+
+@keyframes slideInMessage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recordingButton {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.recordingButton:active {
+  transform: scale(0.95);
+}
+
+.recordingButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.recordingButton:active::before {
+  width: 100%;
+  height: 100%;
+}
+
+.settingsModal {
+  backdrop-filter: blur(4px);
+}
+
+.conversationHistory {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.conversationHistory::-webkit-scrollbar {
+  width: 6px;
+}
+
+.conversationHistory::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.conversationHistory::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 3px;
+}
+
+.conversationHistory::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+.messageTimestamp {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.conversationMessage:hover .messageTimestamp {
+  opacity: 1;
+}
+
+.audioVisualization {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 40px;
+}
+
+.audioBar {
+  width: 3px;
+  background: linear-gradient(to top, #3b82f6, #1d4ed8);
+  border-radius: 2px;
+  animation: audioBarAnimation 1s ease-in-out infinite;
+}
+
+.audioBar:nth-child(2) { animation-delay: 0.1s; }
+.audioBar:nth-child(3) { animation-delay: 0.2s; }
+.audioBar:nth-child(4) { animation-delay: 0.3s; }
+.audioBar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes audioBarAnimation {
+  0%, 100% {
+    height: 10px;
+    opacity: 0.4;
+  }
+  50% {
+    height: 30px;
+    opacity: 1;
+  }
+}
+
+.processingSpinner {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.errorShake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.successPulse {
+  animation: successPulse 1s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+/* Dark mode specific adjustments */
+.dark .conversationHistory::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
+.dark .conversationHistory::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+}
+
+.dark .audioBar {
+  background: linear-gradient(to top, #6366f1, #4f46e5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .recordingButton {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .conversationMessage {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .messageContent {
+    padding: 12px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .recordingPulse,
+  .audioBarAnimation,
+  .processingSpinner,
+  .fadeInUp {
+    animation: none;
+  }
+  
+  .recordingButton {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .recordingButton {
+    border: 2px solid currentColor;
+  }
+  
+  .conversationMessage {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Focus styles for better accessibility */
+.recordingButton:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.settingsToggle:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Loading state styles */
+.loadingDots {
+  display: inline-block;
+}
+
+.loadingDots::after {
+  content: '';
+  animation: loadingDots 1.5s steps(4, end) infinite;
+}
+
+@keyframes loadingDots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
