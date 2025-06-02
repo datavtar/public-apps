@@ -1,0 +1,406 @@
+.gameContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f5132, #198754);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+}
+
+.gameContainer.dark {
+  background: linear-gradient(135deg, #1e293b, #334155);
+}
+
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.topRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.stockPile,
+.wastePile {
+  position: relative;
+  width: 100px;
+  height: 140px;
+  cursor: pointer;
+}
+
+.stockStack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.stockCount {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 10;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.wasteStack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wasteCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.wasteCard:nth-child(2) {
+  left: 20px;
+}
+
+.wasteCard:nth-child(3) {
+  left: 40px;
+}
+
+.foundations {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.foundationPile {
+  width: 100px;
+  height: 140px;
+  position: relative;
+}
+
+.tableau {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.tableauColumn {
+  position: relative;
+  min-height: 200px;
+  width: 100px;
+}
+
+.tableauCard {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tableauCard.topCard:hover {
+  transform: translateY(-5px);
+}
+
+.card {
+  width: 100px;
+  height: 140px;
+  border-radius: 8px;
+  border: 2px solid #333;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.card.faceUp {
+  background: white;
+  cursor: pointer;
+}
+
+.card.faceUp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card.faceDown {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.cardBack {
+  width: 80%;
+  height: 80%;
+  background: repeating-linear-gradient(
+    45deg,
+    #1e40af,
+    #1e40af 10px,
+    #3b82f6 10px,
+    #3b82f6 20px
+  );
+  border-radius: 4px;
+  border: 1px solid #1e40af;
+}
+
+.rank {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.suit {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card.red .rank,
+.card.red .suit {
+  color: #dc2626;
+}
+
+.card.black .rank,
+.card.black .suit {
+  color: #1f2937;
+}
+
+.emptyPile {
+  width: 100px;
+  height: 140px;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.stockEmpty {
+  cursor: pointer;
+}
+
+.stockEmpty:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.foundationEmpty,
+.tableauEmpty {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.placeholder {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.dropZone {
+  transition: background-color 0.2s ease;
+}
+
+.dropZone:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.dragOver {
+  background: rgba(34, 197, 94, 0.3) !important;
+  border: 2px solid #22c55e !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .gameBoard {
+    padding: 0.5rem;
+    gap: 1.5rem;
+  }
+  
+  .topRow {
+    gap: 0.5rem;
+  }
+  
+  .foundations {
+    gap: 0.5rem;
+  }
+  
+  .tableau {
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .card,
+  .emptyPile,
+  .stockPile,
+  .wastePile,
+  .foundationPile {
+    width: 80px;
+    height: 112px;
+  }
+  
+  .tableauColumn {
+    width: 80px;
+    min-height: 150px;
+  }
+  
+  .rank {
+    font-size: 14px;
+    top: 4px;
+    left: 4px;
+  }
+  
+  .suit {
+    font-size: 20px;
+  }
+  
+  .tableauCard {
+    top: 0;
+  }
+  
+  .tableauCard + .tableauCard {
+    top: 15px;
+  }
+  
+  .wasteCard:nth-child(2) {
+    left: 15px;
+  }
+  
+  .wasteCard:nth-child(3) {
+    left: 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .topRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .foundations {
+    grid-template-columns: repeat(4, 1fr);
+    justify-self: center;
+  }
+  
+  .tableau {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+  }
+  
+  .tableauColumn:nth-child(n+5) {
+    grid-column: span 1;
+    margin-top: 1rem;
+  }
+  
+  .card,
+  .emptyPile,
+  .stockPile,
+  .wastePile,
+  .foundationPile {
+    width: 70px;
+    height: 98px;
+  }
+  
+  .tableauColumn {
+    width: 70px;
+    min-height: 120px;
+  }
+  
+  .rank {
+    font-size: 12px;
+    top: 2px;
+    left: 2px;
+  }
+  
+  .suit {
+    font-size: 16px;
+  }
+}
+
+/* Animation classes */
+.fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slideIn {
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .card.faceUp {
+  background: #f8fafc;
+}
+
+.dark .emptyPile {
+  border-color: rgba(148, 163, 184, 0.5);
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.dark .foundationEmpty,
+.dark .tableauEmpty {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+/* Accessibility improvements */
+.card:focus,
+.stockPile:focus,
+.emptyPile:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .tableauCard,
+  .dropZone {
+    transition: none;
+  }
+  
+  .fadeIn,
+  .slideIn {
+    animation: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .gameContainer {
+    background: white !important;
+  }
+  
+  .card {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+}
