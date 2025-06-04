@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<!-- Background circle -->
+<circle cx="50" cy="50" r="48" fill="#61dafb"/>
+
+<!-- React-like atomic symbol -->
+<g fill="none" stroke="#ffffff" stroke-width="4">
+    <ellipse cx="50" cy="50" rx="20" ry="45" transform="rotate(0 50 50)"/>
+    <ellipse cx="50" cy="50" rx="20" ry="45" transform="rotate(60 50 50)"/>
+    <ellipse cx="50" cy="50" rx="20" ry="45" transform="rotate(-60 50 50)"/>
+</g>
+
+<!-- Center dot -->
+<circle cx="50" cy="50" r="8" fill="#ffffff"/>
+</svg>
