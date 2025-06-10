@@ -1,0 +1,2327 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from './contexts/authContext';
+import AILayer from './components/AILayer';
+import { AILayerHandle } from './components/AILayer.types';
+import { 
+  User, Settings, Plus, Search, Filter, Edit, Trash2, Eye, 
+  Clock, CheckCircle, AlertCircle, XCircle, FileText, 
+  TrendingUp, Users, MessageCircle, BarChart3, Download,
+  Upload, Tag, Calendar, ArrowUp, ArrowDown, Mail,
+  Bell, Star, Target, Zap, Brain, Moon, Sun, Send, 
+  Lock, Unlock, Key, Shield, Bot, HelpCircle, Minimize,
+  Maximize, X
+} from 'lucide-react';
+import styles from './styles/styles.module.css';
+
+// Types and Interfaces
+interface ChatMessage {
+  id: string;
+  message: string;
+  sender: 'customer' | 'admin';
+  senderName: string;
+  timestamp: string;
+}
+
+interface ChatbotMessage {
+  id: string;
+  message: string;
+  sender: 'user' | 'bot';
+  timestamp: string;
+}
+
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+  keywords: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Ticket {
+  id: string;
+  title: string;
+  description: string;
+  category: 'technical' | 'billing' | 'general' | 'feature_request';
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  customerEmail: string;
+  customerName: string;
+  assignedTo?: string;
+  createdAt: string;
+  updatedAt: string;
+  attachments?: File[];
+  chat?: ChatMessage[];
+  aiAnalysis?: {
+    suggestedCategory: string;
+    suggestedPriority: string;
+    sentiment: 'positive' | 'neutral' | 'negative';
+    summary: string;
+  };
+}
+
+interface TicketStats {
+  total: number;
+  open: number;
+  inProgress: number;
+  resolved: number;
+  closed: number;
+  byPriority: Record<string, number>;
+  byCategory: Record<string, number>;
+}
+
+type ViewMode = 'customer' | 'admin';
+type ActiveTab = 'dashboard' | 'tickets' | 'create' | 'settings';
+
+const App: React.FC = () => {
+  const { currentUser, logout } = useAuth();
+  const aiLayerRef = useRef<AILayerHandle>(null);
+
+  // State Management
+  const [viewMode, setViewMode] = useState<ViewMode>('customer');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterPriority, setFilterPriority] = useState<string>('all');
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [showTicketModal, setShowTicketModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  
+  // Admin Authentication States
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [newAdminPassword, setNewAdminPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  
+  // Chat States
+  const [newMessage, setNewMessage] = useState('');
+  const [showChat, setShowChat] = useState(false);
+  
+  // Chatbot States
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [chatbotMessages, setChatbotMessages] = useState<ChatbotMessage[]>([]);
+  const [chatbotInput, setChatbotInput] = useState('');
+  const [isChatbotLoading, setIsChatbotLoading] = useState(false);
+  const [chatbotMinimized, setChatbotMinimized] = useState(false);
+  
+  // FAQ States
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [newFaq, setNewFaq] = useState({
+    question: '',
+    answer: '',
+    category: '',
+    keywords: ''
+  });
+  const [editingFaq, setEditingFaq] = useState<FAQ | null>(null);
+  const [showFaqModal, setShowFaqModal] = useState(false);
+  
+  // Form States
+  const [newTicket, setNewTicket] = useState({
+    title: '',
+    description: '',
+    category: 'general' as Ticket['category'],
+    priority: 'medium' as Ticket['priority']
+  });
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  
+  // AI States
+  const [aiResult, setAiResult] = useState<string | null>(null);
+  const [aiError, setAiError] = useState<any | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [promptText, setPromptText] = useState('');
+
+  // Settings States
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
+
+  // Load data from localStorage
+  useEffect(() => {
+    const savedTickets = localStorage.getItem('datavtar_support_tickets');
+    const savedDarkMode = localStorage.getItem('datavtar_dark_mode');
+    const savedAdminPassword = localStorage.getItem('datavtar_admin_password');
+    const savedFaqs = localStorage.getItem('datavtar_support_faqs');
+    const savedChatbotMessages = localStorage.getItem('datavtar_chatbot_messages');
+    
+    if (savedTickets) {
+      const parsedTickets = JSON.parse(savedTickets);
+      setTickets(parsedTickets);
+      setFilteredTickets(parsedTickets);
+    } else {
+      // Initialize with sample data
+      const sampleTickets: Ticket[] = [
+        {
+          id: '1',
+          title: 'Login Issue - Cannot Access Dashboard',
+          description: 'I am unable to log into my account. The system shows "Invalid credentials" even though I am using the correct password.',
+          category: 'technical',
+          priority: 'high',
+          status: 'open',
+          customerEmail: 'john.doe@example.com',
+          customerName: 'John Doe',
+          assignedTo: 'Sarah Wilson',
+          createdAt: '2025-06-09T10:30:00Z',
+          updatedAt: '2025-06-09T10:30:00Z',
+          chat: [
+            {
+              id: '1',
+              message: 'I need urgent help with this login issue.',
+              sender: 'customer',
+              senderName: 'John Doe',
+              timestamp: '2025-06-09T10:35:00Z'
+            },
+            {
+              id: '2',
+              message: 'Hi John, I\'ve assigned this to our technical team. We\'ll look into this right away.',
+              sender: 'admin',
+              senderName: 'Sarah Wilson',
+              timestamp: '2025-06-09T11:00:00Z'
+            }
+          ]
+        },
+        {
+          id: '2',
+          title: 'Billing Discrepancy',
+          description: 'There seems to be an error in my monthly bill. I was charged twice for the same service.',
+          category: 'billing',
+          priority: 'medium',
+          status: 'in_progress',
+          customerEmail: 'jane.smith@example.com',
+          customerName: 'Jane Smith',
+          assignedTo: 'Mike Johnson',
+          createdAt: '2025-06-08T14:15:00Z',
+          updatedAt: '2025-06-09T09:20:00Z',
+          chat: [
+            {
+              id: '1',
+              message: 'Can someone please help me understand why I was charged twice?',
+              sender: 'customer',
+              senderName: 'Jane Smith',
+              timestamp: '2025-06-08T14:20:00Z'
+            },
+            {
+              id: '2',
+              message: 'Hi Jane, I\'m reviewing your billing history now. I\'ll have an update for you within 24 hours.',
+              sender: 'admin',
+              senderName: 'Mike Johnson',
+              timestamp: '2025-06-09T09:00:00Z'
+            }
+          ]
+        },
+        {
+          id: '3',
+          title: 'Feature Request - Dark Mode',
+          description: 'Would love to have a dark mode option in the application for better user experience during night time usage.',
+          category: 'feature_request',
+          priority: 'low',
+          status: 'resolved',
+          customerEmail: 'alex.brown@example.com',
+          customerName: 'Alex Brown',
+          assignedTo: 'Lisa Chen',
+          createdAt: '2025-06-07T16:45:00Z',
+          updatedAt: '2025-06-09T11:30:00Z',
+          chat: [
+            {
+              id: '1',
+              message: 'This would be a great addition to improve usability!',
+              sender: 'customer',
+              senderName: 'Alex Brown',
+              timestamp: '2025-06-07T16:50:00Z'
+            },
+            {
+              id: '2',
+              message: 'Great news! We\'ve implemented dark mode. You can find the toggle in the header.',
+              sender: 'admin',
+              senderName: 'Lisa Chen',
+              timestamp: '2025-06-09T11:30:00Z'
+            }
+          ]
+        },
+        {
+          id: '4',
+          title: 'API Integration Help',
+          description: 'Need assistance with API integration. The documentation is unclear about authentication headers.',
+          category: 'technical',
+          priority: 'medium',
+          status: 'open',
+          customerEmail: 'dev.team@company.com',
+          customerName: 'Development Team',
+          assignedTo: 'David Kumar',
+          createdAt: '2025-06-09T08:15:00Z',
+          updatedAt: '2025-06-09T08:15:00Z',
+          chat: []
+        },
+        {
+          id: '5',
+          title: 'Account Upgrade Request',
+          description: 'I would like to upgrade my account to the premium plan. What are the steps and pricing?',
+          category: 'billing',
+          priority: 'low',
+          status: 'in_progress',
+          customerEmail: 'customer@startup.com',
+          customerName: 'Startup Customer',
+          assignedTo: 'Sarah Wilson',
+          createdAt: '2025-06-08T16:20:00Z',
+          updatedAt: '2025-06-09T12:10:00Z',
+          chat: []
+        },
+        {
+          id: '6',
+          title: 'Data Export Feature Missing',
+          description: 'The data export feature mentioned in the documentation is not visible in my dashboard.',
+          category: 'feature_request',
+          priority: 'medium',
+          status: 'resolved',
+          customerEmail: 'analyst@corp.com',
+          customerName: 'Data Analyst',
+          assignedTo: 'Lisa Chen',
+          createdAt: '2025-06-07T11:30:00Z',
+          updatedAt: '2025-06-08T15:45:00Z',
+          chat: []
+        }
+      ];
+      setTickets(sampleTickets);
+      setFilteredTickets(sampleTickets);
+      localStorage.setItem('datavtar_support_tickets', JSON.stringify(sampleTickets));
+    }
+
+    // Load FAQs
+    if (savedFaqs) {
+      setFaqs(JSON.parse(savedFaqs));
+    } else {
+      // Initialize with sample FAQs
+      const sampleFaqs: FAQ[] = [
+        {
+          id: '1',
+          question: 'How do I reset my password?',
+          answer: 'To reset your password, click on the "Forgot Password" link on the login page. Enter your email address and follow the instructions sent to your email.',
+          category: 'Account',
+          keywords: ['password', 'reset', 'forgot', 'login', 'account'],
+          createdAt: '2025-06-01T00:00:00Z',
+          updatedAt: '2025-06-01T00:00:00Z'
+        },
+        {
+          id: '2',
+          question: 'How do I contact support?',
+          answer: 'You can contact support by creating a ticket through this portal, sending an email to support@datavtar.com, or using the AI chatbot for instant help.',
+          category: 'Support',
+          keywords: ['contact', 'support', 'help', 'ticket', 'email'],
+          createdAt: '2025-06-01T00:00:00Z',
+          updatedAt: '2025-06-01T00:00:00Z'
+        },
+        {
+          id: '3',
+          question: 'What are your business hours?',
+          answer: 'Our support team is available Monday through Friday, 9 AM to 6 PM EST. However, you can create tickets anytime, and our AI chatbot is available 24/7.',
+          category: 'General',
+          keywords: ['hours', 'business', 'time', 'support', 'available'],
+          createdAt: '2025-06-01T00:00:00Z',
+          updatedAt: '2025-06-01T00:00:00Z'
+        },
+        {
+          id: '4',
+          question: 'How do I upgrade my account?',
+          answer: 'To upgrade your account, go to your account settings and click on "Upgrade Plan". You can also create a billing ticket for assistance with the upgrade process.',
+          category: 'Billing',
+          keywords: ['upgrade', 'account', 'plan', 'billing', 'premium'],
+          createdAt: '2025-06-01T00:00:00Z',
+          updatedAt: '2025-06-01T00:00:00Z'
+        },
+        {
+          id: '5',
+          question: 'Is there a mobile app?',
+          answer: 'Currently, our platform is web-based and optimized for mobile browsers. We are working on dedicated mobile apps for iOS and Android, which will be available soon.',
+          category: 'Technical',
+          keywords: ['mobile', 'app', 'ios', 'android', 'phone'],
+          createdAt: '2025-06-01T00:00:00Z',
+          updatedAt: '2025-06-01T00:00:00Z'
+        },
+        {
+          id: '6',
+          question: 'How do I delete my account?',
+          answer: 'To delete your account, please create a support ticket with the subject "Account Deletion Request". Our team will process your request within 24-48 hours.',
+          category: 'Account',
+          keywords: ['delete', 'account', 'remove', 'close', 'terminate'],
+          createdAt: '2025-06-01T00:00:00Z',
+          updatedAt: '2025-06-01T00:00:00Z'
+        }
+      ];
+      setFaqs(sampleFaqs);
+      localStorage.setItem('datavtar_support_faqs', JSON.stringify(sampleFaqs));
+    }
+
+    // Load chatbot messages
+    if (savedChatbotMessages) {
+      setChatbotMessages(JSON.parse(savedChatbotMessages));
+    } else {
+      // Initialize with welcome message
+      const welcomeMessage: ChatbotMessage = {
+        id: '1',
+        message: 'Hello! I\'m your AI support assistant. I can help you find answers to frequently asked questions. How can I help you today?',
+        sender: 'bot',
+        timestamp: new Date().toISOString()
+      };
+      setChatbotMessages([welcomeMessage]);
+      localStorage.setItem('datavtar_chatbot_messages', JSON.stringify([welcomeMessage]));
+    }
+
+    if (savedDarkMode === 'true') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+
+    if (savedAdminPassword) {
+      setAdminPassword(savedAdminPassword);
+    } else {
+      // Set default admin password
+      const defaultPassword = 'admin123';
+      setAdminPassword(defaultPassword);
+      localStorage.setItem('datavtar_admin_password', defaultPassword);
+    }
+  }, []);
+
+  // Save tickets to localStorage
+  useEffect(() => {
+    localStorage.setItem('datavtar_support_tickets', JSON.stringify(tickets));
+  }, [tickets]);
+
+  // Save FAQs to localStorage
+  useEffect(() => {
+    localStorage.setItem('datavtar_support_faqs', JSON.stringify(faqs));
+  }, [faqs]);
+
+  // Save chatbot messages to localStorage
+  useEffect(() => {
+    localStorage.setItem('datavtar_chatbot_messages', JSON.stringify(chatbotMessages));
+  }, [chatbotMessages]);
+
+  // Handle view mode change with admin authentication
+  const handleViewModeChange = (mode: ViewMode) => {
+    if (mode === 'admin' && !isAdminAuthenticated) {
+      setShowPasswordModal(true);
+      setPasswordInput('');
+      setPasswordError('');
+    } else {
+      setViewMode(mode);
+      if (mode === 'customer') {
+        setIsAdminAuthenticated(false);
+      }
+    }
+  };
+
+  // Handle admin password verification
+  const handlePasswordSubmit = () => {
+    if (passwordInput === adminPassword) {
+      setIsAdminAuthenticated(true);
+      setViewMode('admin');
+      setShowPasswordModal(false);
+      setPasswordInput('');
+      setPasswordError('');
+    } else {
+      setPasswordError('Incorrect password. Please try again.');
+      setPasswordInput('');
+    }
+  };
+
+  // Handle admin password change
+  const handlePasswordChange = () => {
+    if (newAdminPassword.trim().length < 6) {
+      setPasswordError('Password must be at least 6 characters long.');
+      return;
+    }
+    
+    setAdminPassword(newAdminPassword);
+    localStorage.setItem('datavtar_admin_password', newAdminPassword);
+    setNewAdminPassword('');
+    setPasswordError('');
+    alert('Admin password updated successfully!');
+  };
+
+  // Filter tickets based on search and filters
+  useEffect(() => {
+    let filtered = tickets;
+
+    // Filter by user email if customer view
+    if (viewMode === 'customer' && currentUser) {
+      filtered = filtered.filter(ticket => ticket.customerEmail === currentUser.email);
+    }
+
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(ticket =>
+        ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Status filter
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(ticket => ticket.status === filterStatus);
+    }
+
+    // Priority filter
+    if (filterPriority !== 'all') {
+      filtered = filtered.filter(ticket => ticket.priority === filterPriority);
+    }
+
+    setFilteredTickets(filtered);
+  }, [tickets, searchTerm, filterStatus, filterPriority, viewMode, currentUser]);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    if (!darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('datavtar_dark_mode', 'true');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('datavtar_dark_mode', 'false');
+    }
+  };
+
+  // Calculate statistics
+  const calculateStats = (): TicketStats => {
+    const relevantTickets = viewMode === 'customer' && currentUser 
+      ? tickets.filter(t => t.customerEmail === currentUser.email)
+      : tickets;
+
+    return {
+      total: relevantTickets.length,
+      open: relevantTickets.filter(t => t.status === 'open').length,
+      inProgress: relevantTickets.filter(t => t.status === 'in_progress').length,
+      resolved: relevantTickets.filter(t => t.status === 'resolved').length,
+      closed: relevantTickets.filter(t => t.status === 'closed').length,
+      byPriority: {
+        critical: relevantTickets.filter(t => t.priority === 'critical').length,
+        high: relevantTickets.filter(t => t.priority === 'high').length,
+        medium: relevantTickets.filter(t => t.priority === 'medium').length,
+        low: relevantTickets.filter(t => t.priority === 'low').length
+      },
+      byCategory: {
+        technical: relevantTickets.filter(t => t.category === 'technical').length,
+        billing: relevantTickets.filter(t => t.category === 'billing').length,
+        general: relevantTickets.filter(t => t.category === 'general').length,
+        feature_request: relevantTickets.filter(t => t.category === 'feature_request').length
+      }
+    };
+  };
+
+  // Send chat message
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !selectedTicket) return;
+
+    const message: ChatMessage = {
+      id: Date.now().toString(),
+      message: newMessage.trim(),
+      sender: viewMode === 'admin' ? 'admin' : 'customer',
+      senderName: viewMode === 'admin' 
+        ? (selectedTicket.assignedTo || 'Admin') 
+        : (currentUser?.first_name && currentUser?.last_name 
+            ? `${currentUser.first_name} ${currentUser.last_name}` 
+            : currentUser?.username || 'Customer'),
+      timestamp: new Date().toISOString()
+    };
+
+    const updatedTicket = {
+      ...selectedTicket,
+      chat: [...(selectedTicket.chat || []), message],
+      updatedAt: new Date().toISOString()
+    };
+
+    setTickets(prev => prev.map(ticket => 
+      ticket.id === selectedTicket.id ? updatedTicket : ticket
+    ));
+    
+    setSelectedTicket(updatedTicket);
+    setNewMessage('');
+  };
+
+  // Chatbot functions
+  const handleChatbotSend = async () => {
+    if (!chatbotInput.trim()) return;
+
+    const userMessage: ChatbotMessage = {
+      id: Date.now().toString(),
+      message: chatbotInput.trim(),
+      sender: 'user',
+      timestamp: new Date().toISOString()
+    };
+
+    setChatbotMessages(prev => [...prev, userMessage]);
+    setChatbotInput('');
+    setIsChatbotLoading(true);
+
+    // Prepare FAQ context for AI
+    const faqContext = faqs.map(faq => 
+      `Q: ${faq.question}\nA: ${faq.answer}\nKeywords: ${faq.keywords.join(', ')}\nCategory: ${faq.category}\n`
+    ).join('\n');
+
+    const prompt = `You are a helpful AI support assistant for Datavtar. Here are the available FAQs:
+
+${faqContext}
+
+User Question: ${userMessage.message}
+
+Please provide a helpful response based on the FAQs above. If the question matches any FAQ, provide the relevant answer. If no exact match is found, try to provide general guidance and suggest creating a support ticket for specific issues. Keep responses concise and friendly.
+
+If the user is asking about creating a ticket, logging in, account issues, billing, technical problems, or general support, try to guide them appropriately based on the available information.`;
+
+    setPromptText(prompt);
+
+    try {
+      aiLayerRef.current?.sendToAI(prompt);
+    } catch (error) {
+      setIsChatbotLoading(false);
+      const errorMessage: ChatbotMessage = {
+        id: (Date.now() + 1).toString(),
+        message: 'I apologize, but I\'m having trouble processing your request right now. Please try again or create a support ticket for assistance.',
+        sender: 'bot',
+        timestamp: new Date().toISOString()
+      };
+      setChatbotMessages(prev => [...prev, errorMessage]);
+    }
+  };
+
+  // Handle AI response for chatbot
+  const handleChatbotAIResponse = (result: string) => {
+    setIsChatbotLoading(false);
+    const botMessage: ChatbotMessage = {
+      id: (Date.now() + 1).toString(),
+      message: result,
+      sender: 'bot',
+      timestamp: new Date().toISOString()
+    };
+    setChatbotMessages(prev => [...prev, botMessage]);
+  };
+
+  // FAQ Management Functions
+  const handleCreateFaq = () => {
+    if (!newFaq.question.trim() || !newFaq.answer.trim()) {
+      alert('Please fill in both question and answer fields.');
+      return;
+    }
+
+    const faq: FAQ = {
+      id: Date.now().toString(),
+      question: newFaq.question.trim(),
+      answer: newFaq.answer.trim(),
+      category: newFaq.category.trim() || 'General',
+      keywords: newFaq.keywords.split(',').map(k => k.trim()).filter(k => k.length > 0),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    setFaqs(prev => [faq, ...prev]);
+    setNewFaq({ question: '', answer: '', category: '', keywords: '' });
+    setShowFaqModal(false);
+  };
+
+  const handleUpdateFaq = () => {
+    if (!editingFaq || !newFaq.question.trim() || !newFaq.answer.trim()) {
+      alert('Please fill in both question and answer fields.');
+      return;
+    }
+
+    const updatedFaq: FAQ = {
+      ...editingFaq,
+      question: newFaq.question.trim(),
+      answer: newFaq.answer.trim(),
+      category: newFaq.category.trim() || 'General',
+      keywords: newFaq.keywords.split(',').map(k => k.trim()).filter(k => k.length > 0),
+      updatedAt: new Date().toISOString()
+    };
+
+    setFaqs(prev => prev.map(faq => faq.id === editingFaq.id ? updatedFaq : faq));
+    setEditingFaq(null);
+    setNewFaq({ question: '', answer: '', category: '', keywords: '' });
+    setShowFaqModal(false);
+  };
+
+  const handleDeleteFaq = (faqId: string) => {
+    setConfirmMessage('Are you sure you want to delete this FAQ? This action cannot be undone.');
+    setConfirmAction(() => () => {
+      setFaqs(prev => prev.filter(faq => faq.id !== faqId));
+      setShowConfirmDialog(false);
+    });
+    setShowConfirmDialog(true);
+  };
+
+  const openEditFaq = (faq: FAQ) => {
+    setEditingFaq(faq);
+    setNewFaq({
+      question: faq.question,
+      answer: faq.answer,
+      category: faq.category,
+      keywords: faq.keywords.join(', ')
+    });
+    setShowFaqModal(true);
+  };
+
+  // AI Analysis Function
+  const analyzeTicketWithAI = async (title: string, description: string) => {
+    const prompt = `Analyze this support ticket and provide insights in JSON format:
+    
+Title: ${title}
+Description: ${description}
+
+Please return a JSON object with these exact fields:
+{
+  "suggestedCategory": "technical|billing|general|feature_request",
+  "suggestedPriority": "low|medium|high|critical", 
+  "sentiment": "positive|neutral|negative",
+  "summary": "brief summary of the issue"
+}`;
+
+    setPromptText(prompt);
+    setAiResult(null);
+    setAiError(null);
+
+    try {
+      aiLayerRef.current?.sendToAI(prompt);
+    } catch (error) {
+      setAiError("Failed to analyze ticket with AI");
+    }
+  };
+
+  // Create new ticket
+  const handleCreateTicket = async () => {
+    if (!newTicket.title.trim() || !newTicket.description.trim()) {
+      setAiError("Please fill in all required fields");
+      return;
+    }
+
+    const ticket: Ticket = {
+      id: Date.now().toString(),
+      ...newTicket,
+      customerEmail: currentUser?.email || 'guest@example.com',
+      customerName: currentUser?.first_name && currentUser?.last_name 
+        ? `${currentUser.first_name} ${currentUser.last_name}` 
+        : currentUser?.username || 'Guest User',
+      status: 'open',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      attachments: selectedFiles.length > 0 ? selectedFiles : undefined,
+      chat: []
+    };
+
+    // Add AI analysis if available
+    if (aiResult) {
+      try {
+        const analysis = JSON.parse(aiResult);
+        ticket.aiAnalysis = analysis;
+      } catch (error) {
+        console.log('Could not parse AI analysis');
+      }
+    }
+
+    setTickets(prev => [ticket, ...prev]);
+    setNewTicket({ title: '', description: '', category: 'general', priority: 'medium' });
+    setSelectedFiles([]);
+    setAiResult(null);
+    setActiveTab('tickets');
+  };
+
+  // Update ticket
+  const handleUpdateTicket = (ticketId: string, updates: Partial<Ticket>) => {
+    setTickets(prev => prev.map(ticket => 
+      ticket.id === ticketId 
+        ? { ...ticket, ...updates, updatedAt: new Date().toISOString() }
+        : ticket
+    ));
+    setSelectedTicket(prev => prev ? { ...prev, ...updates, updatedAt: new Date().toISOString() } : null);
+  };
+
+  // Delete ticket
+  const handleDeleteTicket = (ticketId: string) => {
+    setConfirmMessage('Are you sure you want to delete this ticket? This action cannot be undone.');
+    setConfirmAction(() => () => {
+      setTickets(prev => prev.filter(ticket => ticket.id !== ticketId));
+      setShowConfirmDialog(false);
+      setSelectedTicket(null);
+      setShowTicketModal(false);
+    });
+    setShowConfirmDialog(true);
+  };
+
+  // Export data as CSV
+  const handleExportData = () => {
+    const csvContent = [
+      ['ID', 'Title', 'Category', 'Priority', 'Status', 'Customer', 'Created Date', 'Updated Date'],
+      ...filteredTickets.map(ticket => [
+        ticket.id,
+        ticket.title,
+        ticket.category,
+        ticket.priority,
+        ticket.status,
+        ticket.customerName,
+        new Date(ticket.createdAt).toLocaleDateString(),
+        new Date(ticket.updatedAt).toLocaleDateString()
+      ])
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `datavtar-support-tickets-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Clear all data
+  const handleClearAllData = () => {
+    setConfirmMessage('Are you sure you want to delete all tickets? This action cannot be undone.');
+    setConfirmAction(() => () => {
+      setTickets([]);
+      localStorage.removeItem('datavtar_support_tickets');
+      setShowConfirmDialog(false);
+    });
+    setShowConfirmDialog(true);
+  };
+
+  // File upload handler
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      setSelectedFiles(Array.from(files));
+    }
+  };
+
+  // Template download
+  const handleDownloadTemplate = () => {
+    const templateContent = [
+      ['title', 'description', 'category', 'priority', 'customerEmail', 'customerName'],
+      ['Sample Issue Title', 'Detailed description of the issue', 'technical', 'medium', 'user@example.com', 'User Name']
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([templateContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ticket-import-template.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Handle escape key for modals
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (showPasswordModal) {
+          setShowPasswordModal(false);
+          setPasswordInput('');
+          setPasswordError('');
+        } else if (showTicketModal) {
+          setShowTicketModal(false);
+          setShowChat(false);
+        } else if (showConfirmDialog) {
+          setShowConfirmDialog(false);
+        } else if (showFaqModal) {
+          setShowFaqModal(false);
+          setEditingFaq(null);
+          setNewFaq({ question: '', answer: '', category: '', keywords: '' });
+        } else if (showChatbot && !chatbotMinimized) {
+          setShowChatbot(false);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [showPasswordModal, showTicketModal, showConfirmDialog, showFaqModal, showChatbot, chatbotMinimized]);
+
+  // Handle AI responses
+  useEffect(() => {
+    if (aiResult && promptText.includes('User Question:')) {
+      // This is a chatbot response
+      handleChatbotAIResponse(aiResult);
+      setAiResult(null);
+      setPromptText('');
+    }
+  }, [aiResult, promptText]);
+
+  // Get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'open': return 'text-blue-600 bg-blue-100 dark:text-blue-400 dark:bg-blue-900';
+      case 'in_progress': return 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900';
+      case 'resolved': return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900';
+      case 'closed': return 'text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-900';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  // Get priority color
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'critical': return 'text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900';
+      case 'high': return 'text-orange-600 bg-orange-100 dark:text-orange-400 dark:bg-orange-900';
+      case 'medium': return 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900';
+      case 'low': return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  const stats = calculateStats();
+
+  return (
+    <div id="welcome_fallback" className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-900 transition-all duration-300 ${styles.appContainer}`}>
+      {/* AI Layer */}
+      <AILayer
+        ref={aiLayerRef}
+        prompt={promptText}
+        onResult={(result) => setAiResult(result)}
+        onError={(error) => setAiError(error)}
+        onLoading={(loading) => setIsAiLoading(loading)}
+      />
+
+      {/* Header */}
+      <header className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+        <div className="container-wide">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#548b99] to-[#95c7c3] flex items-center justify-center">
+                  <MessageCircle className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">Datavtar Support</h1>
+                  <p className="text-sm text-[#548B99]">Customer Support Portal</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 rounded-xl p-1">
+                <button
+                  onClick={() => handleViewModeChange('customer')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                    viewMode === 'customer' 
+                      ? 'bg-white dark:bg-slate-600 text-[#1F2E3D] dark:text-white shadow-sm' 
+                      : 'text-slate-600 dark:text-slate-300 hover:text-[#1F2E3D] dark:hover:text-white'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  Customer
+                </button>
+                <button
+                  onClick={() => handleViewModeChange('admin')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                    viewMode === 'admin' 
+                      ? 'bg-white dark:bg-slate-600 text-[#1F2E3D] dark:text-white shadow-sm' 
+                      : 'text-slate-600 dark:text-slate-300 hover:text-[#1F2E3D] dark:hover:text-white'
+                  }`}
+                >
+                  <Shield className="w-4 h-4" />
+                  Admin
+                  {isAdminAuthenticated && <Lock className="w-3 h-3 text-green-500" />}
+                </button>
+              </div>
+              
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all"
+                aria-label="Toggle dark mode"
+              >
+                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-sm font-medium text-[#1F2E3D] dark:text-[#e7f7f7]">
+                    {currentUser?.first_name} {currentUser?.last_name}
+                  </p>
+                  <p className="text-xs text-[#548B99]">{currentUser?.email}</p>
+                </div>
+                <button
+                  onClick={logout}
+                  className="p-2 rounded-xl bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 transition-all"
+                >
+                  <User className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation Tabs */}
+      <nav className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+        <div className="container-wide">
+          <div className="flex gap-1 py-2">
+            <button
+              id="dashboard-tab"
+              onClick={() => setActiveTab('dashboard')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${
+                activeTab === 'dashboard'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4 inline mr-2" />
+              Dashboard
+            </button>
+            <button
+              id="tickets-tab"
+              onClick={() => setActiveTab('tickets')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${
+                activeTab === 'tickets'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <FileText className="w-4 h-4 inline mr-2" />
+              Tickets
+            </button>
+            <button
+              id="create-tab"
+              onClick={() => setActiveTab('create')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${
+                activeTab === 'create'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <Plus className="w-4 h-4 inline mr-2" />
+              Create Ticket
+            </button>
+            <button
+              id="settings-tab"
+              onClick={() => setActiveTab('settings')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${
+                activeTab === 'settings'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <Settings className="w-4 h-4 inline mr-2" />
+              Settings
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main id="generation_issue_fallback" className="flex-1 py-8">
+        <div className="container-wide">
+          
+          {/* Dashboard Tab */}
+          {activeTab === 'dashboard' && (
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <h2 className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">
+                  {viewMode === 'admin' ? 'Admin Dashboard' : 'My Support Dashboard'}
+                </h2>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleExportData}
+                    className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Export Data
+                  </button>
+                </div>
+              </div>
+
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Total Tickets</p>
+                      <p className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">{stats.total}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Open Tickets</p>
+                      <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.open}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center">
+                      <AlertCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">In Progress</p>
+                      <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{stats.inProgress}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-xl flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Resolved</p>
+                      <p className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.resolved}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-xl flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Expanded Recent Tickets Section */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">Recent Tickets</h3>
+                  <button
+                    onClick={() => setActiveTab('tickets')}
+                    className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl text-sm"
+                  >
+                    View All Tickets
+                  </button>
+                </div>
+                
+                {filteredTickets.length === 0 ? (
+                  <div className="text-center py-12">
+                    <FileText className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                    <h4 className="text-lg font-medium text-slate-600 dark:text-slate-400 mb-2">No tickets found</h4>
+                    <p className="text-slate-500 dark:text-slate-500 mb-4">
+                      Create your first support ticket to get started.
+                    </p>
+                    <button
+                      onClick={() => setActiveTab('create')}
+                      className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Ticket
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {filteredTickets.slice(0, 10).map((ticket) => (
+                      <div 
+                        key={ticket.id} 
+                        className="p-6 bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-700 dark:to-slate-600 rounded-xl hover:shadow-lg transition-all cursor-pointer border border-slate-200 dark:border-slate-600 hover:border-[#548b99] dark:hover:border-[#95c7c3]"
+                        onClick={() => {
+                          setSelectedTicket(ticket);
+                          setShowTicketModal(true);
+                          setShowChat(false);
+                        }}
+                      >
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h4 className="font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] line-clamp-1">
+                                {ticket.title}
+                              </h4>
+                              {ticket.aiAnalysis && (
+                                <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900 rounded-full">
+                                  <Brain className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                                  <span className="text-xs text-purple-600 dark:text-purple-400">AI</span>
+                                </div>
+                              )}
+                              {ticket.chat && ticket.chat.length > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 rounded-full">
+                                  <MessageCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
+                                  <span className="text-xs text-green-600 dark:text-green-400">{ticket.chat.length}</span>
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-3">
+                              {ticket.description}
+                            </p>
+                            <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-500">
+                              <span className="flex items-center gap-1">
+                                <User className="w-3 h-3" />
+                                {ticket.customerName}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {new Date(ticket.createdAt).toLocaleDateString()}
+                              </span>
+                              {viewMode === 'admin' && ticket.assignedTo && (
+                                <span className="flex items-center gap-1">
+                                  <Star className="w-3 h-3" />
+                                  {ticket.assignedTo}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(ticket.status)}`}>
+                            {ticket.status.replace('_', ' ')}
+                          </span>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPriorityColor(ticket.priority)}`}>
+                            {ticket.priority}
+                          </span>
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400">
+                            {ticket.category.replace('_', ' ')}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {filteredTickets.length > 10 && (
+                  <div className="text-center mt-6">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                      Showing 10 of {filteredTickets.length} tickets
+                    </p>
+                    <button
+                      onClick={() => setActiveTab('tickets')}
+                      className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl"
+                    >
+                      View All {filteredTickets.length} Tickets
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Tickets Tab */}
+          {activeTab === 'tickets' && (
+            <div className="space-y-6">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <h2 className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">
+                  {viewMode === 'admin' ? 'All Tickets' : 'My Tickets'}
+                </h2>
+                
+                {/* Search and Filters */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search tickets..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                    />
+                  </div>
+                  
+                  <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                  
+                  <select
+                    value={filterPriority}
+                    onChange={(e) => setFilterPriority(e.target.value)}
+                    className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                  >
+                    <option value="all">All Priority</option>
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Tickets List */}
+              <div className="space-y-4">
+                {filteredTickets.length === 0 ? (
+                  <div className="text-center py-12">
+                    <FileText className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-slate-600 dark:text-slate-400 mb-2">No tickets found</h3>
+                    <p className="text-slate-500 dark:text-slate-500">
+                      {searchTerm ? 'Try adjusting your search criteria.' : 'Create your first support ticket to get started.'}
+                    </p>
+                  </div>
+                ) : (
+                  filteredTickets.map((ticket) => (
+                    <div
+                      key={ticket.id}
+                      className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all cursor-pointer"
+                      onClick={() => {
+                        setSelectedTicket(ticket);
+                        setShowTicketModal(true);
+                        setShowChat(false);
+                      }}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">{ticket.title}</h3>
+                            {ticket.aiAnalysis && (
+                              <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900 rounded-full">
+                                <Brain className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                                <span className="text-xs text-purple-600 dark:text-purple-400">AI Analyzed</span>
+                              </div>
+                            )}
+                            {ticket.chat && ticket.chat.length > 0 && (
+                              <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 rounded-full">
+                                <MessageCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
+                                <span className="text-xs text-green-600 dark:text-green-400">{ticket.chat.length} messages</span>
+                              </div>
+                            )}
+                          </div>
+                          <p className="text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">{ticket.description}</p>
+                          <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-500">
+                            <span>{ticket.customerName}</span>
+                            <span>•</span>
+                            <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
+                            {viewMode === 'admin' && ticket.assignedTo && (
+                              <>
+                                <span>•</span>
+                                <span>Assigned to {ticket.assignedTo}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(ticket.status)}`}>
+                            {ticket.status.replace('_', ' ')}
+                          </span>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPriorityColor(ticket.priority)}`}>
+                            {ticket.priority}
+                          </span>
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400">
+                            {ticket.category.replace('_', ' ')}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Create Ticket Tab */}
+          {activeTab === 'create' && (
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
+                <h2 className="text-2xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] mb-6">Create New Support Ticket</h2>
+                
+                <div className="space-y-6">
+                  {/* Title */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                      Title *
+                    </label>
+                    <input
+                      type="text"
+                      value={newTicket.title}
+                      onChange={(e) => setNewTicket(prev => ({ ...prev, title: e.target.value }))}
+                      placeholder="Brief description of your issue"
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                      Description *
+                    </label>
+                    <textarea
+                      value={newTicket.description}
+                      onChange={(e) => setNewTicket(prev => ({ ...prev, description: e.target.value }))}
+                      placeholder="Detailed description of your issue..."
+                      rows={6}
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent resize-none"
+                    />
+                  </div>
+
+                  {/* Category and Priority */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Category
+                      </label>
+                      <select
+                        value={newTicket.category}
+                        onChange={(e) => setNewTicket(prev => ({ ...prev, category: e.target.value as Ticket['category'] }))}
+                        className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                      >
+                        <option value="general">General</option>
+                        <option value="technical">Technical</option>
+                        <option value="billing">Billing</option>
+                        <option value="feature_request">Feature Request</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Priority
+                      </label>
+                      <select
+                        value={newTicket.priority}
+                        onChange={(e) => setNewTicket(prev => ({ ...prev, priority: e.target.value as Ticket['priority'] }))}
+                        className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                      >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* File Attachments */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                      Attachments
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileUpload}
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                    />
+                    {selectedFiles.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {selectedFiles.map((file, index) => (
+                          <div key={index} className="text-sm text-slate-600 dark:text-slate-400">
+                            {file.name} ({(file.size / 1024).toFixed(1)} KB)
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* AI Analysis */}
+                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Brain className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                      <span className="font-medium text-purple-600 dark:text-purple-400">AI Analysis</span>
+                    </div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                      Get AI-powered suggestions for category and priority based on your ticket content.
+                    </p>
+                    <button
+                      onClick={() => analyzeTicketWithAI(newTicket.title, newTicket.description)}
+                      disabled={!newTicket.title.trim() || !newTicket.description.trim() || isAiLoading}
+                      className="btn bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+                    >
+                      {isAiLoading ? (
+                        <>
+                          <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <Brain className="w-4 h-4 mr-2" />
+                          Analyze with AI
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* AI Results */}
+                  {aiResult && !promptText.includes('User Question:') && (
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4">
+                      <h4 className="font-medium text-green-800 dark:text-green-400 mb-2">AI Analysis Results</h4>
+                      <div className="text-sm text-green-700 dark:text-green-300">
+                        {(() => {
+                          try {
+                            const analysis = JSON.parse(aiResult);
+                            return (
+                              <div className="space-y-2">
+                                <p><strong>Suggested Category:</strong> {analysis.suggestedCategory?.replace('_', ' ')}</p>
+                                <p><strong>Suggested Priority:</strong> {analysis.suggestedPriority}</p>
+                                <p><strong>Sentiment:</strong> {analysis.sentiment}</p>
+                                <p><strong>Summary:</strong> {analysis.summary}</p>
+                                <div className="mt-3 flex gap-2">
+                                  <button
+                                    onClick={() => setNewTicket(prev => ({ ...prev, category: analysis.suggestedCategory }))}
+                                    className="btn-sm bg-green-600 text-white hover:bg-green-700 rounded-lg"
+                                  >
+                                    Apply Category
+                                  </button>
+                                  <button
+                                    onClick={() => setNewTicket(prev => ({ ...prev, priority: analysis.suggestedPriority }))}
+                                    className="btn-sm bg-green-600 text-white hover:bg-green-700 rounded-lg"
+                                  >
+                                    Apply Priority
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          } catch {
+                            return <pre className="whitespace-pre-wrap">{aiResult}</pre>;
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* AI Error */}
+                  {aiError && (
+                    <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4">
+                      <p className="text-sm text-red-700 dark:text-red-300">
+                        AI Analysis Error: {aiError.toString()}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Submit Button */}
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      onClick={handleCreateTicket}
+                      disabled={!newTicket.title.trim() || !newTicket.description.trim()}
+                      className="flex-1 btn bg-[#548b99] text-white hover:bg-[#3d6b75] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-3"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Ticket
+                    </button>
+                    <button
+                      onClick={() => {
+                        setNewTicket({ title: '', description: '', category: 'general', priority: 'medium' });
+                        setSelectedFiles([]);
+                        setAiResult(null);
+                        setAiError(null);
+                      }}
+                      className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Settings Tab */}
+          {activeTab === 'settings' && (
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] mb-8">Settings</h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Admin Security Settings */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4 flex items-center gap-2">
+                    <Shield className="w-5 h-5" />
+                    Admin Security
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Change Admin Password</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                        Set a new password for admin access
+                      </p>
+                      <div className="space-y-3">
+                        <input
+                          type="password"
+                          value={newAdminPassword}
+                          onChange={(e) => setNewAdminPassword(e.target.value)}
+                          placeholder="Enter new admin password"
+                          className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                        />
+                        <button
+                          onClick={handlePasswordChange}
+                          disabled={!newAdminPassword.trim()}
+                          className="btn bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+                        >
+                          <Key className="w-4 h-4 mr-2" />
+                          Update Password
+                        </button>
+                      </div>
+                      {passwordError && (
+                        <p className="text-sm text-red-600 dark:text-red-400 mt-2">{passwordError}</p>
+                      )}
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+                      <div className="flex items-center gap-2 text-sm">
+                        <div className={`w-3 h-3 rounded-full ${isAdminAuthenticated ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                        <span className="text-slate-600 dark:text-slate-400">
+                          Admin Status: {isAdminAuthenticated ? 'Authenticated' : 'Not Authenticated'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* FAQ Management - Admin Only */}
+                {viewMode === 'admin' && isAdminAuthenticated && (
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                    <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4 flex items-center gap-2">
+                      <HelpCircle className="w-5 h-5" />
+                      FAQ Management
+                    </h3>
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                          Manage FAQs for the AI chatbot
+                        </p>
+                        <button
+                          onClick={() => {
+                            setEditingFaq(null);
+                            setNewFaq({ question: '', answer: '', category: '', keywords: '' });
+                            setShowFaqModal(true);
+                          }}
+                          className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl text-sm"
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add FAQ
+                        </button>
+                      </div>
+
+                      <div className="space-y-3 max-h-60 overflow-y-auto">
+                        {faqs.length === 0 ? (
+                          <p className="text-center text-slate-500 dark:text-slate-400 py-4">
+                            No FAQs available. Add some to help users get instant answers.
+                          </p>
+                        ) : (
+                          faqs.map((faq) => (
+                            <div key={faq.id} className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="flex-1 min-w-0">
+                                  <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] text-sm mb-1 line-clamp-1">
+                                    {faq.question}
+                                  </h5>
+                                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2">
+                                    {faq.answer}
+                                  </p>
+                                  <div className="flex items-center gap-2">
+                                    <span className="px-2 py-1 bg-[#548b99] text-white text-xs rounded-full">
+                                      {faq.category}
+                                    </span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                                      {faq.keywords.length} keywords
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex gap-1">
+                                  <button
+                                    onClick={() => openEditFaq(faq)}
+                                    className="p-1 text-slate-500 hover:text-[#548b99] transition-colors"
+                                  >
+                                    <Edit className="w-4 h-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteFaq(faq.id)}
+                                    className="p-1 text-slate-500 hover:text-red-600 transition-colors"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Data Management */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">Data Management</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Export Data</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Download all ticket data as CSV file</p>
+                      <button
+                        onClick={handleExportData}
+                        className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Export CSV
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Import Template</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Download template for bulk ticket import</p>
+                      <button
+                        onClick={handleDownloadTemplate}
+                        className="btn bg-blue-600 text-white hover:bg-blue-700 rounded-xl"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Template
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium text-red-600 dark:text-red-400 mb-2">Danger Zone</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Permanently delete all ticket data</p>
+                      <button
+                        onClick={handleClearAllData}
+                        className="btn bg-red-600 text-white hover:bg-red-700 rounded-xl"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Clear All Data
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Appearance Settings */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">Appearance</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Theme</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Choose your preferred theme</p>
+                      <button
+                        onClick={toggleDarkMode}
+                        className="flex items-center gap-3 p-3 bg-slate-100 dark:bg-slate-700 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-all"
+                      >
+                        {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                        <span>{darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Statistics</h4>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                          <div className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7]">Total Tickets</div>
+                          <div className="text-slate-600 dark:text-slate-400">{tickets.length}</div>
+                        </div>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                          <div className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7]">My Tickets</div>
+                          <div className="text-slate-600 dark:text-slate-400">
+                            {tickets.filter(t => t.customerEmail === currentUser?.email).length}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Settings */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">AI Features</h3>
+                  
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                      <Brain className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
+                      <h4 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-1">Smart Analysis</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">AI-powered ticket categorization and priority suggestions</p>
+                    </div>
+                    
+                    <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                      <Bot className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                      <h4 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-1">AI Chatbot</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">24/7 FAQ-powered support assistant</p>
+                    </div>
+                    
+                    <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                      <Target className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                      <h4 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-1">Sentiment Detection</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Understand customer emotion and urgency levels</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
+                      <div>
+                        <h4 className="font-medium text-yellow-800 dark:text-yellow-400">AI Disclaimer</h4>
+                        <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                          AI suggestions are meant to assist and improve efficiency. Please review and validate all AI-generated recommendations before taking action.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Floating Chatbot Button */}
+      <div className="fixed bottom-6 left-6 z-40">
+        <button
+          id="chatbot-trigger"
+          onClick={() => setShowChatbot(!showChatbot)}
+          className="w-14 h-14 bg-gradient-to-r from-[#548b99] to-[#95c7c3] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group hover:scale-110"
+          aria-label="Open AI chatbot"
+        >
+          {showChatbot ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Bot className="w-6 h-6 group-hover:animate-pulse" />
+          )}
+        </button>
+      </div>
+
+      {/* Chatbot Interface */}
+      {showChatbot && (
+        <div className="fixed bottom-24 left-6 z-50">
+          <div className={`bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ${
+            chatbotMinimized ? 'w-80 h-16' : 'w-96 h-[500px]'
+          }`}>
+            {/* Chatbot Header */}
+            <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-[#548b99] to-[#95c7c3] rounded-t-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-white">AI Support Assistant</h3>
+                  {!chatbotMinimized && (
+                    <p className="text-xs text-white/80">Ask me anything about our services</p>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setChatbotMinimized(!chatbotMinimized)}
+                  className="p-1 text-white/80 hover:text-white transition-colors"
+                >
+                  {chatbotMinimized ? <Maximize className="w-4 h-4" /> : <Minimize className="w-4 h-4" />}
+                </button>
+                <button
+                  onClick={() => setShowChatbot(false)}
+                  className="p-1 text-white/80 hover:text-white transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {!chatbotMinimized && (
+              <>
+                {/* Chat Messages */}
+                <div className="flex-1 overflow-y-auto p-4 h-80 space-y-4">
+                  {chatbotMessages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div
+                        className={`max-w-[80%] rounded-xl p-3 ${
+                          message.sender === 'user'
+                            ? 'bg-[#548b99] text-white'
+                            : 'bg-slate-100 dark:bg-slate-700 text-[#1F2E3D] dark:text-[#e7f7f7]'
+                        }`}
+                      >
+                        <p className="text-sm whitespace-pre-wrap">{message.message}</p>
+                        <span className="text-xs opacity-60 mt-1 block">
+                          {new Date(message.timestamp).toLocaleTimeString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {isChatbotLoading && (
+                    <div className="flex justify-start">
+                      <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-3 max-w-[80%]">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-[#548b99] rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-[#548b99] rounded-full animate-bounce delay-100"></div>
+                          <div className="w-2 h-2 bg-[#548b99] rounded-full animate-bounce delay-200"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Chat Input */}
+                <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={chatbotInput}
+                      onChange={(e) => setChatbotInput(e.target.value)}
+                      placeholder="Ask me anything..."
+                      className="flex-1 px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent text-sm"
+                      onKeyPress={(e) => e.key === 'Enter' && !isChatbotLoading && handleChatbotSend()}
+                      disabled={isChatbotLoading}
+                    />
+                    <button
+                      onClick={handleChatbotSend}
+                      disabled={!chatbotInput.trim() || isChatbotLoading}
+                      className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl px-3"
+                    >
+                      <Send className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 text-center">
+                    AI responses may contain errors. For complex issues, please create a support ticket.
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* FAQ Modal */}
+      {showFaqModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+            <div className="p-6 border-b border-slate-200 dark:border-slate-700">
+              <h3 className="text-xl font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">
+                {editingFaq ? 'Edit FAQ' : 'Add New FAQ'}
+              </h3>
+            </div>
+            
+            <div className="p-6 overflow-y-auto">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Question *
+                  </label>
+                  <input
+                    type="text"
+                    value={newFaq.question}
+                    onChange={(e) => setNewFaq(prev => ({ ...prev, question: e.target.value }))}
+                    placeholder="Enter the frequently asked question"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Answer *
+                  </label>
+                  <textarea
+                    value={newFaq.answer}
+                    onChange={(e) => setNewFaq(prev => ({ ...prev, answer: e.target.value }))}
+                    placeholder="Enter the detailed answer"
+                    rows={6}
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Category
+                  </label>
+                  <input
+                    type="text"
+                    value={newFaq.category}
+                    onChange={(e) => setNewFaq(prev => ({ ...prev, category: e.target.value }))}
+                    placeholder="e.g., Account, Billing, Technical"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Keywords (comma-separated)
+                  </label>
+                  <input
+                    type="text"
+                    value={newFaq.keywords}
+                    onChange={(e) => setNewFaq(prev => ({ ...prev, keywords: e.target.value }))}
+                    placeholder="e.g., password, reset, login, account"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                  />
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Keywords help the AI understand when to suggest this FAQ
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-slate-200 dark:border-slate-700 flex gap-3">
+              <button
+                onClick={editingFaq ? handleUpdateFaq : handleCreateFaq}
+                disabled={!newFaq.question.trim() || !newFaq.answer.trim()}
+                className="flex-1 btn bg-[#548b99] text-white hover:bg-[#3d6b75] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+              >
+                {editingFaq ? 'Update FAQ' : 'Create FAQ'}
+              </button>
+              <button
+                onClick={() => {
+                  setShowFaqModal(false);
+                  setEditingFaq(null);
+                  setNewFaq({ question: '', answer: '', category: '', keywords: '' });
+                }}
+                className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Password Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-xl flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">Admin Authentication</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Enter admin password to continue</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="Enter admin password"
+                  className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  onKeyPress={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+                  autoFocus
+                />
+                
+                {passwordError && (
+                  <p className="text-sm text-red-600 dark:text-red-400">{passwordError}</p>
+                )}
+                
+                <div className="flex gap-3">
+                  <button
+                    onClick={handlePasswordSubmit}
+                    disabled={!passwordInput.trim()}
+                    className="flex-1 btn bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+                  >
+                    <Lock className="w-4 h-4 mr-2" />
+                    Authenticate
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowPasswordModal(false);
+                      setPasswordInput('');
+                      setPasswordError('');
+                    }}
+                    className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Ticket Detail Modal */}
+      {showTicketModal && selectedTicket && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">Ticket Details</h3>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowChat(!showChat)}
+                    className={`p-2 rounded-xl transition-all ${
+                      showChat 
+                        ? 'bg-[#548b99] text-white' 
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                    }`}
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowTicketModal(false);
+                      setShowChat(false);
+                    }}
+                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-all"
+                  >
+                    <XCircle className="w-5 h-5 text-slate-400" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex-1 overflow-hidden flex">
+              {/* Ticket Details */}
+              <div className={`${showChat ? 'w-1/2' : 'w-full'} p-6 overflow-auto transition-all duration-300`}>
+                <div className="space-y-6">
+                  {/* Ticket Header */}
+                  <div>
+                    <h4 className="text-2xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] mb-3">{selectedTicket.title}</h4>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedTicket.status)}`}>
+                        {selectedTicket.status.replace('_', ' ')}
+                      </span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPriorityColor(selectedTicket.priority)}`}>
+                        {selectedTicket.priority}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400">
+                        {selectedTicket.category.replace('_', ' ')}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Customer Info */}
+                  <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-4">
+                    <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-2">Customer Information</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Name:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.customerName}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Email:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.customerEmail}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Created:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{new Date(selectedTicket.createdAt).toLocaleString()}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Updated:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{new Date(selectedTicket.updatedAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-3">Description</h5>
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-wrap">{selectedTicket.description}</p>
+                  </div>
+
+                  {/* AI Analysis */}
+                  {selectedTicket.aiAnalysis && (
+                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Brain className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                        <h5 className="font-medium text-purple-600 dark:text-purple-400">AI Analysis</h5>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Suggested Category:</span>
+                          <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.suggestedCategory?.replace('_', ' ')}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Suggested Priority:</span>
+                          <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.suggestedPriority}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Sentiment:</span>
+                          <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.sentiment}</span>
+                        </div>
+                      </div>
+                      {selectedTicket.aiAnalysis.summary && (
+                        <div className="mt-3">
+                          <span className="text-slate-600 dark:text-slate-400">Summary:</span>
+                          <p className="mt-1 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.summary}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Admin Actions */}
+                  {viewMode === 'admin' && (
+                    <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-4">
+                      <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">Admin Actions</h5>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Status Update */}
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
+                          <select
+                            value={selectedTicket.status}
+                            onChange={(e) => {
+                              const newStatus = e.target.value as Ticket['status'];
+                              handleUpdateTicket(selectedTicket.id, { status: newStatus });
+                            }}
+                            className="w-full px-3 py-2 bg-white dark:bg-slate-600 border border-slate-200 dark:border-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                          >
+                            <option value="open">Open</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="closed">Closed</option>
+                          </select>
+                        </div>
+
+                        {/* Priority Update */}
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Priority</label>
+                          <select
+                            value={selectedTicket.priority}
+                            onChange={(e) => {
+                              const newPriority = e.target.value as Ticket['priority'];
+                              handleUpdateTicket(selectedTicket.id, { priority: newPriority });
+                            }}
+                            className="w-full px-3 py-2 bg-white dark:bg-slate-600 border border-slate-200 dark:border-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                          >
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                          </select>
+                        </div>
+
+                        {/* Assignment */}
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Assigned To</label>
+                          <select
+                            value={selectedTicket.assignedTo || ''}
+                            onChange={(e) => {
+                              handleUpdateTicket(selectedTicket.id, { assignedTo: e.target.value || undefined });
+                            }}
+                            className="w-full px-3 py-2 bg-white dark:bg-slate-600 border border-slate-200 dark:border-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#548b99]"
+                          >
+                            <option value="">Unassigned</option>
+                            <option value="Sarah Wilson">Sarah Wilson</option>
+                            <option value="Mike Johnson">Mike Johnson</option>
+                            <option value="Lisa Chen">Lisa Chen</option>
+                            <option value="David Kumar">David Kumar</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3 mt-4">
+                        <button
+                          onClick={() => handleDeleteTicket(selectedTicket.id)}
+                          className="btn bg-red-600 text-white hover:bg-red-700 rounded-xl"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Ticket
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Chat Panel */}
+              {showChat && (
+                <div className="w-1/2 border-l border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-900">
+                  <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] flex items-center gap-2">
+                      <MessageCircle className="w-4 h-4" />
+                      Chat Messages
+                      {selectedTicket.chat && selectedTicket.chat.length > 0 && (
+                        <span className="px-2 py-1 bg-[#548b99] text-white text-xs rounded-full">
+                          {selectedTicket.chat.length}
+                        </span>
+                      )}
+                    </h5>
+                  </div>
+                  
+                  {/* Messages */}
+                  <div className="flex-1 overflow-auto p-4 space-y-4">
+                    {selectedTicket.chat && selectedTicket.chat.length > 0 ? (
+                      selectedTicket.chat.map((message) => (
+                        <div
+                          key={message.id}
+                          className={`flex ${message.sender === viewMode ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div
+                            className={`max-w-[70%] rounded-xl p-3 ${
+                              message.sender === viewMode
+                                ? 'bg-[#548b99] text-white'
+                                : 'bg-white dark:bg-slate-700 text-[#1F2E3D] dark:text-[#e7f7f7] border border-slate-200 dark:border-slate-600'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-xs font-medium opacity-75">
+                                {message.senderName}
+                              </span>
+                              <span className="text-xs opacity-50">
+                                {new Date(message.timestamp).toLocaleTimeString()}
+                              </span>
+                            </div>
+                            <p className="text-sm whitespace-pre-wrap">{message.message}</p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8">
+                        <MessageCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+                        <p className="text-slate-500 dark:text-slate-400">No messages yet</p>
+                        <p className="text-sm text-slate-400 dark:text-slate-500">Start the conversation below</p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Message Input */}
+                  <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type your message..."
+                        className="flex-1 px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent"
+                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!newMessage.trim()}
+                        className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl px-4"
+                      >
+                        <Send className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Dialog */}
+      {showConfirmDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-3">Confirm Action</h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-6">{confirmMessage}</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    if (confirmAction) {
+                      confirmAction();
+                    }
+                  }}
+                  className="flex-1 btn bg-red-600 text-white hover:bg-red-700 rounded-xl"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => setShowConfirmDialog(false)}
+                  className="flex-1 btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-6">
+        <div className="container-wide">
+          <div className="text-center text-sm text-slate-600 dark:text-slate-400">
+            Copyright © 2025 Datavtar Private Limited. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
