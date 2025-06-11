@@ -1,0 +1,2234 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from './contexts/authContext';
+import AILayer from './components/AILayer';
+import { AILayerHandle } from './components/AILayer.types';
+import { 
+  User, Settings, Plus, Search, Filter, Edit, Trash2, Eye, 
+  Clock, CheckCircle, AlertCircle, XCircle, FileText, 
+  TrendingUp, Users, MessageCircle, BarChart3, Download,
+  Upload, Tag, Calendar, ArrowUp, ArrowDown, Mail,
+  Bell, Star, Target, Zap, Brain, Moon, Sun, Send, 
+  Lock, Unlock, Key, Shield, X, ChevronRight
+} from 'lucide-react';
+import styles from './styles/styles.module.css';
+
+// Types and Interfaces
+interface ChatMessage {
+  id: string;
+  message: string;
+  sender: 'customer' | 'admin';
+  senderName: string;
+  timestamp: string;
+}
+
+interface Notification {
+  id: string;
+  type: 'status_change' | 'new_message';
+  ticketId: string;
+  ticketTitle: string;
+  message: string;
+  timestamp: string;
+  read: boolean;
+  customerEmail: string;
+}
+
+interface Ticket {
+  id: string;
+  title: string;
+  description: string;
+  category: 'technical' | 'billing' | 'general' | 'feature_request';
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  customerEmail: string;
+  customerName: string;
+  assignedTo?: string;
+  createdAt: string;
+  updatedAt: string;
+  attachments?: File[];
+  chat?: ChatMessage[];
+  aiAnalysis?: {
+    suggestedCategory: string;
+    suggestedPriority: string;
+    sentiment: 'positive' | 'neutral' | 'negative';
+    summary: string;
+  };
+}
+
+interface TicketStats {
+  total: number;
+  open: number;
+  inProgress: number;
+  resolved: number;
+  closed: number;
+  byPriority: Record<string, number>;
+  byCategory: Record<string, number>;
+}
+
+type ViewMode = 'customer' | 'admin';
+type ActiveTab = 'dashboard' | 'tickets' | 'create' | 'settings';
+
+const App: React.FC = () => {
+  const { currentUser, logout } = useAuth();
+  const aiLayerRef = useRef<AILayerHandle>(null);
+
+  // State Management
+  const [viewMode, setViewMode] = useState<ViewMode>('customer');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterPriority, setFilterPriority] = useState<string>('all');
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [showTicketModal, setShowTicketModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  
+  // Admin Authentication States
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [newAdminPassword, setNewAdminPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  
+  // Chat States
+  const [newMessage, setNewMessage] = useState('');
+  const [showChat, setShowChat] = useState(false);
+  
+  // Notification States
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  
+  // Form States
+  const [newTicket, setNewTicket] = useState({
+    title: '',
+    description: '',
+    category: 'general' as Ticket['category'],
+    priority: 'medium' as Ticket['priority']
+  });
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  
+  // AI States
+  const [aiResult, setAiResult] = useState<string | null>(null);
+  const [aiError, setAiError] = useState<any | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [promptText, setPromptText] = useState('');
+
+  // Email-to-Ticket States
+  const [emailContent, setEmailContent] = useState('');
+  const [emailToTicketResult, setEmailToTicketResult] = useState<string | null>(null);
+  const [isEmailAnalyzing, setIsEmailAnalyzing] = useState(false);
+  const [emailAnalysisError, setEmailAnalysisError] = useState<any | null>(null);
+  const [showEmailToTicketForm, setShowEmailToTicketForm] = useState(false);
+  const [extractedTicketData, setExtractedTicketData] = useState<Partial<Ticket> | null>(null);
+
+  // Settings States
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
+
+  // Load data from localStorage
+  useEffect(() => {
+    const savedTickets = localStorage.getItem('datavtar_support_tickets');
+    const savedDarkMode = localStorage.getItem('datavtar_dark_mode');
+    const savedAdminPassword = localStorage.getItem('datavtar_admin_password');
+    const savedNotifications = localStorage.getItem('datavtar_notifications');
+    
+    if (savedTickets) {
+      const parsedTickets = JSON.parse(savedTickets);
+      setTickets(parsedTickets);
+      setFilteredTickets(parsedTickets);
+    } else {
+      // Initialize with sample data
+      const sampleTickets: Ticket[] = [
+        {
+          id: '1',
+          title: 'Login Issue - Cannot Access Dashboard',
+          description: 'I am unable to log into my account. The system shows "Invalid credentials" even though I am using the correct password.',
+          category: 'technical',
+          priority: 'high',
+          status: 'open',
+          customerEmail: 'john.doe@example.com',
+          customerName: 'John Doe',
+          assignedTo: 'Sarah Wilson',
+          createdAt: '2025-06-09T10:30:00Z',
+          updatedAt: '2025-06-09T10:30:00Z',
+          chat: [
+            {
+              id: '1',
+              message: 'I need urgent help with this login issue.',
+              sender: 'customer',
+              senderName: 'John Doe',
+              timestamp: '2025-06-09T10:35:00Z'
+            },
+            {
+              id: '2',
+              message: 'Hi John, I\'ve assigned this to our technical team. We\'ll look into this right away.',
+              sender: 'admin',
+              senderName: 'Sarah Wilson',
+              timestamp: '2025-06-09T11:00:00Z'
+            }
+          ]
+        },
+        {
+          id: '2',
+          title: 'Billing Discrepancy',
+          description: 'There seems to be an error in my monthly bill. I was charged twice for the same service.',
+          category: 'billing',
+          priority: 'medium',
+          status: 'in_progress',
+          customerEmail: 'jane.smith@example.com',
+          customerName: 'Jane Smith',
+          assignedTo: 'Mike Johnson',
+          createdAt: '2025-06-08T14:15:00Z',
+          updatedAt: '2025-06-09T09:20:00Z',
+          chat: [
+            {
+              id: '1',
+              message: 'Can someone please help me understand why I was charged twice?',
+              sender: 'customer',
+              senderName: 'Jane Smith',
+              timestamp: '2025-06-08T14:20:00Z'
+            },
+            {
+              id: '2',
+              message: 'Hi Jane, I\'m reviewing your billing history now. I\'ll have an update for you within 24 hours.',
+              sender: 'admin',
+              senderName: 'Mike Johnson',
+              timestamp: '2025-06-09T09:00:00Z'
+            }
+          ]
+        }
+      ];
+      setTickets(sampleTickets);
+      setFilteredTickets(sampleTickets);
+      localStorage.setItem('datavtar_support_tickets', JSON.stringify(sampleTickets));
+    }
+
+    if (savedDarkMode === 'true') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+
+    if (savedAdminPassword) {
+      setAdminPassword(savedAdminPassword);
+    } else {
+      // Set admin password as requested
+      const defaultPassword = 'Aytida2004';
+      setAdminPassword(defaultPassword);
+      localStorage.setItem('datavtar_admin_password', defaultPassword);
+    }
+
+    if (savedNotifications) {
+      setNotifications(JSON.parse(savedNotifications));
+    }
+  }, []);
+
+  // Save tickets to localStorage
+  useEffect(() => {
+    localStorage.setItem('datavtar_support_tickets', JSON.stringify(tickets));
+  }, [tickets]);
+
+  // Save notifications to localStorage
+  useEffect(() => {
+    localStorage.setItem('datavtar_notifications', JSON.stringify(notifications));
+  }, [notifications]);
+
+  // Handle view mode change with admin authentication
+  const handleViewModeChange = (mode: ViewMode) => {
+    if (mode === 'admin' && !isAdminAuthenticated) {
+      setShowPasswordModal(true);
+      setPasswordInput('');
+      setPasswordError('');
+    } else {
+      setViewMode(mode);
+      if (mode === 'customer') {
+        setIsAdminAuthenticated(false);
+      }
+    }
+  };
+
+  // Handle admin password verification
+  const handlePasswordSubmit = () => {
+    if (passwordInput === adminPassword) {
+      setIsAdminAuthenticated(true);
+      setViewMode('admin');
+      setShowPasswordModal(false);
+      setPasswordInput('');
+      setPasswordError('');
+    } else {
+      setPasswordError('Incorrect password. Please try again.');
+      setPasswordInput('');
+    }
+  };
+
+  // Handle admin password change (only available in admin mode)
+  const handlePasswordChange = () => {
+    if (!isAdminAuthenticated || viewMode !== 'admin') {
+      setPasswordError('Admin authentication required to change password.');
+      return;
+    }
+    
+    if (newAdminPassword.trim().length < 6) {
+      setPasswordError('Password must be at least 6 characters long.');
+      return;
+    }
+    
+    setAdminPassword(newAdminPassword);
+    localStorage.setItem('datavtar_admin_password', newAdminPassword);
+    setNewAdminPassword('');
+    setPasswordError('');
+    setConfirmMessage('Admin password updated successfully!');
+    setConfirmAction(() => () => setShowConfirmDialog(false));
+    setShowConfirmDialog(true);
+  };
+
+  // Create notification
+  const createNotification = (type: Notification['type'], ticketId: string, ticketTitle: string, message: string, customerEmail: string) => {
+    const notification: Notification = {
+      id: Date.now().toString(),
+      type,
+      ticketId,
+      ticketTitle,
+      message,
+      timestamp: new Date().toISOString(),
+      read: false,
+      customerEmail
+    };
+    
+    setNotifications(prev => [notification, ...prev]);
+  };
+
+  // Mark notification as read
+  const markNotificationAsRead = (notificationId: string) => {
+    setNotifications(prev => 
+      prev.map(notification => 
+        notification.id === notificationId 
+          ? { ...notification, read: true }
+          : notification
+      )
+    );
+  };
+
+  // Handle stat box clicks for navigation and filtering
+  const handleStatBoxClick = (status: string) => {
+    setActiveTab('tickets');
+    setFilterStatus(status);
+    setSearchTerm('');
+    setFilterPriority('all');
+  };
+
+  // Filter tickets based on search and filters
+  useEffect(() => {
+    let filtered = tickets;
+
+    // Filter by user email if customer view
+    if (viewMode === 'customer' && currentUser) {
+      filtered = filtered.filter(ticket => ticket.customerEmail === currentUser.email);
+    }
+
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(ticket =>
+        ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Status filter
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(ticket => ticket.status === filterStatus);
+    }
+
+    // Priority filter
+    if (filterPriority !== 'all') {
+      filtered = filtered.filter(ticket => ticket.priority === filterPriority);
+    }
+
+    setFilteredTickets(filtered);
+  }, [tickets, searchTerm, filterStatus, filterPriority, viewMode, currentUser]);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    if (!darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('datavtar_dark_mode', 'true');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('datavtar_dark_mode', 'false');
+    }
+  };
+
+  // Calculate statistics
+  const calculateStats = (): TicketStats => {
+    const relevantTickets = viewMode === 'customer' && currentUser 
+      ? tickets.filter(t => t.customerEmail === currentUser.email)
+      : tickets;
+
+    return {
+      total: relevantTickets.length,
+      open: relevantTickets.filter(t => t.status === 'open').length,
+      inProgress: relevantTickets.filter(t => t.status === 'in_progress').length,
+      resolved: relevantTickets.filter(t => t.status === 'resolved').length,
+      closed: relevantTickets.filter(t => t.status === 'closed').length,
+      byPriority: {
+        critical: relevantTickets.filter(t => t.priority === 'critical').length,
+        high: relevantTickets.filter(t => t.priority === 'high').length,
+        medium: relevantTickets.filter(t => t.priority === 'medium').length,
+        low: relevantTickets.filter(t => t.priority === 'low').length
+      },
+      byCategory: {
+        technical: relevantTickets.filter(t => t.category === 'technical').length,
+        billing: relevantTickets.filter(t => t.category === 'billing').length,
+        general: relevantTickets.filter(t => t.category === 'general').length,
+        feature_request: relevantTickets.filter(t => t.category === 'feature_request').length
+      }
+    };
+  };
+
+  // Send chat message
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !selectedTicket) return;
+
+    const message: ChatMessage = {
+      id: Date.now().toString(),
+      message: newMessage.trim(),
+      sender: viewMode === 'admin' ? 'admin' : 'customer',
+      senderName: viewMode === 'admin' 
+        ? (selectedTicket.assignedTo || 'Admin') 
+        : (currentUser?.first_name && currentUser?.last_name 
+            ? `${currentUser.first_name} ${currentUser.last_name}` 
+            : currentUser?.username || 'Customer'),
+      timestamp: new Date().toISOString()
+    };
+
+    const updatedTicket = {
+      ...selectedTicket,
+      chat: [...(selectedTicket.chat || []), message],
+      updatedAt: new Date().toISOString()
+    };
+
+    setTickets(prev => prev.map(ticket => 
+      ticket.id === selectedTicket.id ? updatedTicket : ticket
+    ));
+    
+    setSelectedTicket(updatedTicket);
+    setNewMessage('');
+
+    // Create notification for new message
+    if (viewMode === 'admin') {
+      // Admin sent message, notify customer
+      createNotification(
+        'new_message',
+        selectedTicket.id,
+        selectedTicket.title,
+        `New message from ${message.senderName}`,
+        selectedTicket.customerEmail
+      );
+    } else {
+      // Customer sent message, notify admin (for demo purposes, we'll show in notifications)
+      createNotification(
+        'new_message',
+        selectedTicket.id,
+        selectedTicket.title,
+        `New message from ${message.senderName}`,
+        'admin@datavtar.com'
+      );
+    }
+  };
+
+  // AI Analysis Function
+  const analyzeTicketWithAI = async (title: string, description: string) => {
+    const prompt = `Analyze this support ticket and provide insights in JSON format:
+    
+Title: ${title}
+Description: ${description}
+
+Please return a JSON object with these exact fields:
+{
+  "suggestedCategory": "technical|billing|general|feature_request",
+  "suggestedPriority": "low|medium|high|critical", 
+  "sentiment": "positive|neutral|negative",
+  "summary": "brief summary of the issue"
+}`;
+
+    setPromptText(prompt);
+    setAiResult(null);
+    setAiError(null);
+
+    try {
+      aiLayerRef.current?.sendToAI(prompt);
+    } catch (error) {
+      setAiError("Failed to analyze ticket with AI");
+    }
+  };
+
+  // Email-to-Ticket Analysis Function
+  const analyzeEmailForTicket = async () => {
+    if (!emailContent.trim()) {
+      setEmailAnalysisError("Please enter email content to analyze.");
+      return;
+    }
+
+    const prompt = `Analyze this email content and extract ticket information in JSON format:
+
+Email Content:
+${emailContent}
+
+Please extract and return a JSON object with these exact fields:
+{
+  "title": "extracted ticket title from the email subject or main issue",
+  "description": "detailed description of the issue from email body",
+  "category": "technical|billing|general|feature_request",
+  "priority": "low|medium|high|critical",
+  "customerEmail": "sender's email address if available",
+  "customerName": "sender's name if available"
+}
+
+Additional context for extraction:
+- Extract the main problem or request from the email
+- Determine appropriate category based on the issue type
+- Assess priority based on urgency indicators in the email
+- If customer details are not clear, use placeholder values`;
+
+    setIsEmailAnalyzing(true);
+    setEmailToTicketResult(null);
+    setEmailAnalysisError(null);
+
+    try {
+      aiLayerRef.current?.sendToAI(prompt);
+    } catch (error) {
+      setEmailAnalysisError("Failed to analyze email with AI");
+      setIsEmailAnalyzing(false);
+    }
+  };
+
+  // Handle AI Results for Email-to-Ticket
+  useEffect(() => {
+    if (aiResult && isEmailAnalyzing) {
+      try {
+        const extractedData = JSON.parse(aiResult);
+        setExtractedTicketData(extractedData);
+        setEmailToTicketResult(aiResult);
+        setIsEmailAnalyzing(false);
+        setShowEmailToTicketForm(true);
+      } catch (error) {
+        setEmailAnalysisError("Failed to parse AI analysis results");
+        setIsEmailAnalyzing(false);
+      }
+    }
+  }, [aiResult, isEmailAnalyzing]);
+
+  // Apply extracted data to ticket form
+  const applyExtractedDataToForm = () => {
+    if (extractedTicketData) {
+      setNewTicket({
+        title: extractedTicketData.title || '',
+        description: extractedTicketData.description || '',
+        category: (extractedTicketData.category as Ticket['category']) || 'general',
+        priority: (extractedTicketData.priority as Ticket['priority']) || 'medium'
+      });
+      setActiveTab('create');
+      setShowEmailToTicketForm(false);
+      setEmailContent('');
+      setEmailToTicketResult(null);
+      setExtractedTicketData(null);
+    }
+  };
+
+  // Create new ticket
+  const handleCreateTicket = async () => {
+    if (!newTicket.title.trim() || !newTicket.description.trim()) {
+      setAiError("Please fill in all required fields");
+      return;
+    }
+
+    const ticket: Ticket = {
+      id: Date.now().toString(),
+      ...newTicket,
+      customerEmail: extractedTicketData?.customerEmail || currentUser?.email || 'guest@example.com',
+      customerName: extractedTicketData?.customerName || (currentUser?.first_name && currentUser?.last_name 
+        ? `${currentUser.first_name} ${currentUser.last_name}` 
+        : currentUser?.username || 'Guest User'),
+      status: 'open',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      attachments: selectedFiles.length > 0 ? selectedFiles : undefined,
+      chat: []
+    };
+
+    // Add AI analysis if available
+    if (aiResult && !isEmailAnalyzing) {
+      try {
+        const analysis = JSON.parse(aiResult);
+        ticket.aiAnalysis = analysis;
+      } catch (error) {
+        console.log('Could not parse AI analysis');
+      }
+    }
+
+    setTickets(prev => [ticket, ...prev]);
+    setNewTicket({ title: '', description: '', category: 'general', priority: 'medium' });
+    setSelectedFiles([]);
+    setAiResult(null);
+    setExtractedTicketData(null);
+    setActiveTab('tickets');
+  };
+
+  // Update ticket
+  const handleUpdateTicket = (ticketId: string, updates: Partial<Ticket>) => {
+    const ticket = tickets.find(t => t.id === ticketId);
+    if (!ticket) return;
+
+    // Check if status changed to create notification
+    if (updates.status && updates.status !== ticket.status) {
+      createNotification(
+        'status_change',
+        ticketId,
+        ticket.title,
+        `Ticket status changed from ${ticket.status.replace('_', ' ')} to ${updates.status.replace('_', ' ')}`,
+        ticket.customerEmail
+      );
+    }
+
+    setTickets(prev => prev.map(ticket => 
+      ticket.id === ticketId 
+        ? { ...ticket, ...updates, updatedAt: new Date().toISOString() }
+        : ticket
+    ));
+    setSelectedTicket(prev => prev ? { ...prev, ...updates, updatedAt: new Date().toISOString() } : null);
+  };
+
+  // Delete ticket
+  const handleDeleteTicket = (ticketId: string) => {
+    setConfirmMessage('Are you sure you want to delete this ticket? This action cannot be undone.');
+    setConfirmAction(() => () => {
+      setTickets(prev => prev.filter(ticket => ticket.id !== ticketId));
+      setShowConfirmDialog(false);
+      setSelectedTicket(null);
+      setShowTicketModal(false);
+    });
+    setShowConfirmDialog(true);
+  };
+
+  // Export data as CSV
+  const handleExportData = () => {
+    const csvContent = [
+      ['ID', 'Title', 'Category', 'Priority', 'Status', 'Customer', 'Created Date', 'Updated Date'],
+      ...filteredTickets.map(ticket => [
+        ticket.id,
+        ticket.title,
+        ticket.category,
+        ticket.priority,
+        ticket.status,
+        ticket.customerName,
+        new Date(ticket.createdAt).toLocaleDateString(),
+        new Date(ticket.updatedAt).toLocaleDateString()
+      ])
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `datavtar-support-tickets-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Clear all data
+  const handleClearAllData = () => {
+    setConfirmMessage('Are you sure you want to delete all tickets? This action cannot be undone.');
+    setConfirmAction(() => () => {
+      setTickets([]);
+      localStorage.removeItem('datavtar_support_tickets');
+      setShowConfirmDialog(false);
+    });
+    setShowConfirmDialog(true);
+  };
+
+  // File upload handler with 3-file limit
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      if (fileArray.length > 3) {
+        setAiError('You can upload a maximum of 3 screenshots. Please select fewer files.');
+        event.target.value = ''; // Reset the input
+        return;
+      }
+      setSelectedFiles(fileArray);
+      setAiError(null); // Clear any previous error
+    }
+  };
+
+  // Template download
+  const handleDownloadTemplate = () => {
+    const templateContent = [
+      ['title', 'description', 'category', 'priority', 'customerEmail', 'customerName'],
+      ['Sample Issue Title', 'Detailed description of the issue', 'technical', 'medium', 'user@example.com', 'User Name']
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([templateContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ticket-import-template.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Handle escape key for modals
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (showPasswordModal) {
+          setShowPasswordModal(false);
+          setPasswordInput('');
+          setPasswordError('');
+        } else if (showTicketModal) {
+          setShowTicketModal(false);
+          setShowChat(false);
+        } else if (showConfirmDialog) {
+          setShowConfirmDialog(false);
+        } else if (showNotifications) {
+          setShowNotifications(false);
+        } else if (showEmailToTicketForm) {
+          setShowEmailToTicketForm(false);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [showPasswordModal, showTicketModal, showConfirmDialog, showNotifications, showEmailToTicketForm]);
+
+  // Get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'open': return 'text-blue-600 bg-blue-100 dark:text-blue-400 dark:bg-blue-900';
+      case 'in_progress': return 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900';
+      case 'resolved': return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900';
+      case 'closed': return 'text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-900';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  // Get priority color (enhanced for visual indicators)
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'critical': return 'text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900';
+      case 'high': return 'text-orange-600 bg-orange-100 dark:text-orange-400 dark:bg-orange-900';
+      case 'medium': return 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900';
+      case 'low': return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  // Get priority circle color
+  const getPriorityCircleColor = (priority: string) => {
+    switch (priority) {
+      case 'critical': return 'bg-red-500';
+      case 'high': return 'bg-orange-500';
+      case 'medium': return 'bg-yellow-500';
+      case 'low': return 'bg-green-500';
+      default: return 'bg-gray-500';
+    }
+  };
+
+  // Get user notifications
+  const getUserNotifications = () => {
+    if (!currentUser) return [];
+    return notifications.filter(n => n.customerEmail === currentUser.email);
+  };
+
+  // Get unread notification count
+  const getUnreadNotificationCount = () => {
+    return getUserNotifications().filter(n => !n.read).length;
+  };
+
+  const stats = calculateStats();
+
+  return (
+    <div id="welcome_fallback" className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-900 transition-all duration-500 ${styles.appContainer}`}>
+      {/* AI Layer */}
+      <AILayer
+        ref={aiLayerRef}
+        prompt={promptText}
+        onResult={(result) => setAiResult(result)}
+        onError={(error) => setAiError(error)}
+        onLoading={(loading) => setIsAiLoading(loading)}
+      />
+
+      {/* Header */}
+      <header className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50 transition-all duration-300">
+        <div className="container-wide">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex items-center gap-4 animate-slide-in-left">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#548b99] to-[#95c7c3] flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+                  <MessageCircle className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">Datavtar Support</h1>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4 animate-slide-in-right">
+              <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 rounded-xl p-1 transition-all duration-300">
+                <button
+                  onClick={() => handleViewModeChange('customer')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 transform hover:scale-105 ${
+                    viewMode === 'customer' 
+                      ? 'bg-white dark:bg-slate-600 text-[#1F2E3D] dark:text-white shadow-sm' 
+                      : 'text-slate-600 dark:text-slate-300 hover:text-[#1F2E3D] dark:hover:text-white'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  Customer
+                </button>
+                <button
+                  onClick={() => handleViewModeChange('admin')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 transform hover:scale-105 ${
+                    viewMode === 'admin' 
+                      ? 'bg-white dark:bg-slate-600 text-[#1F2E3D] dark:text-white shadow-sm' 
+                      : 'text-slate-600 dark:text-slate-300 hover:text-[#1F2E3D] dark:hover:text-white'
+                  }`}
+                >
+                  <Shield className="w-4 h-4" />
+                  Admin
+                  {isAdminAuthenticated && <Lock className="w-3 h-3 text-green-500" />}
+                </button>
+              </div>
+
+              {/* Notification Bell */}
+              {viewMode === 'customer' && (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-110 relative"
+                    aria-label="Notifications"
+                  >
+                    <Bell className="w-5 h-5" />
+                    {getUnreadNotificationCount() > 0 && (
+                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-bounce">
+                        {getUnreadNotificationCount()}
+                      </span>
+                    )}
+                  </button>
+
+                  {/* Notifications Dropdown */}
+                  {showNotifications && (
+                    <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 max-h-96 overflow-hidden animate-slide-in-down">
+                      <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">Notifications</h3>
+                          <span className="text-sm text-slate-500 dark:text-slate-400">
+                            {getUnreadNotificationCount()} unread
+                          </span>
+                        </div>
+                      </div>
+                      <div className="max-h-64 overflow-y-auto">
+                        {getUserNotifications().length === 0 ? (
+                          <div className="p-4 text-center text-slate-500 dark:text-slate-400">
+                            <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                            <p>No notifications yet</p>
+                          </div>
+                        ) : (
+                          getUserNotifications().map((notification, index) => (
+                            <div
+                              key={notification.id}
+                              className={`p-4 border-b border-slate-100 dark:border-slate-700 last:border-b-0 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-all duration-200 transform hover:scale-[1.02] ${
+                                !notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                              }`}
+                              style={{ animationDelay: `${index * 50}ms` }}
+                              onClick={() => {
+                                markNotificationAsRead(notification.id);
+                                const ticket = tickets.find(t => t.id === notification.ticketId);
+                                if (ticket) {
+                                  setSelectedTicket(ticket);
+                                  setShowTicketModal(true);
+                                  setShowNotifications(false);
+                                }
+                              }}
+                            >
+                              <div className="flex items-start gap-3">
+                                <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-300 ${!notification.read ? 'bg-blue-500' : 'bg-slate-300'}`}></div>
+                                <div className="flex-1">
+                                  <p className="text-sm font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-1">
+                                    {notification.ticketTitle}
+                                  </p>
+                                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                    {notification.message}
+                                  </p>
+                                  <p className="text-xs text-slate-500 dark:text-slate-500">
+                                    {new Date(notification.timestamp).toLocaleString()}
+                                  </p>
+                                </div>
+                                {notification.type === 'status_change' && (
+                                  <AlertCircle className="w-4 h-4 text-blue-500 mt-1" />
+                                )}
+                                {notification.type === 'new_message' && (
+                                  <MessageCircle className="w-4 h-4 text-green-500 mt-1" />
+                                )}
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-110"
+                aria-label="Toggle dark mode"
+              >
+                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-sm font-medium text-[#1F2E3D] dark:text-[#e7f7f7]">
+                    {currentUser?.first_name || currentUser?.username || 'Guest User'}
+                  </p>
+                  <p className="text-xs text-[#548B99]">{currentUser?.email || 'guest@example.com'}</p>
+                </div>
+                <button
+                  onClick={logout}
+                  className="p-2 rounded-xl bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 transition-all duration-300 transform hover:scale-110"
+                >
+                  <User className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation Tabs */}
+      <nav className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 transition-all duration-300">
+        <div className="container-wide">
+          <div className="flex gap-1 py-2">
+            <button
+              id="dashboard-tab"
+              onClick={() => setActiveTab('dashboard')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
+                activeTab === 'dashboard'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4 inline mr-2" />
+              Dashboard
+            </button>
+            <button
+              id="tickets-tab"
+              onClick={() => setActiveTab('tickets')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
+                activeTab === 'tickets'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <FileText className="w-4 h-4 inline mr-2" />
+              Tickets
+            </button>
+            <button
+              id="create-tab"
+              onClick={() => setActiveTab('create')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
+                activeTab === 'create'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <Plus className="w-4 h-4 inline mr-2" />
+              Create Ticket
+            </button>
+            <button
+              id="settings-tab"
+              onClick={() => setActiveTab('settings')}
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
+                activeTab === 'settings'
+                  ? 'bg-[#548b99] text-white shadow-lg'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              <Settings className="w-4 h-4 inline mr-2" />
+              Settings
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main id="generation_issue_fallback" className="flex-1 py-8">
+        <div className="container-wide">
+          
+          {/* Dashboard Tab */}
+          {activeTab === 'dashboard' && (
+            <div className="space-y-8 animate-fade-in">
+              <div className="flex items-center justify-between">
+                <h2 className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] animate-slide-in-left">
+                  {viewMode === 'admin' ? 'Admin Dashboard' : 'My Support Dashboard'}
+                </h2>
+                <div className="flex gap-3 animate-slide-in-right">
+                  <button
+                    onClick={handleExportData}
+                    className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Export Data
+                  </button>
+                </div>
+              </div>
+
+              {/* Email-to-Ticket Feature (Admin Only) */}
+              {viewMode === 'admin' && isAdminAuthenticated && (
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl p-6 shadow-lg border border-purple-200 dark:border-purple-800 animate-slide-in-down">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-xl flex items-center justify-center">
+                      <Mail className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-300">Email-to-Ticket Converter</h3>
+                      <p className="text-sm text-purple-600 dark:text-purple-400">Paste email content to automatically create support tickets</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-purple-700 dark:text-purple-300 mb-2">
+                        Email Content
+                      </label>
+                      <textarea
+                        value={emailContent}
+                        onChange={(e) => setEmailContent(e.target.value)}
+                        placeholder="Paste the email content here (including subject, body, sender info)..."
+                        rows={6}
+                        className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-purple-200 dark:border-purple-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none transition-all duration-300"
+                      />
+                    </div>
+                    
+                    <div className="flex gap-3">
+                      <button
+                        onClick={analyzeEmailForTicket}
+                        disabled={!emailContent.trim() || isEmailAnalyzing}
+                        className="btn bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        {isEmailAnalyzing ? (
+                          <>
+                            <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                            Analyzing...
+                          </>
+                        ) : (
+                          <>
+                            <Brain className="w-4 h-4 mr-2" />
+                            Create Ticket from Email
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEmailContent('');
+                          setEmailToTicketResult(null);
+                          setEmailAnalysisError(null);
+                          setExtractedTicketData(null);
+                        }}
+                        className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        Clear
+                      </button>
+                    </div>
+
+                    {/* Email Analysis Error */}
+                    {emailAnalysisError && (
+                      <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 animate-slide-in-up">
+                        <p className="text-sm text-red-700 dark:text-red-300">
+                          {emailAnalysisError.toString()}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Stats Cards - Now Clickable */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div 
+                  onClick={() => handleStatBoxClick('all')}
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-1 animate-slide-in-up"
+                  style={{ animationDelay: '100ms' }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Total Tickets</p>
+                      <p className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">{stats.total}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:bg-blue-200">
+                      <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  onClick={() => handleStatBoxClick('open')}
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-1 animate-slide-in-up"
+                  style={{ animationDelay: '200ms' }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Open Tickets</p>
+                      <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.open}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center transition-all duration-300">
+                      <AlertCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  onClick={() => handleStatBoxClick('in_progress')}
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-1 animate-slide-in-up"
+                  style={{ animationDelay: '300ms' }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">In Progress</p>
+                      <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{stats.inProgress}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-xl flex items-center justify-center transition-all duration-300">
+                      <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  onClick={() => handleStatBoxClick('resolved')}
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-1 animate-slide-in-up"
+                  style={{ animationDelay: '400ms' }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Resolved</p>
+                      <p className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.resolved}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-xl flex items-center justify-center transition-all duration-300">
+                      <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recent Tickets Section */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700 animate-slide-in-up" style={{ animationDelay: '500ms' }}>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7]">Recent Tickets</h3>
+                  <button
+                    onClick={() => setActiveTab('tickets')}
+                    className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl text-sm transition-all duration-300 transform hover:scale-105"
+                  >
+                    View All Tickets
+                  </button>
+                </div>
+                
+                {filteredTickets.length === 0 ? (
+                  <div className="text-center py-12">
+                    <FileText className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                    <h4 className="text-lg font-medium text-slate-600 dark:text-slate-400 mb-2">No tickets found</h4>
+                    <p className="text-slate-500 dark:text-slate-500 mb-4">
+                      Create your first support ticket to get started.
+                    </p>
+                    <button
+                      onClick={() => setActiveTab('create')}
+                      className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Ticket
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {filteredTickets.slice(0, 10).map((ticket, index) => (
+                      <div 
+                        key={ticket.id} 
+                        className="p-6 bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-700 dark:to-slate-600 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-600 hover:border-[#548b99] dark:hover:border-[#95c7c3] transform hover:scale-[1.02] animate-slide-in-up"
+                        style={{ animationDelay: `${(index + 1) * 100}ms` }}
+                        onClick={() => {
+                          setSelectedTicket(ticket);
+                          setShowTicketModal(true);
+                          setShowChat(false);
+                        }}
+                      >
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h4 className="font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] line-clamp-1">
+                                {ticket.title}
+                              </h4>
+                              {ticket.aiAnalysis && (
+                                <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900 rounded-full">
+                                  <Brain className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                                  <span className="text-xs text-purple-600 dark:text-purple-400">AI</span>
+                                </div>
+                              )}
+                              {ticket.chat && ticket.chat.length > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 rounded-full">
+                                  <MessageCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
+                                  <span className="text-xs text-green-600 dark:text-green-400">{ticket.chat.length}</span>
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-3">
+                              {ticket.description}
+                            </p>
+                            <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-500">
+                              <span className="flex items-center gap-1">
+                                <User className="w-3 h-3" />
+                                {ticket.customerName}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {new Date(ticket.createdAt).toLocaleDateString()}
+                              </span>
+                              {viewMode === 'admin' && ticket.assignedTo && (
+                                <span className="flex items-center gap-1">
+                                  <Star className="w-3 h-3" />
+                                  {ticket.assignedTo}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${getStatusColor(ticket.status)}`}>
+                            {ticket.status.replace('_', ' ')}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <div className={`w-2 h-2 rounded-full transition-all duration-300 ${getPriorityCircleColor(ticket.priority)}`}></div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${getPriorityColor(ticket.priority)}`}>
+                              {ticket.priority}
+                            </span>
+                          </div>
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 transition-all duration-200">
+                            {ticket.category.replace('_', ' ')}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {filteredTickets.length > 10 && (
+                  <div className="text-center mt-6">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                      Showing 10 of {filteredTickets.length} tickets
+                    </p>
+                    <button
+                      onClick={() => setActiveTab('tickets')}
+                      className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      View All {filteredTickets.length} Tickets
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Tickets Tab */}
+          {activeTab === 'tickets' && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <h2 className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] animate-slide-in-left">
+                  {viewMode === 'admin' ? 'All Tickets' : 'My Tickets'}
+                </h2>
+                
+                {/* Search and Filters */}
+                <div className="flex flex-col sm:flex-row gap-3 animate-slide-in-right">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search tickets..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent transition-all duration-300"
+                    />
+                  </div>
+                  
+                  <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                  
+                  <select
+                    value={filterPriority}
+                    onChange={(e) => setFilterPriority(e.target.value)}
+                    className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                  >
+                    <option value="all">All Priority</option>
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Filter Status Indicator */}
+              {(filterStatus !== 'all' || filterPriority !== 'all' || searchTerm) && (
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800 animate-slide-in-down">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Filter className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <span className="text-sm text-blue-800 dark:text-blue-300">
+                        Filters applied: 
+                        {filterStatus !== 'all' && ` Status: ${filterStatus.replace('_', ' ')}`}
+                        {filterPriority !== 'all' && ` Priority: ${filterPriority}`}
+                        {searchTerm && ` Search: "${searchTerm}"`}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setFilterStatus('all');
+                        setFilterPriority('all');
+                        setSearchTerm('');
+                      }}
+                      className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors duration-200"
+                    >
+                      Clear filters
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Tickets List */}
+              <div className="space-y-4">
+                {filteredTickets.length === 0 ? (
+                  <div className="text-center py-12 animate-fade-in">
+                    <FileText className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-slate-600 dark:text-slate-400 mb-2">No tickets found</h3>
+                    <p className="text-slate-500 dark:text-slate-500">
+                      {searchTerm ? 'Try adjusting your search criteria.' : 'Create your first support ticket to get started.'}
+                    </p>
+                  </div>
+                ) : (
+                  filteredTickets.map((ticket, index) => (
+                    <div
+                      key={ticket.id}
+                      className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-[1.01] animate-slide-in-up"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                      onClick={() => {
+                        setSelectedTicket(ticket);
+                        setShowTicketModal(true);
+                        setShowChat(false);
+                      }}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">{ticket.title}</h3>
+                            {ticket.aiAnalysis && (
+                              <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900 rounded-full transition-all duration-200">
+                                <Brain className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                                <span className="text-xs text-purple-600 dark:text-purple-400">AI Analyzed</span>
+                              </div>
+                            )}
+                            {ticket.chat && ticket.chat.length > 0 && (
+                              <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 rounded-full transition-all duration-200">
+                                <MessageCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
+                                <span className="text-xs text-green-600 dark:text-green-400">{ticket.chat.length} messages</span>
+                              </div>
+                            )}
+                          </div>
+                          <p className="text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">{ticket.description}</p>
+                          <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-500">
+                            <span>{ticket.customerName}</span>
+                            <span>•</span>
+                            <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
+                            {viewMode === 'admin' && ticket.assignedTo && (
+                              <>
+                                <span>•</span>
+                                <span>Assigned to {ticket.assignedTo}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${getStatusColor(ticket.status)}`}>
+                            {ticket.status.replace('_', ' ')}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <div className={`w-3 h-3 rounded-full transition-all duration-300 ${getPriorityCircleColor(ticket.priority)}`}></div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${getPriorityColor(ticket.priority)}`}>
+                              {ticket.priority}
+                            </span>
+                          </div>
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 transition-all duration-200">
+                            {ticket.category.replace('_', ' ')}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Create Ticket Tab */}
+          {activeTab === 'create' && (
+            <div className="max-w-2xl mx-auto animate-fade-in">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700 animate-slide-in-up">
+                <h2 className="text-2xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] mb-6">Create New Support Ticket</h2>
+                
+                <div className="space-y-6">
+                  {/* Title */}
+                  <div className="animate-slide-in-left" style={{ animationDelay: '100ms' }}>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                      Title *
+                    </label>
+                    <input
+                      id="ticket-title-input"
+                      type="text"
+                      value={newTicket.title}
+                      onChange={(e) => setNewTicket(prev => ({ ...prev, title: e.target.value }))}
+                      placeholder="Brief description of your issue"
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent transition-all duration-300 transform focus:scale-[1.01]"
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div className="animate-slide-in-left" style={{ animationDelay: '200ms' }}>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                      Description *
+                    </label>
+                    <textarea
+                      id="ticket-description-input"
+                      value={newTicket.description}
+                      onChange={(e) => setNewTicket(prev => ({ ...prev, description: e.target.value }))}
+                      placeholder="Detailed description of your issue..."
+                      rows={6}
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent resize-none transition-all duration-300 transform focus:scale-[1.01]"
+                    />
+                  </div>
+
+                  {/* Category and Priority */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="animate-slide-in-left" style={{ animationDelay: '300ms' }}>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Category
+                      </label>
+                      <select
+                        id="ticket-category-select"
+                        value={newTicket.category}
+                        onChange={(e) => setNewTicket(prev => ({ ...prev, category: e.target.value as Ticket['category'] }))}
+                        className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                      >
+                        <option value="general">General</option>
+                        <option value="technical">Technical</option>
+                        <option value="billing">Billing</option>
+                        <option value="feature_request">Feature Request</option>
+                      </select>
+                    </div>
+
+                    <div className="animate-slide-in-right" style={{ animationDelay: '300ms' }}>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Priority
+                      </label>
+                      <div className="relative">
+                        <select
+                          id="ticket-priority-select"
+                          value={newTicket.priority}
+                          onChange={(e) => setNewTicket(prev => ({ ...prev, priority: e.target.value as Ticket['priority'] }))}
+                          className="w-full px-4 py-3 pl-8 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                        >
+                          <option value="low">Low</option>
+                          <option value="medium">Medium</option>
+                          <option value="high">High</option>
+                          <option value="critical">Critical</option>
+                        </select>
+                        <div className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300 ${getPriorityCircleColor(newTicket.priority)}`}></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* File Attachments */}
+                  <div className="animate-slide-in-left" style={{ animationDelay: '400ms' }}>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                      Attachments (Maximum 3 screenshots)
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                    />
+                    {selectedFiles.length > 0 && (
+                      <div className="mt-3 space-y-2 animate-slide-in-up">
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                          Selected files ({selectedFiles.length}/3):
+                        </p>
+                        {selectedFiles.map((file, index) => (
+                          <div 
+                            key={index} 
+                            className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-700 p-2 rounded-lg transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+                          >
+                            <FileText className="w-4 h-4" />
+                            <span>{file.name}</span>
+                            <span className="text-xs text-slate-500">({(file.size / 1024).toFixed(1)} KB)</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* AI Analysis */}
+                  <div id="ai-analysis-section" className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-4 animate-slide-in-right" style={{ animationDelay: '500ms' }}>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Brain className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                      <span className="font-medium text-purple-600 dark:text-purple-400">AI Analysis</span>
+                    </div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                      Get AI-powered suggestions for category and priority based on your ticket content.
+                    </p>
+                    <button
+                      onClick={() => analyzeTicketWithAI(newTicket.title, newTicket.description)}
+                      disabled={!newTicket.title.trim() || !newTicket.description.trim() || isAiLoading}
+                      className="btn bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      {isAiLoading ? (
+                        <>
+                          <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <Brain className="w-4 h-4 mr-2" />
+                          Analyze with AI
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* AI Results */}
+                  {aiResult && !isEmailAnalyzing && (
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 animate-slide-in-up">
+                      <h4 className="font-medium text-green-800 dark:text-green-400 mb-2">AI Analysis Results</h4>
+                      <div className="text-sm text-green-700 dark:text-green-300">
+                        {(() => {
+                          try {
+                            const analysis = JSON.parse(aiResult);
+                            return (
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <span><strong>Suggested Category:</strong> {analysis.suggestedCategory?.replace('_', ' ')}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-3 h-3 rounded-full ${getPriorityCircleColor(analysis.suggestedPriority)}`}></div>
+                                  <span><strong>Suggested Priority:</strong> {analysis.suggestedPriority}</span>
+                                </div>
+                                <p><strong>Sentiment:</strong> {analysis.sentiment}</p>
+                                <p><strong>Summary:</strong> {analysis.summary}</p>
+                                <div className="mt-3 flex gap-2">
+                                  <button
+                                    onClick={() => setNewTicket(prev => ({ ...prev, category: analysis.suggestedCategory }))}
+                                    className="btn-sm bg-green-600 text-white hover:bg-green-700 rounded-lg transition-all duration-200 transform hover:scale-105"
+                                  >
+                                    Apply Category
+                                  </button>
+                                  <button
+                                    onClick={() => setNewTicket(prev => ({ ...prev, priority: analysis.suggestedPriority }))}
+                                    className="btn-sm bg-green-600 text-white hover:bg-green-700 rounded-lg transition-all duration-200 transform hover:scale-105"
+                                  >
+                                    Apply Priority
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          } catch {
+                            return <pre className="whitespace-pre-wrap">{aiResult}</pre>;
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* AI Error */}
+                  {aiError && (
+                    <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 animate-slide-in-up">
+                      <p className="text-sm text-red-700 dark:text-red-300">
+                        {aiError.toString()}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Submit Button */}
+                  <div className="flex gap-3 pt-4 animate-slide-in-up" style={{ animationDelay: '600ms' }}>
+                    <button
+                      id="submit-ticket-button"
+                      onClick={handleCreateTicket}
+                      disabled={!newTicket.title.trim() || !newTicket.description.trim()}
+                      className="flex-1 btn bg-[#548b99] text-white hover:bg-[#3d6b75] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-3 transition-all duration-300 transform hover:scale-105"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Ticket
+                    </button>
+                    <button
+                      onClick={() => {
+                        setNewTicket({ title: '', description: '', category: 'general', priority: 'medium' });
+                        setSelectedFiles([]);
+                        setAiResult(null);
+                        setAiError(null);
+                      }}
+                      className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Settings Tab */}
+          {activeTab === 'settings' && (
+            <div className="max-w-4xl mx-auto animate-fade-in">
+              <h2 className="text-3xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] mb-8 animate-slide-in-left">Settings</h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Admin Security Settings - Only visible when in admin mode and authenticated */}
+                {viewMode === 'admin' && isAdminAuthenticated && (
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 animate-slide-in-left" style={{ animationDelay: '100ms' }}>
+                    <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4 flex items-center gap-2">
+                      <Shield className="w-5 h-5" />
+                      Admin Security
+                    </h3>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Change Admin Password</h4>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                          Set a new password for admin access
+                        </p>
+                        <div className="space-y-3">
+                          <input
+                            type="password"
+                            value={newAdminPassword}
+                            onChange={(e) => setNewAdminPassword(e.target.value)}
+                            placeholder="Enter new admin password"
+                            className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent transition-all duration-300 transform focus:scale-[1.01]"
+                          />
+                          <button
+                            onClick={handlePasswordChange}
+                            disabled={!newAdminPassword.trim()}
+                            className="btn bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-300 transform hover:scale-105"
+                          >
+                            <Key className="w-4 h-4 mr-2" />
+                            Update Password
+                          </button>
+                        </div>
+                        {passwordError && (
+                          <p className="text-sm text-red-600 dark:text-red-400 mt-2">{passwordError}</p>
+                        )}
+                      </div>
+
+                      <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+                        <div className="flex items-center gap-2 text-sm">
+                          <div className={`w-3 h-3 rounded-full transition-all duration-300 ${isAdminAuthenticated ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                          <span className="text-slate-600 dark:text-slate-400">
+                            Admin Status: {isAdminAuthenticated ? 'Authenticated' : 'Not Authenticated'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Data Management */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 animate-slide-in-right" style={{ animationDelay: '200ms' }}>
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">Data Management</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Export Data</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Download all ticket data as CSV file</p>
+                      <button
+                        onClick={handleExportData}
+                        className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Export CSV
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Import Template</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Download template for bulk ticket import</p>
+                      <button
+                        onClick={handleDownloadTemplate}
+                        className="btn bg-blue-600 text-white hover:bg-blue-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Template
+                      </button>
+                    </div>
+
+                    {viewMode === 'admin' && isAdminAuthenticated && (
+                      <div>
+                        <h4 className="font-medium text-red-600 dark:text-red-400 mb-2">Danger Zone</h4>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Permanently delete all ticket data</p>
+                        <button
+                          onClick={handleClearAllData}
+                          className="btn bg-red-600 text-white hover:bg-red-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Clear All Data
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Appearance Settings */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 animate-slide-in-left" style={{ animationDelay: '300ms' }}>
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">Appearance</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Theme</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Choose your preferred theme</p>
+                      <button
+                        id="dark-mode-toggle"
+                        onClick={toggleDarkMode}
+                        className="flex items-center gap-3 p-3 bg-slate-100 dark:bg-slate-700 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-105"
+                      >
+                        {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                        <span>{darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-2">Statistics</h4>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-600">
+                          <div className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7]">Total Tickets</div>
+                          <div className="text-slate-600 dark:text-slate-400">{tickets.length}</div>
+                        </div>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-600">
+                          <div className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7]">My Tickets</div>
+                          <div className="text-slate-600 dark:text-slate-400">
+                            {tickets.filter(t => t.customerEmail === currentUser?.email).length}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Features Overview */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 animate-slide-in-right" style={{ animationDelay: '400ms' }}>
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">AI Features</h3>
+                  
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl transition-all duration-200 hover:bg-purple-100 dark:hover:bg-purple-900/30">
+                      <Brain className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
+                      <h4 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-1">Smart Analysis</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">AI-powered ticket categorization and priority suggestions</p>
+                    </div>
+                    
+                    <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-xl transition-all duration-200 hover:bg-green-100 dark:hover:bg-green-900/30">
+                      <Target className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                      <h4 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-1">Sentiment Detection</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Understand customer emotion and urgency levels</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
+                      <div>
+                        <h4 className="font-medium text-yellow-800 dark:text-yellow-400">AI Disclaimer</h4>
+                        <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                          AI suggestions are meant to assist and improve efficiency. Please review and validate all AI-generated recommendations before taking action.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Email-to-Ticket Form Modal */}
+      {showEmailToTicketForm && extractedTicketData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden animate-scale-in">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">Review Extracted Ticket Data</h3>
+                <button
+                  onClick={() => setShowEmailToTicketForm(false)}
+                  className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-all duration-300"
+                >
+                  <X className="w-5 h-5 text-slate-400" />
+                </button>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm">
+                    {extractedTicketData.title || 'Not extracted'}
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm max-h-32 overflow-y-auto">
+                    {extractedTicketData.description || 'Not extracted'}
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Category</label>
+                    <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm">
+                      {extractedTicketData.category?.replace('_', ' ') || 'general'}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Priority</label>
+                    <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm flex items-center gap-2">
+                      <div className={`w-3 h-3 rounded-full ${getPriorityCircleColor(extractedTicketData.priority || 'medium')}`}></div>
+                      {extractedTicketData.priority || 'medium'}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Customer Email</label>
+                    <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm">
+                      {extractedTicketData.customerEmail || 'Not extracted'}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Customer Name</label>
+                    <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm">
+                      {extractedTicketData.customerName || 'Not extracted'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={applyExtractedDataToForm}
+                  className="flex-1 btn bg-[#548b99] text-white hover:bg-[#3d6b75] rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Apply to Create Form
+                </button>
+                <button
+                  onClick={() => setShowEmailToTicketForm(false)}
+                  className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Password Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md animate-scale-in">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-xl flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">Admin Authentication</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Enter admin password to continue</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="Enter admin password"
+                  className="w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 transform focus:scale-[1.01]"
+                  onKeyPress={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+                  autoFocus
+                />
+                
+                {passwordError && (
+                  <p className="text-sm text-red-600 dark:text-red-400 animate-slide-in-up">{passwordError}</p>
+                )}
+                
+                <div className="flex gap-3">
+                  <button
+                    onClick={handlePasswordSubmit}
+                    disabled={!passwordInput.trim()}
+                    className="flex-1 btn bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Lock className="w-4 h-4 mr-2" />
+                    Authenticate
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowPasswordModal(false);
+                      setPasswordInput('');
+                      setPasswordError('');
+                    }}
+                    className="btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Ticket Detail Modal */}
+      {showTicketModal && selectedTicket && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col animate-scale-in">
+            <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-[#1F2E3D] dark:text-[#e7f7f7]">Ticket Details</h3>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowChat(!showChat)}
+                    className={`p-2 rounded-xl transition-all duration-300 transform hover:scale-110 ${
+                      showChat 
+                        ? 'bg-[#548b99] text-white' 
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                    }`}
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowTicketModal(false);
+                      setShowChat(false);
+                    }}
+                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-all duration-300 transform hover:scale-110"
+                  >
+                    <XCircle className="w-5 h-5 text-slate-400" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex-1 overflow-hidden flex">
+              {/* Ticket Details */}
+              <div className={`${showChat ? 'w-1/2' : 'w-full'} p-6 overflow-auto transition-all duration-300`}>
+                <div className="space-y-6">
+                  {/* Ticket Header */}
+                  <div className="animate-slide-in-left">
+                    <h4 className="text-2xl font-bold text-[#1F2E3D] dark:text-[#e7f7f7] mb-3">{selectedTicket.title}</h4>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${getStatusColor(selectedTicket.status)}`}>
+                        {selectedTicket.status.replace('_', ' ')}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <div className={`w-3 h-3 rounded-full transition-all duration-300 ${getPriorityCircleColor(selectedTicket.priority)}`}></div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${getPriorityColor(selectedTicket.priority)}`}>
+                          {selectedTicket.priority}
+                        </span>
+                      </div>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 transition-all duration-200">
+                        {selectedTicket.category.replace('_', ' ')}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Customer Info */}
+                  <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-4 animate-slide-in-right" style={{ animationDelay: '100ms' }}>
+                    <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-2">Customer Information</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Name:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.customerName}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Email:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.customerEmail}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Created:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{new Date(selectedTicket.createdAt).toLocaleString()}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-600 dark:text-slate-400">Updated:</span>
+                        <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{new Date(selectedTicket.updatedAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <div className="animate-slide-in-left" style={{ animationDelay: '200ms' }}>
+                    <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-3">Description</h5>
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-wrap">{selectedTicket.description}</p>
+                  </div>
+
+                  {/* AI Analysis */}
+                  {selectedTicket.aiAnalysis && (
+                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-4 animate-slide-in-right" style={{ animationDelay: '300ms' }}>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Brain className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                        <h5 className="font-medium text-purple-600 dark:text-purple-400">AI Analysis</h5>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Suggested Category:</span>
+                          <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.suggestedCategory?.replace('_', ' ')}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-slate-600 dark:text-slate-400">Suggested Priority:</span>
+                          <div className={`w-3 h-3 rounded-full ${getPriorityCircleColor(selectedTicket.aiAnalysis.suggestedPriority)}`}></div>
+                          <span className="text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.suggestedPriority}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Sentiment:</span>
+                          <span className="ml-2 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.sentiment}</span>
+                        </div>
+                      </div>
+                      {selectedTicket.aiAnalysis.summary && (
+                        <div className="mt-3">
+                          <span className="text-slate-600 dark:text-slate-400">Summary:</span>
+                          <p className="mt-1 text-[#1F2E3D] dark:text-[#e7f7f7]">{selectedTicket.aiAnalysis.summary}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Admin Actions */}
+                  {viewMode === 'admin' && (
+                    <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-4 animate-slide-in-left" style={{ animationDelay: '400ms' }}>
+                      <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] mb-4">Admin Actions</h5>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Status Update */}
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
+                          <select
+                            value={selectedTicket.status}
+                            onChange={(e) => {
+                              const newStatus = e.target.value as Ticket['status'];
+                              handleUpdateTicket(selectedTicket.id, { status: newStatus });
+                            }}
+                            className="w-full px-3 py-2 bg-white dark:bg-slate-600 border border-slate-200 dark:border-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                          >
+                            <option value="open">Open</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="closed">Closed</option>
+                          </select>
+                        </div>
+
+                        {/* Priority Update */}
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Priority</label>
+                          <div className="relative">
+                            <select
+                              value={selectedTicket.priority}
+                              onChange={(e) => {
+                                const newPriority = e.target.value as Ticket['priority'];
+                                handleUpdateTicket(selectedTicket.id, { priority: newPriority });
+                              }}
+                              className="w-full px-3 py-2 pl-8 bg-white dark:bg-slate-600 border border-slate-200 dark:border-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                            >
+                              <option value="low">Low</option>
+                              <option value="medium">Medium</option>
+                              <option value="high">High</option>
+                              <option value="critical">Critical</option>
+                            </select>
+                            <div className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300 ${getPriorityCircleColor(selectedTicket.priority)}`}></div>
+                          </div>
+                        </div>
+
+                        {/* Assignment */}
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Assigned To</label>
+                          <select
+                            value={selectedTicket.assignedTo || ''}
+                            onChange={(e) => {
+                              handleUpdateTicket(selectedTicket.id, { assignedTo: e.target.value || undefined });
+                            }}
+                            className="w-full px-3 py-2 bg-white dark:bg-slate-600 border border-slate-200 dark:border-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#548b99] transition-all duration-300"
+                          >
+                            <option value="">Unassigned</option>
+                            <option value="Sarah Wilson">Sarah Wilson</option>
+                            <option value="Mike Johnson">Mike Johnson</option>
+                            <option value="Lisa Chen">Lisa Chen</option>
+                            <option value="David Kumar">David Kumar</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3 mt-4">
+                        <button
+                          onClick={() => handleDeleteTicket(selectedTicket.id)}
+                          className="btn bg-red-600 text-white hover:bg-red-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Ticket
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Chat Panel */}
+              {showChat && (
+                <div className="w-1/2 border-l border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-900 animate-slide-in-right">
+                  <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <h5 className="font-medium text-[#1F2E3D] dark:text-[#e7f7f7] flex items-center gap-2">
+                      <MessageCircle className="w-4 h-4" />
+                      Chat Messages
+                      {selectedTicket.chat && selectedTicket.chat.length > 0 && (
+                        <span className="px-2 py-1 bg-[#548b99] text-white text-xs rounded-full">
+                          {selectedTicket.chat.length}
+                        </span>
+                      )}
+                    </h5>
+                  </div>
+                  
+                  {/* Messages */}
+                  <div className="flex-1 overflow-auto p-4 space-y-4">
+                    {selectedTicket.chat && selectedTicket.chat.length > 0 ? (
+                      selectedTicket.chat.map((message, index) => (
+                        <div
+                          key={message.id}
+                          className={`flex animate-slide-in-up ${message.sender === viewMode ? 'justify-end' : 'justify-start'}`}
+                          style={{ animationDelay: `${index * 100}ms` }}
+                        >
+                          <div
+                            className={`max-w-[70%] rounded-xl p-3 transition-all duration-200 hover:shadow-md ${
+                              message.sender === viewMode
+                                ? 'bg-[#548b99] text-white'
+                                : 'bg-white dark:bg-slate-700 text-[#1F2E3D] dark:text-[#e7f7f7] border border-slate-200 dark:border-slate-600'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-xs font-medium opacity-75">
+                                {message.senderName}
+                              </span>
+                              <span className="text-xs opacity-50">
+                                {new Date(message.timestamp).toLocaleTimeString()}
+                              </span>
+                            </div>
+                            <p className="text-sm whitespace-pre-wrap">{message.message}</p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8">
+                        <MessageCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+                        <p className="text-slate-500 dark:text-slate-400">No messages yet</p>
+                        <p className="text-sm text-slate-400 dark:text-slate-500">Start the conversation below</p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Message Input */}
+                  <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type your message..."
+                        className="flex-1 px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#548b99] focus:border-transparent transition-all duration-300"
+                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!newMessage.trim()}
+                        className="btn bg-[#548b99] text-white hover:bg-[#3d6b75] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl px-4 transition-all duration-300 transform hover:scale-105"
+                      >
+                        <Send className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Dialog */}
+      {showConfirmDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md animate-scale-in">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-[#1F2E3D] dark:text-[#e7f7f7] mb-3">Confirm Action</h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-6">{confirmMessage}</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    if (confirmAction) {
+                      confirmAction();
+                    }
+                  }}
+                  className="flex-1 btn bg-green-600 text-white hover:bg-green-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => setShowConfirmDialog(false)}
+                  className="flex-1 btn bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-6 transition-all duration-300">
+        <div className="container-wide">
+          <div className="text-center text-sm text-slate-600 dark:text-slate-400">
+            Copyright © 2025 Datavtar Private Limited. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
